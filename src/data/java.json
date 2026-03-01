@@ -1,0 +1,28 @@
+{
+  "slug": "java",
+  "title": "Java",
+  "modules": [
+    {
+      "slug": "oop",
+      "title": "OOP Fundamentals",
+      "topics": [
+        {
+          "slug": "encapsulation",
+          "title": "Encapsulation",
+          "content": "<p>Encapsulation is binding data and methods together inside a class.</p>",
+          "quizzes": [
+            {
+              "question": "What is encapsulation?",
+              "options": [
+                "Binding data and methods",
+                "Inheritance",
+                "Polymorphism"
+              ],
+              "correctAnswer": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
