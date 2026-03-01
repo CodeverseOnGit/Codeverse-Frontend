@@ -44,7 +44,7 @@ export default function Topic() {
             </div>
           ))}
           <button onClick={handleSubmit}>Submit</button>
-          {result && <p>{result}</p>}
+          {result && <p className="quiz-feedback">{result}</p>}
         </div>
       )}
     </div>
