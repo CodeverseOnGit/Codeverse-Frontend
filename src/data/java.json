@@ -14,9 +14,18 @@
             {
               "question": "What is encapsulation?",
               "options": [
-                "Binding data and methods",
-                "Inheritance",
-                "Polymorphism"
+                {
+                  "text": "Binding data and methods",
+                  "explanation": "Correct! Encapsulation binds data and behavior."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                }
               ],
               "correctAnswer": 0
             }
