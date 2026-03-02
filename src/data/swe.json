@@ -48,6 +48,49 @@
               "correctAnswer": 0
             }
           ]
+        },
+        {
+          "slug": "strategy-pattern",
+          "title": "Strategy Pattern",
+          "content": "<p>The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable.</p>",
+          "quizzes": [
+            {
+              "question": "What is the Strategy Pattern?",
+              "options": [
+                {
+                  "text": "Defining a family of algorithms",
+                  "explanation": "Correct! The Strategy Pattern defines a family of algorithms."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What is not the Facade Pattern?",
+              "options": [
+                {
+                  "text": "Simplifying complex subsystems",
+                  "explanation": "Correct! The Facade Pattern simplifies complex subsystems."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                }
+              ],
+              "correctAnswer": 0
+            }
+          ]
         }
       ]
     }
