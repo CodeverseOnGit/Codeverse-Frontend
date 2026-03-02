@@ -32,6 +32,37 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "collections",
+      "title": "Java Collections",
+      "topics": [
+        {
+          "slug": "encapsulation",
+          "title": "Encapsulation",
+          "content": "<p>Encapsulation is binding data and methods together inside a class.</p>",
+          "quizzes": [
+            {
+              "question": "What is encapsulation?",
+              "options": [
+                {
+                  "text": "Binding data and methods",
+                  "explanation": "Correct! Encapsulation binds data and behavior."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                }
+              ],
+              "correctAnswer": 0
+            }
+          ]
+        }
+      ]
     }
   ]
 }
