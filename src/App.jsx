@@ -3,10 +3,12 @@ import Home from './pages/Home'
 import Section from './pages/Section'
 import Module from './pages/Module'
 import Topic from './pages/Topic'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:sectionSlug" element={<Section />} />
