@@ -7,9 +7,132 @@
       "title": "Module 0 - Java Foundations",
       "topics": [
         {
-          "slug": "oop",
-          "title": "OOP",
-          "content": "<p>Encapsulation is binding data and methods together inside a class.</p>",
+          "slug": "encapsulation",
+          "title": "OOP - Encapsulation",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Encapsulation is the process of bundling variables and methods that operate on that method into a single class and restricting direct access to that variable. In simple words, Variables + Methods = Class and variables are protected from outside access."
+            },
+            {
+              "type": "paragraph",
+              "text": "Think about a car, you interact with accelerator, brake and steering wheel, but you don't need to know how the engine or fuel injection system works to use them. In this case, the engine and the fuel injection are hidden/protected that you can only interact with through controller interfaces. This is encapsulation in real life."
+            },
+            {
+              "type": "image",
+              "src": "/images/encapsulation.png",
+              "alt": "Encapsulation Diagram"
+            },
+            {
+            "type": "paragraph",
+            "text": "Encapsulation is implemented using access modifiers, getters, and setters."
+            },
+            {
+            "type": "paragraph",
+            "text": "Access modifiers control who can access the data. There's four types. Public (accessible anywhere), private (accessible only within the class), protected (accessible within the package and subclasses), default (accessible within the package only)."
+            },
+            {
+            "type": "paragraph",
+            "text": "Here's an example of what a class would look like with and without encapsulation:"
+            },
+            {
+            "type": "paragraph",
+            "text": "Without encapsulation:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nclass User {\n\n    public String name;\n    public int age;\n\n}\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "Usage:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nUser user = new User();\nuser.age = -100;\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "This is bad because it can allow invalid data to be inserted!"
+            },
+            {
+            "type": "paragraph",
+            "text": "With encapsulation:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nclass User {\n\n    private String name;\n    private int age;\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public int getAge() {\n        return age;\n    }\n\n    public void setAge(int age) {\n        if(age > 0){\n         this.age = age;\n        }\n    }\n}\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "Usage:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nUser user = new User();\n\nuser.setName(\"Alex\");\nuser.setAge(25);\n\nSystem.out.println(user.getAge());\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "The data is now protected because we can only set the age if the user inputs a positive number. If you try and input -5, the setter will ignore it and the age will remain unchanged."
+            },
+            {
+            "type": "paragraph",
+            "text": "Encapsulation is important because it prevents invalid data from being inserted and you have full control over how the data is modified."
+            },
+            {
+            "type": "paragraph",
+            "text": "Encapsulation in Practice:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nclass BankAccount {\n\n    private double balance;\n\n    public void deposit(double amount){\n        if(amount > 0){\n            balance += amount;\n        }\n    }\n\n    public void withdraw(double amount){\n        if(amount <= balance){\n            balance -= amount;\n        }\n    }\n\n    public double getBalance(){\n        return balance;\n    }\n}\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "Usage:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nBankAccount account = new BankAccount();\n\naccount.deposit(1000);\naccount.withdraw(200);\n\nSystem.out.println(account.getBalance());\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "This would prevent the user from withdrawing more money than they have or depositing a negative amount, which could lead to an inconsistent state of the bank account. It also prevents the user from illegally modifying the balance to $1,000,000,000,000,000."
+            },
+            {
+            "type": "paragraph",
+            "text": "Another powerful technique is immutability, due to which objects cannot be modified after they are created."
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nfinal class User {\n\n    private final String name;\n\n    public User(String name){\n        this.name = name;\n    }\n\n    public String getName(){\n        return name;\n    }\n}\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "In this case the 'name' field is final and private, so it cannot be changed after the object is created."
+            },
+            {
+            "type": "paragraph",
+            "text": "Encapsulation in enterprise:"
+            },
+            {
+            "type": "code",
+            "language": "java",
+            "code": "\nclass Order {\n\n    private String status;\n\n    public void markAsShipped(){\n        status = \"SHIPPED\";\n    }\n\n}\n"
+            },
+            {
+            "type": "paragraph",
+            "text": "So instead of order.status = \"SHIPPED\"; we have to call the markAsShipped method, which could contain additional logic such as sending a notification email to the customer or updating the inventory. This way we have full control over how the order status is modified and we can ensure that all necessary actions are taken when the status changes."
+            },
+            {}
+          ],
           "quizzes": [
             {
               "question": "What is encapsulation?",
@@ -31,25 +154,93 @@
             }
           ]
         },
+
         {
-          "slug": "classes",
-          "title": "Interfaces and Abstract Classes",
-          "content": "<p>Encapsulation is binding data and methods together inside a class.</p>",
+          "slug": "inheritance",
+          "title": "OOP - Inheritance",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Inheritance allows a class to acquire the properties and methods of another class."
+            }
+          ],
           "quizzes": [
             {
-              "question": "What is encapsulation?",
+              "question": "What is inheritance?",
               "options": [
                 {
                   "text": "Binding data and methods",
-                  "explanation": "Correct! Encapsulation binds data and behavior."
+                  "explanation": "Incorrect. That describes encapsulation."
                 },
                 {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                  "text": "Deriving one class from another",
+                  "explanation": "Correct! Inheritance derives classes."
                 },
                 {
-                  "text": "Polymorphism",
-                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                  "text": "Multiple behaviors",
+                  "explanation": "Incorrect. That describes polymorphism."
+                }
+              ],
+              "correctAnswer": 1
+            }
+          ]
+        },
+
+        {
+          "slug": "polymorphism",
+          "title": "OOP - Polymorphism",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Polymorphism allows objects to take many forms. A method may behave differently depending on the object calling it."
+            }
+          ],
+          "quizzes": [
+            {
+              "question": "What does polymorphism mean?",
+              "options": [
+                {
+                  "text": "Multiple forms of behavior",
+                  "explanation": "Correct! Polymorphism means many forms."
+                },
+                {
+                  "text": "Binding data and methods",
+                  "explanation": "Incorrect. That is encapsulation."
+                },
+                {
+                  "text": "Deriving classes",
+                  "explanation": "Incorrect. That is inheritance."
+                }
+              ],
+              "correctAnswer": 0
+            }
+          ]
+        },
+
+        {
+          "slug": "abstraction",
+          "title": "OOP - Abstraction",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Abstraction hides implementation details and exposes only essential functionality."
+            }
+          ],
+          "quizzes": [
+            {
+              "question": "What does abstraction do?",
+              "options": [
+                {
+                  "text": "Hide implementation details",
+                  "explanation": "Correct! Abstraction hides complexity."
+                },
+                {
+                  "text": "Derive classes",
+                  "explanation": "Incorrect. That is inheritance."
+                },
+                {
+                  "text": "Bind data and methods",
+                  "explanation": "Incorrect. That is encapsulation."
                 }
               ],
               "correctAnswer": 0
@@ -58,29 +249,35 @@
         }
       ]
     },
+
     {
       "slug": "collections",
       "title": "Java Collections",
       "topics": [
         {
-          "slug": "encapsulation",
-          "title": "Encapsulation",
-          "content": "<p>Encapsulation is binding data and methods together inside a class.</p>",
+          "slug": "collections-intro",
+          "title": "Introduction to Collections",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Java Collections Framework provides data structures like List, Set, and Map."
+            }
+          ],
           "quizzes": [
             {
-              "question": "What is encapsulation?",
+              "question": "What does the Java Collections Framework provide?",
               "options": [
                 {
-                  "text": "Binding data and methods",
-                  "explanation": "Correct! Encapsulation binds data and behavior."
+                  "text": "Data structures",
+                  "explanation": "Correct! Collections provide data structures."
                 },
                 {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                  "text": "Networking tools",
+                  "explanation": "Incorrect."
                 },
                 {
-                  "text": "Polymorphism",
-                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                  "text": "Operating systems",
+                  "explanation": "Incorrect."
                 }
               ],
               "correctAnswer": 0
