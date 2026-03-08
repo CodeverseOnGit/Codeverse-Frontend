@@ -17,6 +17,32 @@ export default function Topic() {
 
   if (!topic) return <h2 style={{ padding: "20px" }}>Topic not found</h2>;
 
+  const renderBlock = (block, index) => {
+  switch (block.type) {
+    case "paragraph":
+      return <p key={index} className="content-paragraph">{block.text}</p>;
+
+    case "image":
+      return (
+        <img
+          key={index}
+          src={block.src}
+          alt={block.alt}
+          className="content-image"
+        />
+      );
+
+    case "code":
+      return (
+        <pre key={index} className="content-code">
+          <code>{block.code}</code>
+        </pre>
+      );
+
+    default:
+      return null;
+  }
+};
   return (
     <div className="container">
       {/* Breadcrumb navigation */}
@@ -33,10 +59,9 @@ export default function Topic() {
       <h1>{topic.title}</h1>
 
       {/* Topic content */}
-      <div
-        className="topic-content"
-        dangerouslySetInnerHTML={{ __html: topic.content }}
-      />
+      <div className="topic-content">
+  {topic.content.map((block, i) => renderBlock(block, i))}
+</div>
 
       {/* Quizzes */}
       {topic.quizzes.length > 0 ? (

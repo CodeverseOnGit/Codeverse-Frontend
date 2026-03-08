@@ -138,3 +138,33 @@ button:hover {
   color: red;
   font-weight: 600;
 }
+
+/* Content paragraphs */
+
+.content-paragraph {
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+/* Images */
+
+.content-image {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+/* Code blocks */
+
+.content-code {
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.content-code code {
+  font-family: monospace;
+}
