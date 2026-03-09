@@ -21,6 +21,8 @@ export default function Topic() {
   switch (block.type) {
     case "paragraph":
       return <p key={index} className="content-paragraph">{block.text}</p>;
+    case "heading":
+      return <h2 key={index} className="content-heading">{block.text}</h2>;
 
     case "image":
       return (
