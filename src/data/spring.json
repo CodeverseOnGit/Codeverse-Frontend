@@ -8,7 +8,7 @@
       "topics": [
         {
           "slug": "encapsulation",
-          "title": "OOP - Encapsulation",
+          "title": "Object Oriented Programming - Encapsulation",
           "content": [
             {
               "type": "paragraph",
@@ -559,12 +559,311 @@
 
         {
           "slug": "inheritance",
-          "title": "OOP - Inheritance",
+          "title": "Object Oriented Programming - Inheritance",
           "content": [
             {
               "type": "paragraph",
-              "text": "Inheritance allows a class to acquire the properties and methods of another class."
-            }
+              "text": "Inheritance is the mechanism where one class acquires the fields and methods of another class."
+            },
+            {
+              "type": "paragraph",
+              "text": "The class that is inherited from is called superclass / parent class, and the class that inherits is called subclass / child class."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nAnimal (Parent)\n   \u2193\nDog (Child)\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "The dog class inherits all the properties that the animal class has made accessible. For example, if the animal class has a method called eat(), the dog class can call that method without having to define it again."
+            },
+            {
+              "type": "heading",
+              "text": "Why inheritance exists?"
+            },
+            {
+              "type": "paragraph",
+              "text": "1. Instead of repeating code like this:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Dog {\n    void eat(){}\n}\n\nclass Cat {\n    void eat(){}\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "You can write it like this and reuse it in both Cat and Dog classes:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {\n    void eat(){}\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "2. Many applications in real world follow hierarchical relationships. For example, a car is a type of vehicle, so it makes sense for the Car class to inherit from a Vehicle class."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nVehicle\n \u251c\u2500\u2500 Car\n \u251c\u2500\u2500 Bike\n \u2514\u2500\u2500 Truck\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "3. Maintainability. If you have to make changes to the eat() method, you only have to change it in the Animal class and all subclasses will automatically inherit the updated behavior."
+            },
+            {
+              "type": "heading",
+              "text": "Basic syntax"
+            },
+            {
+              "type": "paragraph",
+              "text": "Inheritance uses the 'extends' keyword in Java. For example:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass ParentClass {\n\n}\n\nclass ChildClass extends ParentClass {\n\n}\n"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {\n\n    void eat(){\n        System.out.println(\"Animal eats food\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n}\n"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nDog dog = new Dog();\ndog.eat();\n"
+            },
+            {
+              "type": "heading",
+              "text": "Types of inheritance in Java"
+            },
+            {
+              "type": "paragraph",
+              "text": "Java supports single inheritance (a child inherits from one parent), multilevel inheritance (a child inherits from a parents, which in turn inherits from another parent), and hierarchical inheritance (multiple children inherit from the same parent). Java does not support multiple inheritance (a child inherits from multiple parents) to avoid ambiguity issues."
+            },
+            {
+              "type": "paragraph",
+              "text": "Single Inheritance"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {}\nclass Dog extends Animal {}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Multilevel Inheritance"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {}\n\nclass Dog extends Animal {}\n\nclass Puppy extends Dog {}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Hierarchical Inheritance"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {}\n\nclass Dog extends Animal {}\n\nclass Cat extends Animal {}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Multiple Inheritance (not supported in Java)"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass A {}\nclass B {}\n\nclass C extends A, B {}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Java instead uses interfaces for multiple inheritance."
+            },
+            {
+              "type": "heading",
+              "text": "Super keyword"
+            },
+            {
+              "type": "paragraph",
+              "text": "The 'super' keyword is used to refer to the parent class. It can be used to call the parent class's methods and constructors."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {\n\n    String name = \"Animal\";\n\n}\n\nclass Dog extends Animal {\n\n    void printName(){\n        System.out.println(super.name);\n    }\n\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Parent constructors can also be called using the 'super' keyword. For example:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {\n\n    Animal(){\n        System.out.println(\"Animal created\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n    Dog(){\n        super();\n        System.out.println(\"Dog created\");\n    }\n\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Output:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "Animal created\nDog created\n"
+            },
+            {
+              "type": "heading",
+              "text": "Method Overriding"
+            },
+            {
+              "type": "paragraph",
+              "text": "Inheritance allows child classes to redefine behavior of methods."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "class Animal {\n\n    void sound(){\n        System.out.println(\"Animal makes sound\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n    @Override\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Now, if you call dog.sound(), it will print \"Dog barks\""
+            },
+            {
+              "type": "heading",
+              "text": "Access Modifiers in Inheritance"
+            },
+            {
+              "type": "paragraph",
+              "text": "public parent methods are accessible by child class."
+            },
+            {
+              "type": "paragraph",
+              "text": "protected parent methods are accessible by child class."
+            },
+            {
+              "type": "paragraph",
+              "text": "private parent methods are NOT accessible by child class."
+            },
+            {
+              "type": "paragraph",
+              "text": "default parent methods are accessible by child class as long as they are in the same package."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Animal {\n\n    private int age;\n\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Dog cannot access age."
+            },
+            {
+              "type": "heading",
+              "text": "Inheritance vs. Composition"
+            },
+            {
+              "type": "paragraph",
+              "text": "Inheritance: Dog extends Animal"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "class Animal {\n    void eat() {\n        System.out.println(\"Eating...\");\n    }\n}\n\n// Dog IS-A Animal\nclass Dog extends Animal {\n    void bark() {\n        System.out.println(\"Barking...\");\n    }\n}\n\n// Usage\nDog myDog = new Dog();\nmyDog.eat();  // Inherited method\nmyDog.bark(); // Own method\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Composition: Car has a Engine"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "class Engine {\n    void start() {\n        System.out.println(\"Engine starting...\");\n    }\n}\n\nclass Car {\n    // Car HAS-A Engine\n    private Engine engine = new Engine(); \n\n    void move() {\n        engine.start(); // Delegates work to the component\n        System.out.println(\"Car is moving\");\n    }\n}\n\n// Usage\nCar myCar = new Car();\nmyCar.move();\n"
+            },
+            {
+              "type": "heading",
+              "text": "So why use composition over inheritance?"
+            },
+            {
+              "type": "paragraph",
+              "text": "In Java, Inheritance is static: once you say class Tesla extends Car, every Tesla object is permanently a Car with fixed parent code."
+            },
+            {
+              "type": "paragraph",
+              "text": "Composition with Interfaces is dynamic: because the class only holds a reference to an interface, you can \"unplug\" one implementation and \"plug in\" another while the program is actually running. "
+            },
+            {
+              "type": "heading",
+              "text": "The Example: A \"Smart\" Car"
+            },
+            {
+              "type": "paragraph",
+              "text": "Imagine a car that can switch between Gas and Electric power on the fly."
+            },
+            {
+              "type": "paragraph",
+              "text": "1. Define an Interface (The \"Plug\"). This defines what an engine does without saying how it does it."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\ninterface Engine {\n    void consumeFuel();\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "2. Create Multiple Implementations. Each type of engine implements the same interface but with different behavior."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass GasEngine implements Engine {\n    public void consumeFuel() { System.out.println(\"Burning gasoline...\"); }\n}\n\nclass ElectricEngine implements Engine {\n    public void consumeFuel() { System.out.println(\"Using battery power...\"); }\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "3. Use Composition to Attach the Engine to the Car."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass HybridCar {\n    private Engine engine; // Composition: refers to the interface\n\n    public void setEngine(Engine newEngine) {\n        this.engine = newEngine; // Swapping at runtime!\n    }\n\n    public void drive() {\n        engine.consumeFuel();\n    }\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "4. Seeing it in action."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\npublic class Main {\n    public static void main(String[] args) {\n        HybridCar myCar = new HybridCar();\n\n        // Start with Gas\n        myCar.setEngine(new GasEngine());\n        myCar.drive(); // Output: Burning gasoline...\n\n        // SWAP AT RUNTIME: Now it's an Electric car\n        myCar.setEngine(new ElectricEngine());\n        myCar.drive(); // Output: Using battery power...\n    }\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "With Inheritance: You would need two separate classes: GasCar and ElectricCar. A GasCar could never become an ElectricCar once it's created."
+            },
+            {
+              "type": "paragraph",
+              "text": "With Composition: A single HybridCar object can change its behavior completely just by swapping its internal parts."
+            },
+            {
+              "type": "heading",
+              "text": "Benefits of Inheritance"
+            },
+            {
+              "type": "paragraph",
+              "text": "Code reuse, logical hierarchy, and method overriding."
+            },
+            {
+              "type": "heading",
+              "text": "Problems with Inheritance"
+            },
+            {
+              "type": "paragraph",
+              "text": "Bad inheritance can create tight coupling. If the parent class changes, all child classes are affected. It can also lead to the fragile base class problem, where changes to the base class can break derived classes in unexpected ways. This is why many applications prefer composition over this."
+            },
+            {}
           ],
           "quizzes": [
             {
