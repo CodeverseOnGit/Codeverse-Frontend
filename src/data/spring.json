@@ -867,23 +867,555 @@
           ],
           "quizzes": [
             {
-              "question": "What is inheritance?",
-              "options": [
-                {
-                  "text": "Binding data and methods",
-                  "explanation": "Incorrect. That describes encapsulation."
-                },
-                {
-                  "text": "Deriving one class from another",
-                  "explanation": "Correct! Inheritance derives classes."
-                },
-                {
-                  "text": "Multiple behaviors",
-                  "explanation": "Incorrect. That describes polymorphism."
-                }
-              ],
-              "correctAnswer": 1
-            }
+  "question": "What is inheritance in Java?",
+  "options": [
+    {
+      "text": "A class acquiring properties and methods of another class",
+      "explanation": "Correct! Inheritance allows reuse of fields and methods."
+    },
+    {
+      "text": "Creating multiple objects",
+      "explanation": "Incorrect. That is object instantiation."
+    },
+    {
+      "text": "Hiding data",
+      "explanation": "Incorrect. That is encapsulation."
+    },
+    {
+      "text": "Running threads",
+      "explanation": "Incorrect. That is multithreading."
+    }
+  ],
+  "correctAnswer": 0
+},
+{
+  "question": "Which keyword is used for inheritance in Java?",
+  "options": [
+    {
+      "text": "implements",
+      "explanation": "Incorrect. Implements is used for interfaces."
+    },
+    {
+      "text": "extends",
+      "explanation": "Correct! The extends keyword enables inheritance."
+    },
+    {
+      "text": "inherit",
+      "explanation": "Incorrect. Java has no such keyword."
+    },
+    {
+      "text": "super",
+      "explanation": "Incorrect. Super refers to the parent class."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "Which inheritance type is NOT supported by Java classes?",
+  "options": [
+    {
+      "text": "Single inheritance",
+      "explanation": "Incorrect. Java supports this."
+    },
+    {
+      "text": "Hierarchical inheritance",
+      "explanation": "Incorrect. Java supports this."
+    },
+    {
+      "text": "Multiple inheritance",
+      "explanation": "Correct! Java does not allow multiple inheritance with classes."
+    },
+    {
+      "text": "Multilevel inheritance",
+      "explanation": "Incorrect. Java supports this."
+    }
+  ],
+  "correctAnswer": 2
+},
+{
+  "question": "You have Dog and Cat classes that both use the same eat() method. Which design would you choose?",
+  "options": [
+    {
+      "text": "Duplicate the eat() method in each class",
+      "explanation": "Incorrect. This leads to code duplication."
+    },
+    {
+      "text": "Create an Animal parent class containing eat() and extend it",
+      "explanation": "Correct! This allows code reuse through inheritance."
+    },
+    {
+      "text": "Make eat() static",
+      "explanation": "Incorrect. Static does not solve duplication."
+    },
+    {
+      "text": "Create separate unrelated classes",
+      "explanation": "Incorrect. You lose logical hierarchy."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "You are designing a Vehicle system with Car, Truck, and Bike. Which approach would you choose?",
+  "options": [
+    {
+      "text": "Create separate classes with duplicate code",
+      "explanation": "Incorrect. This increases maintenance effort."
+    },
+    {
+      "text": "Create a Vehicle parent class and extend it",
+      "explanation": "Correct! Shared functionality belongs in a parent class."
+    },
+    {
+      "text": "Use only static methods",
+      "explanation": "Incorrect. Static methods remove object hierarchy."
+    },
+    {
+      "text": "Put everything in one class",
+      "explanation": "Incorrect. This breaks object-oriented design."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "You want a class Bird with fly() and subclasses Sparrow and Eagle. Which design would you choose?",
+  "options": [
+    {
+      "text": "Create Sparrow and Eagle without any parent class",
+      "explanation": "Incorrect. Shared behavior should be reused."
+    },
+    {
+      "text": "Create a Bird parent class containing fly()",
+      "explanation": "Correct! Both classes inherit the behavior."
+    },
+    {
+      "text": "Make fly() static",
+      "explanation": "Incorrect. Static methods remove object flexibility."
+    },
+    {
+      "text": "Put fly() in Sparrow only",
+      "explanation": "Incorrect. Eagle would duplicate code."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will happen if a child class defines a method with the same signature as a parent class method?",
+  "options": [
+    {
+      "text": "The program will fail to compile",
+      "explanation": "Incorrect. Java allows this behavior."
+    },
+    {
+      "text": "The child class method overrides the parent method",
+      "explanation": "Correct! This is called method overriding."
+    },
+    {
+      "text": "Both methods will execute automatically",
+      "explanation": "Incorrect. Only the child method runs unless super is called."
+    },
+    {
+      "text": "Java will ignore the child method",
+      "explanation": "Incorrect. The child method takes priority."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "Which of the following members are NOT inherited by a subclass?",
+  "options": [
+    {
+      "text": "Public methods",
+      "explanation": "Incorrect. Public members are inherited."
+    },
+    {
+      "text": "Protected fields",
+      "explanation": "Incorrect. Protected members are inherited."
+    },
+    {
+      "text": "Private fields",
+      "explanation": "Correct! Private members are not accessible by subclasses."
+    },
+    {
+      "text": "Public constructors",
+      "explanation": "Incorrect. Constructors aren't inherited but can be called."
+    }
+  ],
+  "correctAnswer": 2
+},
+{
+  "question": "What is the purpose of the super keyword in inheritance?",
+  "options": [
+    {
+      "text": "To create a new object",
+      "explanation": "Incorrect. Objects are created using new."
+    },
+    {
+      "text": "To refer to the parent class",
+      "explanation": "Correct! super refers to the immediate parent class."
+    },
+    {
+      "text": "To define a subclass",
+      "explanation": "Incorrect. Subclasses use extends."
+    },
+    {
+      "text": "To override methods",
+      "explanation": "Incorrect. @Override handles overriding."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will be the output of the following code?\n\nclass Animal {\n  void sound() {\n    System.out.println(\"Animal sound\");\n  }\n}\n\nclass Dog extends Animal {\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.sound();\n  }\n}",
+  "options": [
+    {
+      "text": "Dog sound",
+      "explanation": "Incorrect. Dog does not override the method."
+    },
+    {
+      "text": "Animal sound",
+      "explanation": "Correct! The Dog class inherits the sound() method."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. The code compiles successfully."
+    },
+    {
+      "text": "No output",
+      "explanation": "Incorrect. The inherited method executes."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will be printed?\n\nclass Animal {\n  void eat() {\n    System.out.println(\"Animal eats\");\n  }\n}\n\nclass Dog extends Animal {\n  void eat() {\n    System.out.println(\"Dog eats\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.eat();\n  }\n}",
+  "options": [
+    {
+      "text": "Animal eats",
+      "explanation": "Incorrect. The method is overridden."
+    },
+    {
+      "text": "Dog eats",
+      "explanation": "Correct! The child method overrides the parent method."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. Overriding is allowed."
+    },
+    {
+      "text": "Both lines will print",
+      "explanation": "Incorrect. Only the overridden method runs."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What is the output?\n\nclass Animal {\n  Animal(){\n    System.out.println(\"Animal constructor\");\n  }\n}\n\nclass Dog extends Animal {\n  Dog(){\n    System.out.println(\"Dog constructor\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n  }\n}",
+  "options": [
+    {
+      "text": "Dog constructor",
+      "explanation": "Incorrect. Parent constructors run first."
+    },
+    {
+      "text": "Animal constructor then Dog constructor",
+      "explanation": "Correct! Parent constructor executes before child."
+    },
+    {
+      "text": "Animal constructor only",
+      "explanation": "Incorrect. Both constructors run."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. The code compiles."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "Which statement about inheritance in Java is TRUE?",
+  "options": [
+    {
+      "text": "Java supports multiple inheritance with classes",
+      "explanation": "Incorrect. Java prevents this due to the diamond problem."
+    },
+    {
+      "text": "Java supports multiple inheritance using interfaces",
+      "explanation": "Correct! Classes can implement multiple interfaces."
+    },
+    {
+      "text": "Java does not support hierarchical inheritance",
+      "explanation": "Incorrect. Java supports it."
+    },
+    {
+      "text": "Java only allows one level of inheritance",
+      "explanation": "Incorrect. Multilevel inheritance is allowed."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will be the output?\n\nclass A {\n  void display(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void display(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    A obj = new B();\n    obj.display();\n  }\n}",
+  "options": [
+    {
+      "text": "A",
+      "explanation": "Incorrect. The object type determines method execution."
+    },
+    {
+      "text": "B",
+      "explanation": "Correct! Method overriding uses runtime polymorphism."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. The code compiles correctly."
+    },
+    {
+      "text": "Both A and B",
+      "explanation": "Incorrect. Only the overridden method executes."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "You want to share behavior between classes but avoid tight coupling. Which design would you choose?",
+  "options": [
+    {
+      "text": "Deep inheritance hierarchies",
+      "explanation": "Incorrect. Deep hierarchies often create maintenance problems."
+    },
+    {
+      "text": "Composition over inheritance",
+      "explanation": "Correct! Modern design prefers composition for flexibility."
+    },
+    {
+      "text": "Static utility methods",
+      "explanation": "Incorrect. Static methods remove object relationships."
+    },
+    {
+      "text": "Public global variables",
+      "explanation": "Incorrect. This breaks encapsulation."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will be the output?\n\nclass A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n}\n\npublic class Test {\n  public static void main(String[] args){\n    B obj = new B();\n    obj.show();\n  }\n}",
+  "options": [
+    {
+      "text": "A",
+      "explanation": "Correct! The method is inherited from class A."
+    },
+    {
+      "text": "B",
+      "explanation": "Incorrect. Class B does not override show()."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. The method is inherited."
+    },
+    {
+      "text": "No output",
+      "explanation": "Incorrect. show() executes normally."
+    }
+  ],
+  "correctAnswer": 0
+},
+{
+  "question": "What will be the output?\n\nclass A {\n  A(){\n    System.out.println(\"A Constructor\");\n  }\n}\n\nclass B extends A {\n  B(){\n    System.out.println(\"B Constructor\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    new B();\n  }\n}",
+  "options": [
+    {
+      "text": "B Constructor",
+      "explanation": "Incorrect. Parent constructor runs first."
+    },
+    {
+      "text": "A Constructor then B Constructor",
+      "explanation": "Correct! Constructors execute parent → child."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect. The code compiles."
+    },
+    {
+      "text": "No output",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will be the output?\n\nclass A {\n  void display(){\n    System.out.println(\"Class A\");\n  }\n}\n\nclass B extends A {\n  void display(){\n    System.out.println(\"Class B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new B();\n    obj.display();\n  }\n}",
+  "options": [
+    {
+      "text": "Class A",
+      "explanation": "Incorrect. Method overriding happens at runtime."
+    },
+    {
+      "text": "Class B",
+      "explanation": "Correct! Runtime polymorphism calls the child method."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "Both A and B",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What happens if a subclass does not define a constructor?",
+  "options": [
+    {
+      "text": "The program fails to compile",
+      "explanation": "Incorrect. Java provides a default constructor."
+    },
+    {
+      "text": "Java automatically calls the parent constructor",
+      "explanation": "Correct! super() is implicitly called."
+    },
+    {
+      "text": "The subclass cannot be instantiated",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "The parent constructor will never execute",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "Which method cannot be overridden?",
+  "options": [
+    {
+      "text": "static method",
+      "explanation": "Correct! Static methods are hidden, not overridden."
+    },
+    {
+      "text": "public method",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "protected method",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "default method",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 0
+},
+{
+  "question": "What will happen if a subclass tries to access a private variable from the parent class?",
+  "options": [
+    {
+      "text": "It works normally",
+      "explanation": "Incorrect. Private members are not accessible."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Correct! Private fields cannot be accessed directly."
+    },
+    {
+      "text": "Runtime error",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "It returns null",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "Which keyword allows a subclass to access a parent class constructor?",
+  "options": [
+    {
+      "text": "this",
+      "explanation": "Incorrect. this refers to the current object."
+    },
+    {
+      "text": "super",
+      "explanation": "Correct! super() calls the parent constructor."
+    },
+    {
+      "text": "extends",
+      "explanation": "Incorrect. extends defines inheritance."
+    },
+    {
+      "text": "override",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What is the output?\n\nclass A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    super.show();\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    B obj = new B();\n    obj.show();\n  }\n}",
+  "options": [
+    {
+      "text": "A",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "B",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "A then B",
+      "explanation": "Correct! super.show() runs first."
+    },
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 2
+},
+{
+  "question": "You have a deep inheritance hierarchy: Vehicle → Car → ElectricCar → AutonomousElectricCar. What design problem might this cause?",
+  "options": [
+    {
+      "text": "Improved flexibility",
+      "explanation": "Incorrect. Deep hierarchies reduce flexibility."
+    },
+    {
+      "text": "Tight coupling and difficult maintenance",
+      "explanation": "Correct! Deep inheritance trees are hard to maintain."
+    },
+    {
+      "text": "Faster program execution",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "Less memory usage",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 1
+},
+{
+  "question": "What will happen?\n\nclass A {}\nclass B extends A {}\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n  }\n}",
+  "options": [
+    {
+      "text": "Compilation error",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "Runtime error",
+      "explanation": "Incorrect."
+    },
+    {
+      "text": "Object of C stored in reference of A",
+      "explanation": "Correct! Parent references can point to child objects."
+    },
+    {
+      "text": "Object of A created",
+      "explanation": "Incorrect."
+    }
+  ],
+  "correctAnswer": 2
+}
           ]
         },
 
