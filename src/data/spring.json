@@ -24,133 +24,535 @@
               "alt": "Encapsulation Diagram"
             },
             {
-            "type": "paragraph",
-            "text": "Encapsulation is implemented using access modifiers, getters, and setters."
+              "type": "paragraph",
+              "text": "Encapsulation is implemented using access modifiers, getters, and setters."
             },
             {
-            "type": "paragraph",
-            "text": "Access modifiers control who can access the data. There's four types. Public (accessible anywhere), private (accessible only within the class), protected (accessible within the package and subclasses), default (accessible within the package only)."
+              "type": "paragraph",
+              "text": "Access modifiers control who can access the data. There's four types. Public (accessible anywhere), private (accessible only within the class), protected (accessible within the package and subclasses), default (accessible within the package only)."
             },
             {
-            "type": "paragraph",
-            "text": "Here's an example of what a class would look like with and without encapsulation:"
+              "type": "paragraph",
+              "text": "Here's an example of what a class would look like with and without encapsulation:"
             },
             {
-            "type": "paragraph",
-            "text": "Without encapsulation:"
+              "type": "paragraph",
+              "text": "Without encapsulation:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nclass User {\n\n    public String name;\n    public int age;\n\n}\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nclass User {\n\n    public String name;\n    public int age;\n\n}\n"
             },
             {
-            "type": "paragraph",
-            "text": "Usage:"
+              "type": "paragraph",
+              "text": "Usage:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nUser user = new User();\nuser.age = -100;\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nUser user = new User();\nuser.age = -100;\n"
             },
             {
-            "type": "paragraph",
-            "text": "This is bad because it can allow invalid data to be inserted!"
+              "type": "paragraph",
+              "text": "This is bad because it can allow invalid data to be inserted!"
             },
             {
-            "type": "paragraph",
-            "text": "With encapsulation:"
+              "type": "paragraph",
+              "text": "With encapsulation:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nclass User {\n\n    private String name;\n    private int age;\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public int getAge() {\n        return age;\n    }\n\n    public void setAge(int age) {\n        if(age > 0){\n         this.age = age;\n        }\n    }\n}\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nclass User {\n\n    private String name;\n    private int age;\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public int getAge() {\n        return age;\n    }\n\n    public void setAge(int age) {\n        if(age > 0){\n         this.age = age;\n        }\n    }\n}\n"
             },
             {
-            "type": "paragraph",
-            "text": "Usage:"
+              "type": "paragraph",
+              "text": "Usage:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nUser user = new User();\n\nuser.setName(\"Alex\");\nuser.setAge(25);\n\nSystem.out.println(user.getAge());\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nUser user = new User();\n\nuser.setName(\"Alex\");\nuser.setAge(25);\n\nSystem.out.println(user.getAge());\n"
             },
             {
-            "type": "paragraph",
-            "text": "The data is now protected because we can only set the age if the user inputs a positive number. If you try and input -5, the setter will ignore it and the age will remain unchanged."
+              "type": "paragraph",
+              "text": "The data is now protected because we can only set the age if the user inputs a positive number. If you try and input -5, the setter will ignore it and the age will remain unchanged."
             },
             {
-            "type": "paragraph",
-            "text": "Encapsulation is important because it prevents invalid data from being inserted and you have full control over how the data is modified."
+              "type": "paragraph",
+              "text": "Encapsulation is important because it prevents invalid data from being inserted and you have full control over how the data is modified."
             },
             {
-            "type": "paragraph",
-            "text": "Encapsulation in Practice:"
+              "type": "heading",
+              "text": "Encapsulation in Practice:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nclass BankAccount {\n\n    private double balance;\n\n    public void deposit(double amount){\n        if(amount > 0){\n            balance += amount;\n        }\n    }\n\n    public void withdraw(double amount){\n        if(amount <= balance){\n            balance -= amount;\n        }\n    }\n\n    public double getBalance(){\n        return balance;\n    }\n}\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nclass BankAccount {\n\n    private double balance;\n\n    public void deposit(double amount){\n        if(amount > 0){\n            balance += amount;\n        }\n    }\n\n    public void withdraw(double amount){\n        if(amount <= balance){\n            balance -= amount;\n        }\n    }\n\n    public double getBalance(){\n        return balance;\n    }\n}\n"
             },
             {
-            "type": "paragraph",
-            "text": "Usage:"
+              "type": "paragraph",
+              "text": "Usage:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nBankAccount account = new BankAccount();\n\naccount.deposit(1000);\naccount.withdraw(200);\n\nSystem.out.println(account.getBalance());\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nBankAccount account = new BankAccount();\n\naccount.deposit(1000);\naccount.withdraw(200);\n\nSystem.out.println(account.getBalance());\n"
             },
             {
-            "type": "paragraph",
-            "text": "This would prevent the user from withdrawing more money than they have or depositing a negative amount, which could lead to an inconsistent state of the bank account. It also prevents the user from illegally modifying the balance to $1,000,000,000,000,000."
+              "type": "paragraph",
+              "text": "This would prevent the user from withdrawing more money than they have or depositing a negative amount, which could lead to an inconsistent state of the bank account. It also prevents the user from illegally modifying the balance to $1,000,000,000,000,000."
             },
             {
-            "type": "paragraph",
-            "text": "Another powerful technique is immutability, due to which objects cannot be modified after they are created."
+              "type": "paragraph",
+              "text": "Another powerful technique is immutability, due to which objects cannot be modified after they are created."
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nfinal class User {\n\n    private final String name;\n\n    public User(String name){\n        this.name = name;\n    }\n\n    public String getName(){\n        return name;\n    }\n}\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nfinal class User {\n\n    private final String name;\n\n    public User(String name){\n        this.name = name;\n    }\n\n    public String getName(){\n        return name;\n    }\n}\n"
             },
             {
-            "type": "paragraph",
-            "text": "In this case the 'name' field is final and private, so it cannot be changed after the object is created."
+              "type": "paragraph",
+              "text": "In this case the 'name' field is final and private, so it cannot be changed after the object is created."
             },
             {
-            "type": "paragraph",
-            "text": "Encapsulation in enterprise:"
+              "type": "heading",
+              "text": "Encapsulation in enterprise:"
             },
             {
-            "type": "code",
-            "language": "java",
-            "code": "\nclass Order {\n\n    private String status;\n\n    public void markAsShipped(){\n        status = \"SHIPPED\";\n    }\n\n}\n"
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Order {\n\n    private String status;\n\n    public void markAsShipped(){\n        status = \"SHIPPED\";\n    }\n\n}\n"
             },
             {
-            "type": "paragraph",
-            "text": "So instead of order.status = \"SHIPPED\"; we have to call the markAsShipped method, which could contain additional logic such as sending a notification email to the customer or updating the inventory. This way we have full control over how the order status is modified and we can ensure that all necessary actions are taken when the status changes."
+              "type": "paragraph",
+              "text": "So instead of order.status = \"SHIPPED\"; we have to call the markAsShipped method, which could contain additional logic such as sending a notification email to the customer or updating the inventory. This way we have full control over how the order status is modified and we can ensure that all necessary actions are taken when the status changes."
+            },
+            {
+              "type": "heading",
+              "text": "Beginner mistakes"
+            },
+            {
+              "type": "paragraph",
+              "text": "1. Making fields public. This allows anyone to modify the fields directly, which can lead to security issues."
+            },
+            {
+              "type": "paragraph",
+              "text": "2. Adding getters and setters without any logic, which defeats the purpose of encapsulation. If your getters and setters are just directly returning and setting the value without any validation or additional logic, then you might as well make the fields public."
+            },
+            {
+              "type": "heading",
+              "text": "Visual Representation"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "+---------------------+\n|        User         |\n|---------------------|\n| - name              |\n| - age               |\n|---------------------|\n| + getName()         |\n| + setName()         |\n| + getAge()          |\n| + setAge()          |\n+---------------------+\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "+ → public, - → private"
+            },
+            {
+              "type": "heading",
+              "text": "Encapsulation in interview questions"
+            },
+            {
+              "type": "paragraph",
+              "text": "Why use encapsulation?"
+            },
+            {
+              "type": "paragraph",
+              "text": "data protection, flexibilty, maintainability, validation and reusability."
+            },
+            {
+              "type": "heading",
+              "text": "TL;DR"
+            },
+            {
+              "type": "paragraph",
+              "text": "Encapsulation is"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nHiding data\n+\nProviding controlled access\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Implementation in Java:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nprivate fields\n+\npublic getters/setters\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Goal"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nProtect object state\n"
             },
             {}
           ],
           "quizzes": [
             {
-              "question": "What is encapsulation?",
+              "question": "What is encapsulation in Java?",
               "options": [
                 {
-                  "text": "Binding data and methods",
-                  "explanation": "Correct! Encapsulation binds data and behavior."
+                  "text": "Binding data and methods together in a class",
+                  "explanation": "Correct! Encapsulation groups data and the methods that operate on it."
                 },
                 {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect. Inheritance is about deriving classes."
+                  "text": "Creating multiple objects from one class",
+                  "explanation": "Incorrect. That describes object instantiation."
                 },
                 {
-                  "text": "Polymorphism",
-                  "explanation": "Incorrect. Polymorphism allows multiple behaviors."
+                  "text": "Allowing multiple classes to inherit from one class",
+                  "explanation": "Incorrect. That relates to inheritance."
+                },
+                {
+                  "text": "Running multiple threads simultaneously",
+                  "explanation": "Incorrect. That is multithreading."
                 }
               ],
               "correctAnswer": 0
+            },
+            {
+              "question": "Which access modifier is most commonly used to implement encapsulation?",
+              "options": [
+                {
+                  "text": "public",
+                  "explanation": "Incorrect. Public allows access from anywhere."
+                },
+                {
+                  "text": "private",
+                  "explanation": "Correct! Private fields prevent direct access from outside the class."
+                },
+                {
+                  "text": "protected",
+                  "explanation": "Incorrect. Protected allows access to subclasses."
+                },
+                {
+                  "text": "static",
+                  "explanation": "Incorrect. Static is not an access modifier."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Why are getters and setters used in encapsulation?",
+              "options": [
+                {
+                  "text": "To make variables public",
+                  "explanation": "Incorrect. They provide controlled access, not public exposure."
+                },
+                {
+                  "text": "To directly expose class fields",
+                  "explanation": "Incorrect. Encapsulation hides fields."
+                },
+                {
+                  "text": "To control how fields are accessed and modified",
+                  "explanation": "Correct! Getters and setters allow validation and controlled modification."
+                },
+                {
+                  "text": "To improve compilation speed",
+                  "explanation": "Incorrect. They do not affect compilation speed."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What is the main advantage of encapsulation?",
+              "options": [
+                {
+                  "text": "It increases program execution speed",
+                  "explanation": "Incorrect. Encapsulation does not directly affect speed."
+                },
+                {
+                  "text": "It protects object data and enforces validation",
+                  "explanation": "Correct! Encapsulation ensures safe and controlled access to data."
+                },
+                {
+                  "text": "It allows multiple inheritance",
+                  "explanation": "Incorrect. Java does not support multiple inheritance for classes."
+                },
+                {
+                  "text": "It automatically creates constructors",
+                  "explanation": "Incorrect. Constructors must be defined manually."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the main advantage of encapsulation?",
+              "options": [
+                {
+                  "text": "It increases program execution speed",
+                  "explanation": "Incorrect. Encapsulation does not directly affect speed."
+                },
+                {
+                  "text": "It protects object data and enforces validation",
+                  "explanation": "Correct! Encapsulation ensures safe and controlled access to data."
+                },
+                {
+                  "text": "It allows multiple inheritance",
+                  "explanation": "Incorrect. Java does not support multiple inheritance for classes."
+                },
+                {
+                  "text": "It automatically creates constructors",
+                  "explanation": "Incorrect. Constructors must be defined manually."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What problem can occur if class fields are declared public instead of private?",
+              "options": [
+                {
+                  "text": "Objects cannot be created",
+                  "explanation": "Incorrect. Object creation is unaffected."
+                },
+                {
+                  "text": "External classes can modify the data without validation",
+                  "explanation": "Correct! Public fields allow uncontrolled modification."
+                },
+                {
+                  "text": "The class cannot contain methods",
+                  "explanation": "Incorrect. Classes can still have methods."
+                },
+                {
+                  "text": "The JVM will throw an error",
+                  "explanation": "Incorrect. The code will still compile."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is wrong with the following code?\n\nclass User {\n  public int age;\n}",
+              "options": [
+                {
+                  "text": "The class name must start with lowercase",
+                  "explanation": "Incorrect. Class names usually start with uppercase."
+                },
+                {
+                  "text": "The variable should be private to follow encapsulation",
+                  "explanation": "Correct! Encapsulation requires restricting direct access to fields."
+                },
+                {
+                  "text": "The class must be static",
+                  "explanation": "Incorrect. Classes do not need to be static."
+                },
+                {
+                  "text": "The variable must be final",
+                  "explanation": "Incorrect. Variables do not have to be final."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which of the following best demonstrates proper encapsulation?",
+              "options": [
+                {
+                  "text": "Public fields accessed directly by other classes",
+                  "explanation": "Incorrect. That breaks encapsulation."
+                },
+                {
+                  "text": "Private fields with public getter and setter methods",
+                  "explanation": "Correct! This allows controlled access to internal data."
+                },
+                {
+                  "text": "Using static variables everywhere",
+                  "explanation": "Incorrect. Static does not relate to encapsulation."
+                },
+                {
+                  "text": "Declaring all methods as private",
+                  "explanation": "Incorrect. That would make the class unusable."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which implementation best follows encapsulation for a User class?",
+              "options": [
+                {
+                  "text": "public String name;",
+                  "explanation": "Incorrect. Public fields allow direct modification from outside the class."
+                },
+                {
+                  "text": "private String name;",
+                  "explanation": "Partially correct, but encapsulation usually also includes controlled access via methods."
+                },
+                {
+                  "text": "private String name; with public getName() and setName() methods",
+                  "explanation": "Correct! Private fields with getters and setters implement proper encapsulation."
+                },
+                {
+                  "text": "static String name;",
+                  "explanation": "Incorrect. Static does not relate to encapsulation."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "Which design best protects a BankAccount balance?",
+              "options": [
+                {
+                  "text": "public double balance;",
+                  "explanation": "Incorrect. Anyone could change the balance directly."
+                },
+                {
+                  "text": "private double balance; with deposit() and withdraw() methods",
+                  "explanation": "Correct! This allows controlled changes to the balance."
+                },
+                {
+                  "text": "protected double balance;",
+                  "explanation": "Incorrect. Protected still allows subclasses to modify it directly."
+                },
+                {
+                  "text": "static double balance;",
+                  "explanation": "Incorrect. Static would share balance across all accounts."
+                }
+              ],
+              "correctAnswer": 3
+            },
+            {
+              "question": "You want to ensure that a person's age cannot be negative. Which implementation would you choose?",
+              "options": [
+                {
+                  "text": "public int age;",
+                  "explanation": "Incorrect. This allows invalid values like -5."
+                },
+                {
+                  "text": "private int age; with a setter that validates age > 0",
+                  "explanation": "Correct! Encapsulation allows validation before updating the field."
+                },
+                {
+                  "text": "protected int age;",
+                  "explanation": "Incorrect. This still allows subclasses to modify it freely."
+                },
+                {
+                  "text": "public static int age;",
+                  "explanation": "Incorrect. Static fields do not solve validation issues."
+                }
+              ],
+              "correctAnswer": 4
+            },
+            {
+              "question": "You want to allow reading a variable but prevent modification from outside the class. Which approach would you choose?",
+              "options": [
+                {
+                  "text": "private variable with only a getter method",
+                  "explanation": "Correct! This allows read access but prevents modification."
+                },
+                {
+                  "text": "public variable",
+                  "explanation": "Incorrect. Anyone could modify it."
+                },
+                {
+                  "text": "private variable with only a setter",
+                  "explanation": "Incorrect. This would allow modification but not reading."
+                },
+                {
+                  "text": "protected variable",
+                  "explanation": "Incorrect. Subclasses could still modify it."
+                }
+              ],
+              "correctAnswer": 5
+            },
+            {
+              "question": "Which approach best demonstrates encapsulation in an Order class?",
+              "options": [
+                {
+                  "text": "order.status = \"SHIPPED\";",
+                  "explanation": "Incorrect. Directly modifying fields breaks encapsulation."
+                },
+                {
+                  "text": "public String status;",
+                  "explanation": "Incorrect. Public fields expose internal state."
+                },
+                {
+                  "text": "order.ship();",
+                  "explanation": "Correct! Encapsulation exposes behavior instead of raw data."
+                },
+                {
+                  "text": "static String status;",
+                  "explanation": "Incorrect. Static does not enforce encapsulation."
+                }
+              ],
+              "correctAnswer": 6
+            },
+            {
+              "question": "Which design best prevents modification of an object's state?",
+              "options": [
+                {
+                  "text": "private fields with no setters",
+                  "explanation": "Correct! This creates an immutable object."
+                },
+                {
+                  "text": "public fields",
+                  "explanation": "Incorrect. Public fields allow unrestricted modification."
+                },
+                {
+                  "text": "protected fields",
+                  "explanation": "Incorrect. Subclasses can still modify them."
+                },
+                {
+                  "text": "static fields",
+                  "explanation": "Incorrect. Static fields are shared across instances."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "Which class design follows encapsulation best?",
+              "options": [
+                {
+                  "text": "class User { public String name; }",
+                  "explanation": "Incorrect. Public fields break encapsulation."
+                },
+                {
+                  "text": "class User { private String name; }",
+                  "explanation": "Partially correct, but access methods are typically needed."
+                },
+                {
+                  "text": "class User { private String name; public String getName(){ return name; } }",
+                  "explanation": "Correct! The field is hidden and accessed through a method."
+                },
+                {
+                  "text": "class User { static String name; }",
+                  "explanation": "Incorrect. Static does not implement encapsulation."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "You want to prevent external classes from modifying a list of orders inside a class. Which approach would you choose?",
+              "options": [
+                {
+                  "text": "Return the list directly using a getter",
+                  "explanation": "Incorrect. External classes could modify the list."
+                },
+                {
+                  "text": "Return an unmodifiable version of the list",
+                  "explanation": "Correct! This prevents external modification while still allowing reading."
+                },
+                {
+                  "text": "Make the list public",
+                  "explanation": "Incorrect. This breaks encapsulation."
+                },
+                {
+                  "text": "Make the list static",
+                  "explanation": "Incorrect. Static does not prevent modification."
+                }
+              ],
+              "correctAnswer": 1
             }
           ]
         },
