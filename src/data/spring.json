@@ -566,6 +566,11 @@
               "text": "Inheritance is the mechanism where one class acquires the fields and methods of another class."
             },
             {
+              "type": "image",
+              "src": "/images/inheritance.png",
+              "alt": "Inheritance Diagram"
+            },
+            {
               "type": "paragraph",
               "text": "The class that is inherited from is called superclass / parent class, and the class that inherits is called subclass / child class."
             },
