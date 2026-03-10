@@ -171,3 +171,17 @@ button:hover {
 .content-code code {
   font-family: monospace;
 }
+
+pre.content-code {
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 12px 0;
+  white-space: pre-wrap; /* preserves newlines and formatting */
+}
+
+pre.content-code code {
+  font-family: monospace;
+}
