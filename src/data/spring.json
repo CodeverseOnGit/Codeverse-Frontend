@@ -1921,65 +1921,434 @@
             }
           ]
         },
-
-        {
-          "slug": "polymorphism",
-          "title": "OOP - Polymorphism",
-          "content": [
-            {
-              "type": "paragraph",
-              "text": "Polymorphism allows objects to take many forms. A method may behave differently depending on the object calling it."
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "What does polymorphism mean?",
-              "options": [
-                {
-                  "text": "Multiple forms of behavior",
-                  "explanation": "Correct! Polymorphism means many forms."
-                },
-                {
-                  "text": "Binding data and methods",
-                  "explanation": "Incorrect. That is encapsulation."
-                },
-                {
-                  "text": "Deriving classes",
-                  "explanation": "Incorrect. That is inheritance."
-                }
-              ],
-              "correctAnswer": 0
-            }
-          ]
-        },
-
         {
           "slug": "abstraction",
-          "title": "OOP - Abstraction",
+          "title": "Object Oriented Programming - Abstraction",
           "content": [
             {
               "type": "paragraph",
-              "text": "Abstraction hides implementation details and exposes only essential functionality."
+              "text": "Hiding implementation details and exposing only the necessary functionality. You show WHAT something does, not HOW it works."
+            },
+            {
+              "type": "paragraph",
+              "text": "For example, when you drive a car you turn the steering wheel and press the accelerator but you can't see the engine."
+            },
+            {
+              "type": "image",
+              "src": "/images/abstraction.png",
+              "alt": "Abstraction Diagram"
+            },
+            {
+              "type": "paragraph",
+              "text": "In java, abstraction is achieved using abstract classes and interfaces."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n\n// implementation\n\nclass Dog extends Animal {\n\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n\n}\n\n// usage\n\nAnimal a = new Dog();\na.sound();\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Abstract methods have no body and must be implemented by subclasses, for example:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nabstract void sound();\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Abstract classes cannot be instantiated, for example the following is invalid:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nAnimal a = new Animal();\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "If a class has one abstract method, the class must be abstract. For example, since sound() is abstract, Animal must be abstract."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Subclasses must implement abstract methods, for example in the example below, since sound() is abstract the subclass Dog HAS to implement it."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n\n// subclass\n\nclass Dog extends Animal {\n\n    void sound(){ \n        System.out.println(\"Dog barks\");\n    }\n\n}\n"
+            },
+            {
+              "type": "heading",
+              "text": "Interfaces"
+            },
+            {
+              "type": "paragraph",
+              "text": "Interfaces are a way to achieve full abstraction in Java."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "interface Shape {\n    void draw();\n}\n\n// implementation\n\nclass Circle implements Shape {\n\n    public void draw(){\n        System.out.println(\"Drawing circle\");\n    }\n\n}\n\n//usage\nShape shape = new Circle();\nshape.draw();\n"
+            },
+            {
+              "type": "heading",
+              "text": "Abstract Class vs. Interfaces"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "| Feature              | Abstract Class    | Interface           |\n| -------------------- | ----------------- | ------------------- |\n| Methods              | Abstract + normal | Mostly abstract     |\n| Variables            | Any               | public static final |\n| Inheritance          | extends           | implements          |\n| Multiple inheritance | No                | Yes                 |\n\n"
             }
           ],
           "quizzes": [
             {
-              "question": "What does abstraction do?",
+              "question": "What does polymorphism mean in Java?",
               "options": [
                 {
-                  "text": "Hide implementation details",
-                  "explanation": "Correct! Abstraction hides complexity."
+                  "text": "Many forms of the same method or behavior",
+                  "explanation": "Correct! Polymorphism means one interface with multiple implementations."
                 },
                 {
-                  "text": "Derive classes",
+                  "text": "Hiding data inside a class",
+                  "explanation": "Incorrect. That is encapsulation."
+                },
+                {
+                  "text": "Creating subclasses",
                   "explanation": "Incorrect. That is inheritance."
                 },
                 {
-                  "text": "Bind data and methods",
-                  "explanation": "Incorrect. That is encapsulation."
+                  "text": "Using private variables",
+                  "explanation": "Incorrect."
                 }
               ],
               "correctAnswer": 0
+            },
+            {
+              "question": "Which type of polymorphism occurs at compile time?",
+              "options": [
+                {
+                  "text": "Method overriding",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Method overloading",
+                  "explanation": "Correct! Overloading is resolved at compile time."
+                },
+                {
+                  "text": "Dynamic binding",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Constructor chaining",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal sound\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog bark\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Animal sound",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Dog bark",
+                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Both outputs",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Correct! C inherits B's overridden method."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "You are designing a system where multiple payment methods exist (CreditCard, PayPal, Crypto). Which design would you choose?",
+              "options": [
+                {
+                  "text": "Create a Payment parent class with a pay() method and override it",
+                  "explanation": "Correct! This allows runtime polymorphism."
+                },
+                {
+                  "text": "Write separate unrelated classes",
+                  "explanation": "Incorrect. You lose polymorphic behavior."
+                },
+                {
+                  "text": "Use only static methods",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Put all logic in one class",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "You want to process many shapes (Circle, Square, Triangle) with a draw() method. Which design would you choose?",
+              "options": [
+                {
+                  "text": "Use if-else statements for each shape",
+                  "explanation": "Incorrect. This becomes hard to maintain."
+                },
+                {
+                  "text": "Create a Shape interface with draw() and implement it",
+                  "explanation": "Correct! This allows polymorphic behavior."
+                },
+                {
+                  "text": "Create static methods",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Put all logic in one large class",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which statement best describes runtime polymorphism?",
+              "options": [
+                {
+                  "text": "A method call resolved during compilation",
+                  "explanation": "Incorrect. That is compile-time polymorphism."
+                },
+                {
+                  "text": "A method call resolved during runtime based on object type",
+                  "explanation": "Correct! Runtime polymorphism decides method behavior at runtime."
+                },
+                {
+                  "text": "Multiple constructors in a class",
+                  "explanation": "Incorrect. That is constructor overloading."
+                },
+                {
+                  "text": "Using static methods across classes",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Animal",
+                  "explanation": "Incorrect. The method is overridden."
+                },
+                {
+                  "text": "Dog",
+                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Both Animal and Dog",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class A {\n  static void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  static void show(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new B();\n    obj.show();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Correct! Static methods are resolved by reference type, not object type."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Incorrect. Static methods are not overridden."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What will be printed?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Correct! C inherits B's overridden method."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be printed?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Test {\n  void print(int a){\n    System.out.println(\"int\");\n  }\n\n  void print(double a){\n    System.out.println(\"double\");\n  }\n\n  public static void main(String[] args){\n    Test t = new Test();\n    t.print(5);\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "double",
+                  "explanation": "Incorrect. Java prefers exact match."
+                },
+                {
+                  "text": "int",
+                  "explanation": "Correct! Method overloading resolves at compile time."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class A {\n  A(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  B(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    new B();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "B",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "A then B",
+                  "explanation": "Correct! Parent constructor runs first."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "No output",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which methods participate in runtime polymorphism?",
+              "options": [
+                {
+                  "text": "static methods",
+                  "explanation": "Incorrect. Static methods are hidden, not overridden."
+                },
+                {
+                  "text": "private methods",
+                  "explanation": "Incorrect. Private methods are not inherited."
+                },
+                {
+                  "text": "overridden instance methods",
+                  "explanation": "Correct! Instance methods participate in runtime polymorphism."
+                },
+                {
+                  "text": "final methods",
+                  "explanation": "Incorrect. Final methods cannot be overridden."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "Which statement about polymorphism in Java is TRUE?",
+              "options": [
+                {
+                  "text": "Method overloading is resolved at runtime",
+                  "explanation": "Incorrect. Overloading is resolved at compile time."
+                },
+                {
+                  "text": "Method overriding supports runtime polymorphism",
+                  "explanation": "Correct! Overridden methods are resolved at runtime."
+                },
+                {
+                  "text": "Static methods support runtime polymorphism",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Private methods participate in polymorphism",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
             }
           ]
         }
