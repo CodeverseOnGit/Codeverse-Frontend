@@ -2636,17 +2636,339 @@
               "correctAnswer": 1
             }
           ]
+        },
+        {
+          "slug": "generics",
+          "title": "Generics in Java",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "Generics allow classes, methods and interfaces to work with any data type while maintaining type safety. Before generics, collections stored Object which caused unsafe casting."
+            },
+            {
+              "type": "paragraph",
+              "text": "There's mainly two types of association: unidirectional and bidirectional. In unidirectional association, one class knows about the other but not vice versa. In bidirectional association, both classes know about each other."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "List list = new ArrayList();\nlist.add(\"Hello\");\n\nString s = (String) list.get(0);\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Problems with this: unsafe casting, runtime errors, lack of readability."
+            },
+            {
+              "type": "paragraph",
+              "text": "Aggregation is a special form of association. A class can contain another class but the contained object can exist independently. It has a weak \"has-a\" relationship."
+            },
+            {
+              "type": "heading",
+              "text": "Basic Generic Example"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "List<String> list = new ArrayList<>();\nlist.add(\"Hello\");\n\n// now only String is allowed in this list.\nString s = list.get(0);\n"
+            },
+            {
+              "type": "heading",
+              "text": "Generic Class"
+            },
+            {
+              "type": "paragraph",
+              "text": "A generic class uses type parameters."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "class Box<T> {\n\n    private T value;\n\n    public void set(T value){\n        this.value = value;\n    }\n\n    public T get(){\n        return value;\n    }\n\n}\n\n// Example usage with String\n\nBox<String> box = new Box<>();\nbox.set(\"Hello\");\n\nString value = box.get();\n\n// another example with Integer\n\nBox<Integer> box = new Box<>();\nbox.set(10);\nInteger value = box.get();\n"
+            },
+            {
+              "type": "heading",
+              "text": "Multiple Type Parameters"
+            },
+            {
+              "type": "paragraph",
+              "text": "Generics can have multiple types."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Pair<K,V> {\n\n    private K key;\n    private V value;\n\n}\n\n// Example usage with String\n\nPair<String, Integer> pair = new Pair<>();\n\n// another example with Integer\n\nMap<String, Integer>\n"
+            },
+            {
+              "type": "heading",
+              "text": "Generic Methods"
+            },
+            {
+              "type": "paragraph",
+              "text": "Methods can also use generics."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "public <T> void printValue(T value){\n    System.out.println(value);\n}\n\n// Example usage with String\n\nprintValue(\"Hello\");\nprintValue(10);\n"
+            },
+            {
+              "type": "heading",
+              "text": "Bounded Generics"
+            },
+            {
+              "type": "paragraph",
+              "text": "Generics can restrict types."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// only numeric types allowed\nclass Calculator<T extends Number> {\n\n    T number;\n\n}\n\n// only string types allowed\n\nclass Alphabet<T extends String> {\n\n    T number;\n\n}\n"
+            },
+            {
+              "type": "heading",
+              "text": "Wildcards"
+            },
+            {
+              "type": "paragraph",
+              "text": "Wildcards are used with ?. They allow for more flexible code when you don't know the exact type. There is upper bounded and lower bounded wildcard."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// upper bounded wildcard\nList<? extends Number> numbers; // only allows Integer, Double, Float\n\n\n// lower bounded wildcard\nList<? super Integer> integers; // allows Integer and its superclasses (Number, Object)\n"
+            },
+            {}
+          ],
+          "quizzes": [
+            {
+              "question": "What is the main purpose of generics in Java?",
+              "options": [
+                {
+                  "text": "Provide type safety at compile time",
+                  "explanation": "Correct! Generics prevent type errors."
+                },
+                {
+                  "text": "Improve runtime performance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Allow inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Hide implementation details",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "Which syntax declares a generic class?",
+              "options": [
+                {
+                  "text": "class Box()",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "class Box<T>",
+                  "explanation": "Correct!"
+                },
+                {
+                  "text": "class Box<?>",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "class Box extends T",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What does T represent in generics?",
+              "options": [
+                {
+                  "text": "Temporary variable",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Type parameter",
+                  "explanation": "Correct! T represents a type placeholder."
+                },
+                {
+                  "text": "Thread",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Template method",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Box<T> {\n  T value;\n\n  void set(T value){\n    this.value = value;\n  }\n\n  T get(){\n    return value;\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    Box<String> box = new Box<>();\n    box.set(\"Hello\");\n    System.out.println(box.get());\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Hello",
+                  "explanation": "Correct! The generic class stores a String."
+                },
+                {
+                  "text": "null",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Box<T extends Number> {\n  T value;\n}\n\npublic class Test{\n  public static void main(String[] args){\n    Box<String> box = new Box<>();\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Program runs successfully",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Correct! String does not extend Number."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Output is null",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be printed?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Test {\n\n  public static <T> void print(T value){\n    System.out.println(value);\n  }\n\n  public static void main(String[] args){\n    print(10);\n    print(\"Hello\");\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "10 and Hello",
+                  "explanation": "Correct! Generic methods accept multiple types."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Only Hello",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n\n    List<Integer> list = new ArrayList<>();\n    list.add(10);\n\n    List<? extends Number> numbers = list;\n\n    numbers.add(20);\n\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Program runs successfully",
+                  "explanation": "Incorrect. You might mistake it since \"number\" variable is being assigned \"list\" but this assignment happens during runtime. Java would throw this error during compile time which is what generics is supposed to be for. You cannot write to \"list\" variable because the program does not know [at compile time] what data type out of integer, float, double, long (Number) it is supposed to be."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Correct! Cannot add elements to ? extends wildcard. You might mistake it since \"number\" variable is being assigned \"list\" but this assignment happens during runtime. Java would throw this error during compile time which is what generics is supposed to be for. You cannot write to \"list\" variable because the program does not know [at compile time] what data type out of integer, float, double, long (Number) it is supposed to be."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Output is 20",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "You want a method that works for multiple data types like Integer, String, and Double. What should you use?",
+              "options": [
+                {
+                  "text": "Method overloading",
+                  "explanation": "Incorrect. That creates multiple methods."
+                },
+                {
+                  "text": "Generic method",
+                  "explanation": "Correct! Generic methods work with any type."
+                },
+                {
+                  "text": "Static methods",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which statement about Java generics is TRUE?",
+              "options": [
+                {
+                  "text": "Generics remove the need for casting",
+                  "explanation": "Correct! Generics provide compile-time type safety."
+                },
+                {
+                  "text": "Generics improve runtime speed",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Generics allow primitive types directly",
+                  "explanation": "Incorrect. Use wrapper classes."
+                },
+                {
+                  "text": "Generics work only with classes",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            }
+          ]
         }
       ]
     },
 
     {
-      "slug": "collections",
-      "title": "Java Collections",
+      "slug": "generics",
+      "title": "Generics",
       "topics": [
         {
-          "slug": "collections-intro",
-          "title": "Introduction to Collections",
+          "slug": "generics-intro",
+          "title": "Introduction to Generics",
           "content": [
             {
               "type": "paragraph",
