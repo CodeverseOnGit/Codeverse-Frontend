@@ -2351,6 +2351,291 @@
               "correctAnswer": 1
             }
           ]
+        },
+        {
+          "slug": "oop-relationships",
+          "title": "Object Oriented Programming Relationships",
+          "content": [
+            {
+              "type": "paragraph",
+              "text": "In object-oriented design, classes interact with each other. These relationships describe how objects connect. The main relationships are Association, Aggregation, and Composition."
+            },
+            {
+              "type": "heading",
+              "text": "Association"
+            },
+            {
+              "type": "paragraph",
+              "text": "One class uses or interacts with another class. It is the loosest relationship. For example, a Student takes a Course. Both can exist independently, even if Course has a reference to Student."
+            },
+            {
+              "type": "paragraph",
+              "text": "There's mainly two types of association: unidirectional and bidirectional. In unidirectional association, one class knows about the other but not vice versa. In bidirectional association, both classes know about each other."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\n// Unidirectional\nclass Student {}\n\nclass Course {\n\n    Student student;\n\n}\n\n// Bidirectional\nclass Student {\n    Course course;\n}\n\nclass Course {\n    Student student;\n}\n"
+            },
+            {
+              "type": "heading",
+              "text": "Aggregation"
+            },
+            {
+              "type": "paragraph",
+              "text": "Aggregation is a special form of association. A class can contain another class but the contained object can exist independently. It has a weak \"has-a\" relationship."
+            },
+            {
+              "type": "paragraph",
+              "text": "For example, [ University → Students ] If the university closes, students still exist. University has students. Students can exist without the university."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Student {\n    String name;\n}\n\nclass University {\n\n    List<Student> students;\n\n}\n"
+            },
+            {
+              "type": "heading",
+              "text": "Composition"
+            },
+            {
+              "type": "paragraph",
+              "text": "Composition is stronger than aggregation. A class owns another class and controls its lifecycle. If the parent is destroyed, so is the child."
+            },
+            {
+              "type": "paragraph",
+              "text": "For example, House → Rooms. If the house is destroyed, the rooms are also destroyed. Rooms cannot exist without the house. Room is created inside the house. It has a strong \"has-a\" relationship."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nclass Room {\n    String name;\n}\n\nclass House {\n\n    private Room room;\n\n    House(){\n        room = new Room();\n    }\n\n}\n"
+            },
+            {
+              "type": "heading",
+              "text": "Real Software Example"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\nUser \u2192 Posts // User has posts and posts belong to a user\nPost \u2192 Comments // Post has comments and comments belong to a post, but comments can exist without a post\nOrder \u2192 OrderItems // Order items belong to an order, but order items can exist without an order\n"
+            }
+          ],
+          "quizzes": [
+            {
+              "question": "What is association in OOP?",
+              "options": [
+                {
+                  "text": "A relationship where one class interacts with another",
+                  "explanation": "Correct! Association describes how classes interact."
+                },
+                {
+                  "text": "A subclass inheriting from a parent class",
+                  "explanation": "Incorrect. That is inheritance."
+                },
+                {
+                  "text": "Hiding data in a class",
+                  "explanation": "Incorrect. That is encapsulation."
+                },
+                {
+                  "text": "Multiple forms of the same method",
+                  "explanation": "Incorrect. That is polymorphism."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "Which relationship represents a weak 'has-a' relationship?",
+              "options": [
+                {
+                  "text": "Composition",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Aggregation",
+                  "explanation": "Correct! Aggregation represents weak ownership."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which relationship means the child object cannot exist without the parent?",
+              "options": [
+                {
+                  "text": "Association",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Aggregation",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Composition",
+                  "explanation": "Correct! Composition has strong ownership."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What type of relationship is shown below?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Engine {}\n\nclass Car {\n\n  Engine engine;\n\n}"
+              },
+              "options": [
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Association",
+                  "explanation": "Correct! Car simply references Engine."
+                },
+                {
+                  "text": "Composition",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Polymorphism",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What relationship does this represent?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Room {}\n\nclass House {\n\n  private Room room;\n\n  House(){\n    room = new Room();\n  }\n\n}"
+              },
+              "options": [
+                {
+                  "text": "Aggregation",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Association",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Composition",
+                  "explanation": "Correct! Room lifecycle depends on House."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What type of relationship is demonstrated?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "class Student { String name;\n}\n\nclass University {\n\n  List<Student> students;\n\n  University(List<Student> students){\n    this.students = students;\n  }\n\n}"
+              },
+              "options": [
+                {
+                  "text": "Composition",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Aggregation",
+                  "explanation": "Correct! Students can exist without University."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Encapsulation",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "You are designing an Order system. Each Order contains multiple OrderItems that should not exist without the Order. Which relationship should you use?",
+              "options": [
+                {
+                  "text": "Association",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Aggregation",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Composition",
+                  "explanation": "Correct! OrderItems depend on Order."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "You are building a system where Students enroll in Universities, but students can exist without the university. Which relationship fits best?",
+              "options": [
+                {
+                  "text": "Composition",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Aggregation",
+                  "explanation": "Correct! Students exist independently."
+                },
+                {
+                  "text": "Inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Encapsulation",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which statement about composition is TRUE?",
+              "options": [
+                {
+                  "text": "Child objects can exist independently",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Parent controls the lifecycle of child objects",
+                  "explanation": "Correct! That defines composition."
+                },
+                {
+                  "text": "Composition is the same as inheritance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Composition is weaker than aggregation",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            }
+          ]
         }
       ]
     },
