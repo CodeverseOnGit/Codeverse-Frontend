@@ -2638,6 +2638,418 @@
           ]
         },
         {
+          "slug": "collections",
+          "title": "Collections in Java",
+          "content": [
+            {
+              "type": "heading",
+              "text": "What is Collections Framework?"
+            },
+            {
+              "type": "paragraph",
+              "text": "The collections framework is a set of classes and interfaces used to store data, manipulate data and process groups of objects. Before collections, there used to be arrays which was fixed size and less flexible."
+            },
+            {
+              "type": "paragraph",
+              "text": "Collections allow for more flexible sizing, powerful operations, reusable data structures."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// Example of flexible sizing\n\nList<String> desk = new ArrayList<>(); // ArrayList is a Collections\ndesk.add(\"Laptop\"); // size is 1\ndesk.add(\"Mouse\"); // size is 2\n\n// Example of powerful operations\n\nList<Integers> scores = Arrays.asList(85, 90, 78);\nCollections.sort(scores); // sorts the scores in ascending order\nint max = Collections.max(scores); // finds the maximum score\nscores.removeIf(score -> score < 80); // removes scores less than 80\n\n\n// Example of reusable data structure\nMap<String, String> dictionary = new HashMap<>(); // mapping between word and definition\ndictionary.put(\"Java\", \"A high-level programming language.\");\n\nMap<Integerew HashMap<>(); // mapping between word and definition\ndictionary.pew HashMap<>(); // mapping between word and definition\ndictionary.put(\"Java\", \"A high-level programming language.\");\n\nMap<Integer, User> userCache = new HashMap<>(); // mapping between user ID and user object\nuserCache.put(1, new User(\"Alice\"));"
+            },
+            {
+              "type": "heading",
+              "text": "Core Interfaces"
+            },
+            {
+              "type": "paragraph",
+              "text": "Collection: List, Set, Queue."
+            },
+            {
+              "type": "paragraph",
+              "text": "Map (Separate hierarchy): HashMap, TreeMap."
+            },
+            {
+              "type": "heading",
+              "text": "List"
+            },
+            {
+              "type": "paragraph",
+              "text": "Lists are ordered and allows duplicates. Some of the common implementations are ArrayList and LinkedList."
+            },
+            {
+              "type": "paragraph",
+              "text": "Real world example of linked list: a music playlist where you can easily add/remove songs and navigate to the next/previous song. Real world example of array list: a photo gallery where you want quick access to photos by index."
+            },
+            {
+              "type": "paragraph",
+              "text": "Real world example 2 for linked list: In a scavenger hunt, you move linearly from point A to point B to point C. You can't reach point C without reaching point B. If you want to add a new point D between A and B, you change the clue at A to point to D. So now it will look like: A->D->C."
+            },
+            {
+              "type": "heading",
+              "text": "Set"
+            },
+            {
+              "type": "paragraph",
+              "text": "It cannot have duplicate elements and it is usually unordered. HashSet is the most common implementation."
+            },
+            {
+              "type": "paragraph",
+              "text": "Type of sets: HashSet, LinkedHashSet, TreeSet. HashSet is the most common and it does not maintain any order. LinkedHashSet maintains insertion order. TreeSet sorts the elements in natural order."
+            },
+            {
+              "type": "paragraph",
+              "text": "They all have their own personalities. HashSet is most commonly used because it is the fastest. It stores them in Hash table and doesn't care about order, only cares about finding them instantly. They are best used when you want fast results but don't care about order."
+            },
+            {
+              "type": "paragraph",
+              "text": "LinkedHashSet is a combo. It uses a hash table for speed but also maintains order. It maintains a doubly linked list. It's best for when you want to store unique items but also want the right order, like history log."
+            },
+            {
+              "type": "paragraph",
+              "text": "TreeSet is a step further, it does not care for when you added an item, it cares about the item's value. It uses Red-Black tree structure to constantly sort items as they are added. It is best used when you want to store something in alphabetical or numerical order."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// HashSet\n\nSet<String> brands = new HashSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\nbrands.add(\"Nike\"); // duplicate, will not be added\n\nSystem.out.println(brands.size()); // Output: 3\nSystem.out.println(brands);\n// Might be Output: [Nike, Fila, Adidas] (random order) \n// OR Output: [Adidas, Nike, Fila] (random order)\n\n// LinkedHashSet\n\nSet<String> brands = new LinkedHashSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\n\nSystem.out.println(brands);\n// Output: [Nike, Adidas, Fila] // insertion order\n\n// TreeSet\n\nSet<String> brands = new TreeSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\n\nSystem.out.println(brands);\n// Output: [Adidas, Fila, Nike] // alphabetical order\n\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Internal structure: HashSet uses hash table, LinkedHashSet uses Hash table + linked list, TreeSet uses red-black tree."
+            },
+            {
+              "type": "paragraph",
+              "text": "Order: HashSet uses none, LinkedHashSet uses insertion order, TreeSet uses sorted."
+            },
+            {
+              "type": "paragraph",
+              "text": "Speed: HashSet O(1) > LinkedHashSet O(1) > TreeSet O(log n)."
+            },
+            {
+              "type": "paragraph",
+              "text": "Nulls: HashSet and LinkedHashSet allow one null, TreeSet does not allow nulls."
+            },
+            {
+              "type": "heading",
+              "text": "Map (Key-Value Pairs)"
+            },
+            {
+              "type": "paragraph",
+              "text": "Stores key-value pairs. Each key maps to a value. Each key is unique. Types of Map: HashMap, LinkedHashMap, TreeMap."
+            },
+            {
+              "type": "paragraph",
+              "text": "HashMap uses hash function to jump to a location in the memory to write in there."
+            },
+            {
+              "type": "paragraph",
+              "text": "LinkedHashMap is the same as HashMap except it adds a linked list that connects the entries in the order they were inserted. Best for 'recently viewed' or storing ranks."
+            },
+            {
+              "type": "paragraph",
+              "text": "TreeMap sorts the KEYS as you add them. For example, a directory of all products and their prices in a store."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// HashMap\n\nMap<String, String> capitalCities = new HashMap<>();\ncapitalCities.put(\"UK\", \"London\");\ncapitalCities.put(\"Germany\", \"Berlin\");\ncapitalCities.put(\"Norway\", \"Oslo\");\n\nSystem.out.println(capitalCities); \n// Output might be: {Norway=Oslo, UK=London, Germany=Berlin} (Random order)\n\n// LinkedHashMap\n\nMap<Integer, String> arcadeScores = new LinkedHashMap<>();\narcadeScores.put(1, \"PlayerOne\");\narcadeScores.put(2, \"RetroKing\");\narcadeScores.put(3, \"GameMaster\");\n\nSystem.out.println(arcadeScores); \n// Output: {1=PlayerOne, 2=RetroKing, 3=GameMaster} (Always in this order)\n\n// TreeMap\n\nMap<String, Double> productPrices = new TreeMap<>();\nproductPrices.put(\"Zebra Notebook\", 12.99);\nproductPrices.put(\"Apple Pencil\", 99.00);\nproductPrices.put(\"Banana Case\", 5.50);\n\nSystem.out.println(productPrices); \n// Output: {Apple Pencil=99.0, Banana Case=5.5, Zebra Notebook=12.99} (Sorted by Key A-Z)"
+            },
+            {
+              "type": "paragraph",
+              "text": "HashSet stores unique elements and HashMap stores unique keys mapped to values. LinkedHashSet stores unique elements in insertion order and LinkedHashMap stores unique key-value pair in insertion order. TreeSet keeps element sorted, TreeMap stores keys sorted."
+            },
+            {
+              "type": "heading",
+              "text": "Golden Rule of Choice"
+            },
+            {
+              "type": "paragraph",
+              "text": "Need it quick and don't care about order? Use Hash. Need to remember the order you put things in? Use LinkedHash. Need the data in alphabetical or numeric order? Use Tree."
+            },
+            {
+              "type": "heading",
+              "text": "Queue"
+            },
+            {
+              "type": "paragraph",
+              "text": "First in first out. Used for scheduling tasks. Think of it like a line at a store, first person in line gets served first. Common implementations are LinkedList and PriorityQueue."
+            },
+            {
+              "type": "paragraph",
+              "text": "Real World Example. When five people click 'print document' on their screen at the same time, the printer does not print all documents at the same time. It puts them in a queue and prints them one by one in the order they were added to the queue."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "Queue<String> printerQueue = new LinkedList<>();\n\n// Adding items (Enqueue)\nprinterQueue.add(\"Tax_Return.pdf\");\nprinterQueue.add(\"Holiday_Photos.jpg\");\nprinterQueue.add(\"Resume.docx\");\n\n// Seeing who is next without removing them\nString nextUp = printerQueue.peek(); // Returns \"Tax_Return.pdf\"\n\n// Processing items (Dequeue)\nString processed = printerQueue.poll(); // Removes and returns \"Tax_Return.pdf\"\nSystem.out.println(\"Printing: \" + processed);\n\nSystem.out.println(\"Remaining in line: \" + printerQueue); \n// Output: [Holiday_Photos.jpg, Resume.docx]"
+            },
+            {
+              "type": "paragraph",
+              "text": "Real World Example. In an Emergency Room, a patient with a broken arm might arrive first, but if a patient with a heart attack arrives two minutes later, the heart attack patient is moved to the front of the \"queue.\""
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "Queue<Integer> emergencyTriage = new PriorityQueue<>();\n\nemergencyTriage.add(3); // Minor injury\nemergencyTriage.add(1); // Critical (Priority 1)\nemergencyTriage.add(2); // Serious\n\n// Even though 3 was added first, 1 will be pulled out first\nSystem.out.println(emergencyTriage.poll()); // Output: 1"
+            },
+            {
+              "type": "heading",
+              "text": "Comparable vs Comparator"
+            },
+            {
+              "type": "paragraph",
+              "text": "Both are used to sort collections. Comparable is how an object describes itself, while Comparator is how an outside judge decides to rank objects."
+            },
+            {
+              "type": "paragraph",
+              "text": "An object that implements Comparable has a \"natural\" ordering. You write the logic inside the class itself using the compareTo() method"
+            },
+            {
+              "type": "paragraph",
+              "text": "Real World Example: A book class implements Comparable to sort by ISBN. This is the way books are organised on shlelves."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "public class Movie implements Comparable<Movie> {\n    String title;\n    int year;\n\n    // Default sorting by Year\n    public int compareTo(Movie m) {\n        return this.year - m.year;\n    }\n}\n\n// Usage:\nCollections.sort(movieList); // Automatically uses the year"
+            },
+            {
+              "type": "paragraph",
+              "text": "A separate class that is used to sort objects in different ways."
+            },
+            {
+              "type": "paragraph",
+              "text": "Real World Example: In Netflix, even if movies are sorted by release date, you can sort them by rating, title, genre."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\n// Logic for sorting by Title\nComparator<Movie> titleCompare = (m1, m2) -> m1.title.compareTo(m2.title);\n\n// Logic for sorting by Rating\nComparator<Movie> ratingCompare = (m1, m2) -> Double.compare(m1.rating, m2.rating);\n\n// Usage:\nCollections.sort(movieList, titleCompare);\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Use comparable for obvious sorting like by alphabets and Comparator for custom sorting."
+            }
+          ],
+          "quizzes": [
+            {
+              "question": "Which interface allows duplicate elements?",
+              "options": [
+                {
+                  "text": "Set",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "List",
+                  "explanation": "Correct! Lists allow duplicates."
+                },
+                {
+                  "text": "Map",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Queue",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which collection does NOT allow duplicate elements?",
+              "options": [
+                {
+                  "text": "ArrayList",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "HashSet",
+                  "explanation": "Correct!"
+                },
+                {
+                  "text": "LinkedList",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Vector",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n    Set<Integer> set = new HashSet<>();\n\n    set.add(1);\n    set.add(1);\n    set.add(2);\n\n    System.out.println(set.size());\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "3",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "2",
+                  "explanation": "Correct! Duplicates are ignored."
+                },
+                {
+                  "text": "1",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be printed?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n    List<Integer> list = new ArrayList<>();\n\n    list.add(10);\n    list.add(20);\n\n    System.out.println(list.get(1));\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "10",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "20",
+                  "explanation": "Correct!"
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "import java.util.*;\n\nclass Test{\n  public static void main(String[] args){\n    Map<String, Integer> map = new HashMap<>();\n\n    map.put(\"A\", 1);\n    map.put(\"A\", 2);\n\n    System.out.println(map.get(\"A\"));\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "1",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "2",
+                  "explanation": "Correct! Value is overwritten."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What happens if equals() is not overridden properly in HashSet?",
+              "options": [
+                {
+                  "text": "Duplicates may be stored",
+                  "explanation": "Correct! HashSet relies on equals() and hashCode()."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime crash",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Nothing changes",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "You need fast lookups using key-value pairs. Which would you choose?",
+              "options": [
+                {
+                  "text": "ArrayList",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "HashMap",
+                  "explanation": "Correct! Provides O(1) lookup."
+                },
+                {
+                  "text": "LinkedList",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Queue",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "You need a collection that maintains order and allows duplicates. What would you choose?",
+              "options": [
+                {
+                  "text": "HashSet",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "ArrayList",
+                  "explanation": "Correct!"
+                },
+                {
+                  "text": "TreeSet",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "HashMap",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "You need sorted unique elements. Which would you choose?",
+              "options": [
+                {
+                  "text": "HashSet",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "TreeSet",
+                  "explanation": "Correct! Sorted and unique."
+                },
+                {
+                  "text": "ArrayList",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "HashMap",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            }
+          ]
+        },
+        {
           "slug": "generics",
           "title": "Generics in Java",
           "content": [
