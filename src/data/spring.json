@@ -3050,6 +3050,725 @@
           ]
         },
         {
+          "slug": "exception-handling",
+          "title": "Exception Handling in Java",
+          "content": [
+            {
+              "type": "heading",
+              "text": "What is Exception Handling?"
+            },
+            {
+              "type": "paragraph",
+              "text": "Exception handling is a mechanism to handle runtime errors so the program can continue running instead of abruptly stopping."
+            },
+            {
+              "type": "paragraph",
+              "text": "If the error is serious like OutOfMemoryError then the program will crash regardless of exception handling. But for most exceptions, you can catch them and handle them more gracefully like IOException, SQLException or runtime exception like NullPointerException, ArithmeticException."
+            },
+            {
+              "type": "heading",
+              "text": "Types of Exception Handling"
+            },
+            {
+              "type": "paragraph",
+              "text": "There are two types of exceptions: checked exceptions that happen during compile time, for example, a missing file. Unchecked exceptions that happen during runtime, for example, dividing by zero."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "// Checked Exception Example\nFileReader file = new FileReader(\"test.txt\"); // IOException\n\n// Unchecked Exception Example\nint x = 10 / 0; // ArithmeticException\n\ntry {\n    int x = 10 / 0;\n} catch (ArithmeticException e) {\n    System.out.println(\"Cannot divide by zero\");\n}"
+            },
+            {
+              "type": "heading",
+              "text": "Multiple Catch"
+            },
+            {
+              "type": "paragraph",
+              "text": "Order matters. Catch more specific exceptions first, then more general ones. Otherwise, the general catch will catch all exceptions and the specific catch will never be reached. And you wouldn't know right off the bat what went wrong."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "try {\n    String s = null;\n    System.out.println(s.length());\n} catch (NullPointerException e) {\n    System.out.println(\"Null issue\");\n} catch (Exception e) {\n    System.out.println(\"General issue\");\n}"
+            },
+            {
+              "type": "heading",
+              "text": "Finally"
+            },
+            {
+              "type": "paragraph",
+              "text": "Always executes (except JVM shutdown)"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "try {\n    int x = 10 / 0;\n} catch (Exception e) {\n    System.out.println(\"Error\");\n} finally {\n    System.out.println(\"Always runs\");\n}"
+            },
+            {
+              "type": "heading",
+              "text": "Throw"
+            },
+            {
+              "type": "paragraph",
+              "text": "Used to manually throw exception"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "throw new IllegalArgumentException(\"Invalid input\");"
+            },
+            {
+              "type": "heading",
+              "text": "Throws"
+            },
+            {
+              "type": "paragraph",
+              "text": "Declares exception"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "public void readFile() throws IOException {...}"
+            },
+            {
+              "type": "heading",
+              "text": "Flow of execution"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "try {\n    System.out.println(\"A\");\n    int x = 10 / 0;\n    System.out.println(\"B\");\n} catch (Exception e) {\n    System.out.println(\"C\");\n} finally {\n    System.out.println(\"D\");\n}\nSystem.out.println(\"E\") // output: A, C, D, E;"
+            },
+            {
+              "type": "heading",
+              "text": "try-with-resources"
+            },
+            {
+              "type": "paragraph",
+              "text": "Imagine you are writing a simple program to read a line from a text file."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "import java.io.*;\n\npublic class ResourceExample {\n    public static void main(String[] args) {\n        // The resource (BufferedReader) is opened here\n        try (BufferedReader br = new BufferedReader(new FileReader(\"notes.txt\"))) {\n            System.out.println(br.readLine());\n        } catch (IOException e) {\n            System.out.println(\"Error reading file: \" + e.getMessage());\n        }\n        // br.close() is called automatically the moment we hit this line, no need for finally!\n    }\n}"
+            },
+            {
+              "type": "heading",
+              "text": "Custom Exceptions"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "class MyException extends Exception {\n    public MyException(String msg) {\n        super(msg);\n    }\n}\n\n// usage\nthrow new MyException(\"Custom error\");"
+            },
+            {
+              "type": "heading",
+              "text": "Best Practices"
+            },
+            {
+              "type": "paragraph",
+              "text": "Catch specific exceptions, logging, don't overuse try-catch, use try-with-resources for auto-closing, and create custom exceptions for specific error handling."
+            }
+          ],
+          "quizzes": [
+            {
+              "question": "Which class is the parent of all exceptions in Java?",
+              "options": [
+                {
+                  "text": "Exception",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Throwable",
+                  "explanation": "Correct! All exceptions and errors inherit from Throwable."
+                },
+                {
+                  "text": "Error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "RuntimeException",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Which of the following is a checked exception?",
+              "options": [
+                {
+                  "text": "NullPointerException",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "IOException",
+                  "explanation": "Correct! Checked exceptions must be handled or declared."
+                },
+                {
+                  "text": "ArithmeticException",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "ArrayIndexOutOfBoundsException",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What happens if both try and finally blocks have return statements?",
+              "options": [
+                {
+                  "text": "try return executes",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "finally return executes",
+                  "explanation": "Correct! finally overrides the return from try."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime exception",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the difference between throw and throws in Java?",
+              "options": [
+                {
+                  "text": "throw declares exception, throws throws it",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "throw is used to throw an exception, throws is used to declare exceptions",
+                  "explanation": "Correct! throw is used inside method, throws is in method signature."
+                },
+                {
+                  "text": "Both are same",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "throws handles exception",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "Why does catch block order matter?",
+              "options": [
+                {
+                  "text": "It improves performance",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Java executes from bottom to top",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Child exceptions must be caught before parent exceptions",
+                  "explanation": "Correct! Otherwise compilation error occurs."
+                },
+                {
+                  "text": "It does not matter",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "Can we have a try block without a catch block?",
+              "options": [
+                {
+                  "text": "No, it is mandatory",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Yes, if there is a finally block",
+                  "explanation": "Correct! try can exist with finally only."
+                },
+                {
+                  "text": "Only in Java 8",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Only with throws keyword",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "When does finally block NOT execute?",
+              "options": [
+                {
+                  "text": "When exception occurs",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "When return is used",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "When System.exit() is called",
+                  "explanation": "Correct! JVM shuts down."
+                },
+                {
+                  "text": "Never",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What is exception propagation?",
+              "options": [
+                {
+                  "text": "Exception handled in same method",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Exception travels up the call stack",
+                  "explanation": "Correct! It moves to caller methods."
+                },
+                {
+                  "text": "Exception ignored",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Exception converted to error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "When should you use checked exceptions?",
+              "options": [
+                {
+                  "text": "For programming errors",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "For recoverable conditions like file or database issues",
+                  "explanation": "Correct! These require handling."
+                },
+                {
+                  "text": "For null pointer issues",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Never use checked exceptions",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the best practice when catching exceptions?",
+              "options": [
+                {
+                  "text": "Catch Exception everywhere",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Ignore exceptions",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Catch specific exceptions",
+                  "explanation": "Correct! It improves clarity and debugging."
+                },
+                {
+                  "text": "Always rethrow",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      int x = 10 / 0;\n    } catch (ArithmeticException e) {\n      System.out.println(\"A\");\n    } finally {\n      System.out.println(\"B\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "A B",
+                  "explanation": "Correct! Catch executes, then finally."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      return;\n    } finally {\n      System.out.println(\"Finally\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Nothing prints",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Finally",
+                  "explanation": "Correct! finally always executes even after return."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will be the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.println(\"A\");\n      return;\n    } finally {\n      System.out.println(\"B\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "A B",
+                  "explanation": "Correct!"
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  static int test() {\n    try {\n      return 1;\n    } finally {\n      return 2;\n    }\n  }\n\n  public static void main(String[] args) {\n    System.out.println(test());\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "1",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "2",
+                  "explanation": "Correct! finally overrides return."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime exception",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What will happen?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      throw new RuntimeException();\n    } catch (Exception e) {\n      System.out.println(\"Caught\");\n    } catch (RuntimeException e) {\n      System.out.println(\"Runtime\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "Caught",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Correct! Parent catch before child."
+                },
+                {
+                  "text": "Runtime exception",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 2
+            },
+            {
+              "question": "What happens if both catch and finally throw exceptions?",
+              "options": [
+                {
+                  "text": "Catch exception is propagated",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Finally exception is propagated",
+                  "explanation": "Correct! finally overrides and suppresses the catch exception."
+                },
+                {
+                  "text": "Both are propagated",
+                  "explanation": "Incorrect (only finally unless suppressed manually)."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.print(\"A\");\n      throw new RuntimeException();\n    } catch (Exception e) {\n      System.out.print(\"B\");\n      throw new RuntimeException();\n    } finally {\n      System.out.print(\"C\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "ABC",
+                  "explanation": "Correct! A → B → finally C, then exception propagates."
+                },
+                {
+                  "text": "AB",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "AC",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What happens if you return from try and modify value in finally?",
+              "options": [
+                {
+                  "text": "Returned value changes",
+                  "explanation": "Incorrect for primitives."
+                },
+                {
+                  "text": "Returned value is already decided before finally",
+                  "explanation": "Correct! Value is stored before finally executes."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime exception",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  static int test() {\n    int x = 1;\n    try {\n      return x;\n    } finally {\n      x = 2;\n    }\n  }\n  public static void main(String[] args) {\n    System.out.println(test());\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "1",
+                  "explanation": "Correct! Value is copied before finally."
+                },
+                {
+                  "text": "2",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What happens if finally block contains System.exit()?",
+              "options": [
+                {
+                  "text": "Program exits immediately",
+                  "explanation": "Correct! JVM terminates instantly."
+                },
+                {
+                  "text": "finally completes normally",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "catch executes after",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What is the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      int[] arr = new int[2];\n      System.out.println(arr[3]);\n    } catch (ArrayIndexOutOfBoundsException e) {\n      System.out.print(\"A\");\n    } catch (Exception e) {\n      System.out.print(\"B\");\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Correct! Specific exception caught first."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "AB",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What happens if you catch Exception before RuntimeException?",
+              "options": [
+                {
+                  "text": "Works fine",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "RuntimeException is unreachable",
+                  "explanation": "Correct! Causes compilation error."
+                },
+                {
+                  "text": "RuntimeException is prioritized",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Throws runtime error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the output?",
+              "questionCode": {
+                "type": "code",
+                "language": "java",
+                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.print(\"A\");\n      return;\n    } finally {\n      System.out.print(\"B\");\n      return;\n    }\n  }\n}"
+              },
+              "options": [
+                {
+                  "text": "A",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "AB",
+                  "explanation": "Correct! finally executes and overrides return."
+                },
+                {
+                  "text": "B",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What is the best practice for exception handling in large systems?",
+              "options": [
+                {
+                  "text": "Catch all exceptions everywhere",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Use centralized/global exception handling",
+                  "explanation": "Correct! Improves maintainability and consistency."
+                },
+                {
+                  "text": "Avoid exceptions completely",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Use only RuntimeExceptions",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            },
+            {
+              "question": "What happens in try-with-resources if both try and close() throw exceptions?",
+              "options": [
+                {
+                  "text": "close() exception is ignored",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "try exception is primary, close() is suppressed",
+                  "explanation": "Correct! Suppressed exceptions can be retrieved."
+                },
+                {
+                  "text": "Both are lost",
+                  "explanation": "Incorrect."
+                },
+                {
+                  "text": "Compilation error",
+                  "explanation": "Incorrect."
+                }
+              ],
+              "correctAnswer": 1
+            }
+          ]
+        },
+        {
           "slug": "generics",
           "title": "Generics in Java",
           "content": [
