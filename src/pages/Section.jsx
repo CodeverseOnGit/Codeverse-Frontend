@@ -21,19 +21,23 @@ export default function Section() {
         <p>No modules added yet.</p>
       )}
 
-      {section.modules.map(module => (
-        <Link
-          key={module.slug}
-          to={`/${section.slug}/${module.slug}`}
-        >
-          <div className="card">
-            <h3>{module.title}</h3>
-            <p style={{ color: "var(--muted)", marginTop: "5px" }}>
-              {module.topics.length} topics
-            </p>
-          </div>
-        </Link>
-      ))}
+      <div className="modules-grid">
+        {section.modules.map(module => (
+          <Link
+            key={module.slug}
+            to={`/${section.slug}/${module.slug}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <div className="card module-card">
+              <div className="card-icon">📖</div>
+              <h3>{module.title}</h3>
+              <p className="card-subtitle">
+                {module.topics.length} topic{module.topics.length !== 1 ? 's' : ''}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

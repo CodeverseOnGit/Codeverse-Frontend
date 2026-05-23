@@ -16,22 +16,27 @@ export default function Module() {
   return (
     <div className="container">
       <h1>{module.title}</h1>
+      <p className="module-description">{module.topics.length} topics to master</p>
 
-      {module.topics.map(topic => (
-        <div key={topic.slug}>
-          <div
-            className="accordion"
-            onClick={() => toggleTopic(topic.slug)}
-          >
-            {topic.title}
+      <div className="topics-list">
+        {module.topics.map(topic => (
+          <div key={topic.slug}>
+            <div
+              className="accordion"
+              onClick={() => toggleTopic(topic.slug)}
+            >
+              {topic.title}
+            </div>
+            <div className={`accordion-content ${openTopic === topic.slug ? 'open' : ''}`}>
+              <Link to={`/${sectionSlug}/${moduleSlug}/${topic.slug}`} style={{ textDecoration: 'none' }}>
+                <div className="card" style={{ marginTop: '0', marginBottom: '12px' }}>
+                  <span style={{ color: 'var(--primary)', fontWeight: '600' }}>📖 Go to Topic</span>
+                </div>
+              </Link>
+            </div>
           </div>
-          <div className={`accordion-content ${openTopic === topic.slug ? 'open' : ''}`}>
-            <Link to={`/${sectionSlug}/${moduleSlug}/${topic.slug}`}>
-              <div className="card">Go to Topic</div>
-            </Link>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
