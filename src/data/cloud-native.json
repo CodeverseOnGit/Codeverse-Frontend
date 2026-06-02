@@ -4,93 +4,139 @@
   "modules": [
     {
       "slug": "foundation",
-      "title": "Module 0 - Java Foundations",
+      "title": "Module 0 - Operating Systems",
       "topics": [
         {
-          "slug": "encapsulation",
-          "title": "Object Oriented Programming - Encapsulation",
+          "slug": "linux-fundamentals",
+          "title": "Linux Fundamentals",
           "content": [
             {
-              "type": "paragraph",
-              "text": "Encapsulation is the process of bundling variables and methods that operate on that method into a single class and restricting direct access to that variable. In simple words, Variables + Methods = Class and variables are protected from outside access."
+              "type": "heading",
+              "text": "What is Linux?"
             },
             {
               "type": "paragraph",
-              "text": "Think about a car, you interact with accelerator, brake and steering wheel, but you don't need to know how the engine or fuel injection system works to use them. In this case, the engine and the fuel injection are hidden/protected that you can only interact with through controller interfaces. This is encapsulation in real life."
-            },
-            {
-              "type": "image",
-              "src": "/images/encapsulation.png",
-              "alt": "Encapsulation Diagram"
+              "text": "Common linux distributions include Ubuntu, Debian, CentOS, Fedora, Alpine, Arch. Cloud servers usually use Ubuntu Server, Debian, Amazon Linux."
             },
             {
               "type": "paragraph",
-              "text": "Encapsulation is implemented using access modifiers, getters, and setters."
-            },
-            {
-              "type": "paragraph",
-              "text": "Access modifiers control who can access the data. There's four types. Public (accessible anywhere), private (accessible only within the class), protected (accessible within the package and subclasses), default (accessible within the package only)."
-            },
-            {
-              "type": "paragraph",
-              "text": "Here's an example of what a class would look like with and without encapsulation:"
-            },
-            {
-              "type": "paragraph",
-              "text": "Without encapsulation:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass User {\n\n    public String name;\n    public int age;\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Usage:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nUser user = new User();\nuser.age = -100;\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "This is bad because it can allow invalid data to be inserted!"
-            },
-            {
-              "type": "paragraph",
-              "text": "With encapsulation:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass User {\n\n    private String name;\n    private int age;\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public int getAge() {\n        return age;\n    }\n\n    public void setAge(int age) {\n        if(age > 0){\n         this.age = age;\n        }\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Usage:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nUser user = new User();\n\nuser.setName(\"Alex\");\nuser.setAge(25);\n\nSystem.out.println(user.getAge());\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "The data is now protected because we can only set the age if the user inputs a positive number. If you try and input -5, the setter will ignore it and the age will remain unchanged."
-            },
-            {
-              "type": "paragraph",
-              "text": "Encapsulation is important because it prevents invalid data from being inserted and you have full control over how the data is modified."
+              "text": "Linux has one single filesystem. Everything starts from the root directory '/'. Unlike windows where each drive has its own filesystem (C:\\, D:\\, etc)."
             },
             {
               "type": "heading",
-              "text": "Encapsulation in Practice:"
+              "text": "Important Directories"
             },
             {
               "type": "code",
               "language": "java",
-              "code": "\nclass BankAccount {\n\n    private double balance;\n\n    public void deposit(double amount){\n        if(amount > 0){\n            balance += amount;\n        }\n    }\n\n    public void withdraw(double amount){\n        if(amount <= balance){\n            balance -= amount;\n        }\n    }\n\n    public double getBalance(){\n        return balance;\n    }\n}\n"
+              "code": "| Directory | Purpose                |\n| --------- | ---------------------- |\n| /         | Root                   |\n| /home     | User home directories  |\n| /root     | Root user home         |\n| /etc      | Configuration files    |\n| /var      | Logs, runtime data     |\n| /tmp      | Temporary files        |\n| /usr      | Installed applications |\n| /bin      | Essential commands     |\n| /sbin     | System commands        |\n| /opt      | Optional software      |\n| /dev      | Devices                |\n| /proc     | Process information    |\n| /lib      | Shared libraries       |\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "Important note for backend engineers:'/etc' containts configuration files for the system and applications. For example, if you install nginx on your server, the configuration file will be located in '/etc/nginx/nginx.conf'. If you need to change the configuration of nginx, you would edit that file."
+            },
+            {
+              "type": "paragraph",
+              "text": "'/etc' contains configuration files for the system and applications. For example, if you install nginx on your server, the configuration file will be located in '/etc/nginx/nginx.conf'. If you need to change the configuration of nginx, you would edit that file."
+            },
+            {
+              "type": "paragraph",
+              "text": "'/var/log' contains logs. Production debugging starts here."
+            },
+            {
+              "type": "paragraph",
+              "text": "'/proc' shows CPU details."
+            },
+            {
+              "type": "heading",
+              "text": "Navigation Commands"
+            },
+            {
+              "type": "paragraph",
+              "text": "pwd: prints working directory"
+            },
+            {
+              "type": "paragraph",
+              "text": "ls: lists files and directories in the current directory NOTE: useful flags include -l which gives a detailed view and -a which shows hidden files. Example: drwxr-xr-x is a permission string where d stands for directory rwx means owner has read, write and execute permissions, r-x means group has read nad execute permissions and r-x means others have read and execute permissions."
+            },
+            {
+              "type": "paragraph",
+              "text": "cd:  To navigate to different directories."
+            },
+            {
+              "type": "paragraph",
+              "text": "find: Search files. find / -name \"*.log\" meaning find all .log files."
+            },
+            {
+              "type": "paragraph",
+              "text": "grep: Search inside files. For example, to search for error in a log file: grep \"error\" error.log. To make it case insensitive use -i flag. This command grep \"-r\" \"spring.datasource\" . means that search inside every folder and subfolder for spring.datasource starting from current directory (.)."
+            },
+            {
+              "type": "paragraph",
+              "text": "cat: View file contents. To print the contents of error.log type: cat error.log"
+            },
+            {
+              "type": "paragraph",
+              "text": "tail: View the last lines of a file. tail app.log will show the last 10 lines of app.log. To continuously monitor the file for new lines, use tail -f app.log"
+            },
+            {
+              "type": "heading",
+              "text": "Processes"
+            },
+            {
+              "type": "paragraph",
+              "text": "A process is a running program instance. Each process has a unique process ID (PID). To view running processes, you can use the 'ps' command. For example, 'ps aux' shows all running processes with detailed information. To find a specific process, you can combine it with grep: 'ps aux | grep java' will show all processes related to Java. Types of processes include java app, nginx, postgresql etc. Each process has a PID, memory usage, CPU usage, and other details. To stop a process, you can use the 'kill' command followed by the PID. For example, 'kill 1234' will stop the process with PID 1234."
+            },
+            {
+              "type": "paragraph",
+              "text": "Process lifecycle: program on disk -> executed -> process in memory. Example: java -Dserver.port=9090 -jar app.jar -> java runtime env to execute a bundled jar file (app.jar) on port 9090."
+            },
+            {
+              "type": "paragraph",
+              "text": "ps shows all running processes. ps aux shows detailed information about each process. ps aux | grep java filters the processes to show only those related to Java."
+            },
+            {
+              "type": "paragraph",
+              "text": "top: real-time process monitoring. It shows CPU, memory usage and processes."
+            },
+            {
+              "type": "paragraph",
+              "text": "kill: To terminate processes, kill <pid> or to force kill use kill -9 <pid>."
+            },
+            {
+              "type": "paragraph",
+              "text": "Signals are notifications sent by the OS to a running program, to take an action like stopping, restarting, or reloading."
+            },
+            {
+              "type": "paragraph",
+              "text": "For example, to trigger SIGINT press Ctrl + C in the terminal. This is how it looks:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\n$ java -jar app.jar\n^C\n$\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "SIGTERM is running kill <pid>. This is a graceful shutdown signal, which allows the application to clean up resources before exiting. The application catches this signal, prints shutdown logs, and logs out gracefully."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "\n2026-06-02 22:38:00 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Stopping service [Tomcat]\n2026-06-02 22:38:01 [main] INFO  AppApplication - Shutdown complete.\n[1]+  Terminated              java -jar app.jar\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "SIGKILL is running kill -9 <pid>. This forces the OS to delete the process immediately. The application gets no chance to log anything. The terminal abruptly stops it."
+            },
+            {
+              "type": "paragraph",
+              "text": "SIGHUP is running kill -1 <pid>. This is a reload signal, which tells the application to reload its configuration without restarting. For example, if you change the logging level in the configuration file, you can send SIGHUP to apply the new logging level without downtime."
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "2026-06-02 22:38:05 [Thread-3] INFO  o.s.c.e.PropertySourceBootstrapConfiguration - Reloading application properties..."
             },
             {
               "type": "paragraph",
