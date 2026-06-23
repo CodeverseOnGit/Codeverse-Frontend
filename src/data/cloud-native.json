@@ -4,7 +4,7 @@
   "modules": [
     {
       "slug": "foundation",
-      "title": "Module 0 - Operating Systems",
+      "title": "Module 0 - Pre-requisites",
       "topics": [
         {
           "slug": "linux-fundamentals",
@@ -12,19 +12,35 @@
           "content": [
             {
               "type": "heading",
-              "text": "What is Linux?"
+              "text": "Why Linux?"
             },
             {
               "type": "paragraph",
-              "text": "Common linux distributions include Ubuntu, Debian, CentOS, Fedora, Alpine, Arch. Cloud servers usually use Ubuntu Server, Debian, Amazon Linux."
+              "text": "Cloud runs on linux. Almost everything in modern infrastructure is built on top of linux, kubernetes nodes, docker hosts, databases, azure VMs, etc. You will spend a huge amount of your career inside linux terminals."
             },
             {
               "type": "paragraph",
-              "text": "Linux has one single filesystem. Everything starts from the root directory '/'. Unlike windows where each drive has its own filesystem (C:\\, D:\\, etc)."
+              "text": "Think of your computer as a high-end restaurant. You, the user, want a meal. Let's relate this process with linux architecture."
             },
             {
-              "type": "heading",
-              "text": "Important Directories"
+              "type": "paragraph",
+              "text": "1. Application (customer) - this is the top most layer. This is the software you interact with. It does not know how the physical parts of a computer work. With our restaurant analogy, this is the customer who wants a meal but does not know how to cook it. Example, Google Chrome, Postman, etc."
+            },
+            {
+              "type": "paragraph",
+              "text": "2. Shell (Waiter) - this is the translator/middleman. It takes your commands and translates them into a language the kernel (cook) would understand. For example, you open a terminal and type a command \"mkdir new_folder\". Shell sees this command and tells the system to create a new folder."
+            },
+            {
+              "type": "paragraph",
+              "text": "3. Kernel (cook) - this is the core of the operating system. It manages the system's resources and allocates CPU, memorym storage to softwares. In our analogy, the cook takes the order from the waiter and decides HOW to cook it. For example, when you run the mkdir command, the kernel figures out where exactly the new folder should be created."
+            },
+            {
+              "type": "paragraph",
+              "text": "4. Hardware (kitchen appliances) - this is just the physical parts of your computer, this is where the actual work happens. In our analogy, this is the kitchen where the cook uses appliances to prepare the meal. For example, the CPU, RAM etc."
+            },
+            {
+              "type": "paragraph",
+              "text": "Let's say you want to save a photo from the internet: Application: You click \"Save Image\" in Google Chrome. Shell/OS Interface: Chrome passes this request down to the system's command layer to handle the file saving. Kernel: The Kernel takes the request, checks if you have enough storage space, and translates the image into raw binary (1s and 0s). Hardware: The Kernel sends those 1s and 0s to your physical SSD, which physically lasers/writes the data onto the drive."
             },
             {
               "type": "code",
