@@ -172,48 +172,43 @@
             },
             {
               "type": "heading",
-              "text": "Beginner mistakes"
+              "text": "The 12-Factor App Philosophy"
             },
             {
               "type": "paragraph",
-              "text": "1. Making fields public. This allows anyone to modify the fields directly, which can lead to security issues."
+              "text": "One of the most influential frameworks behind cloud native application design is the 12-Factor App, introduced by engineers at Heroku in 2011."
             },
             {
               "type": "paragraph",
-              "text": "2. Adding getters and setters without any logic, which defeats the purpose of encapsulation. If your getters and setters are just directly returning and setting the value without any validation or additional logic, then you might as well make the fields public."
-            },
-            {
-              "type": "heading",
-              "text": "Visual Representation"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "+---------------------+\n|        User         |\n|---------------------|\n| - name              |\n| - age               |\n|---------------------|\n| + getName()         |\n| + setName()         |\n| + getAge()          |\n| + setAge()          |\n+---------------------+\n"
+              "text": "Rather than prescribing technologies, the 12-Factor methodology provides design principles that make applications easier to deploy, scale, and maintain."
             },
             {
               "type": "paragraph",
-              "text": "+ → public, - → private"
-            },
-            {
-              "type": "heading",
-              "text": "Encapsulation in interview questions"
+              "text": "Some of its most important principles include:"
             },
             {
               "type": "paragraph",
-              "text": "Why use encapsulation?"
+              "text": "One Codebase: Each application should have a single source code repository from which all deployments are produced."
             },
             {
               "type": "paragraph",
-              "text": "data protection, flexibilty, maintainability, validation and reusability."
-            },
-            {
-              "type": "heading",
-              "text": "TL;DR"
+              "text": "Configuration Through Environment Variables: Configuration values such as database credentials, API keys, and secret tokens should never be hardcoded into the application. Instead, they should be provided through environment variables or secret management systems."
             },
             {
               "type": "paragraph",
-              "text": "Encapsulation is"
+              "text": "Explicit Dependency Management: Applications should declare all required dependencies, ensuring that every deployment environment remains consistent and eliminating the classic \"it works on my machine\" problem."
+            },
+            {
+              "type": "paragraph",
+              "text": "Stateless Processes: Applications should avoid storing user session information or application state in memory. Instead, state should be stored in external systems such as databases or distributed caches. This enables applications to scale horizontally and recover quickly from failures."
+            },
+            {
+              "type": "paragraph",
+              "text": "Logs as Event Streams: Applications should treat logs as streams of events rather than storing them locally. Centralized logging platforms allow developers and operations teams to monitor systems more effectively."
+            },
+            {
+              "type": "paragraph",
+              "text": "Although cloud native computing has evolved significantly since 2011, these principles continue to influence modern software architecture."
             },
             {
               "type": "code",
