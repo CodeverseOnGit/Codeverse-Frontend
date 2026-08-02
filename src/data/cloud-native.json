@@ -139,51 +139,36 @@
             },
             {
               "type": "paragraph",
-              "text": "SIGHUP is running kill -1 <pid>. This is a reload signal, which tells the application to reload its configuration without restarting. For example, if you change the logging level in the configuration file, you can send SIGHUP to apply the new logging level without downtime."
+              "text": "One of the biggest misconceptions surrounding cloud native computing is the idea that moving an application from an on-premises server to a cloud virtual machine automatically modernizes it."
+            },
+            {
+              "type": "paragraph",
+              "text": "Consider the following scenario."
+            },
+            {
+              "type": "paragraph",
+              "text": "A company has a Java application running on a physical server in its office. They decide to migrate to Amazon Web Services (AWS). Instead of redesigning the application, they simply create an EC2 virtual machine, copy the application onto it, and start it."
+            },
+            {
+              "type": "paragraph",
+              "text": "Has the application become cloud native? The answer is no."
+            },
+            {
+              "type": "paragraph",
+              "text": "This approach is commonly called lift-and-shift migration because the existing system is lifted from one environment and shifted into another without changing its architecture."
+            },
+            {
+              "type": "paragraph",
+              "text": "Although the application now runs in the cloud, it still suffers from many of the same limitations:"
             },
             {
               "type": "code",
               "language": "java",
-              "code": "2026-06-02 22:38:05 [Thread-3] INFO  o.s.c.e.PropertySourceBootstrapConfiguration - Reloading application properties..."
+              "code": "Manual deployments\nSingle points of failure\nLimited scalability\nTight coupling between components\nDowntime during updates\nInefficient resource usage"
             },
             {
               "type": "paragraph",
-              "text": "Usage:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nBankAccount account = new BankAccount();\n\naccount.deposit(1000);\naccount.withdraw(200);\n\nSystem.out.println(account.getBalance());\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "This would prevent the user from withdrawing more money than they have or depositing a negative amount, which could lead to an inconsistent state of the bank account. It also prevents the user from illegally modifying the balance to $1,000,000,000,000,000."
-            },
-            {
-              "type": "paragraph",
-              "text": "Another powerful technique is immutability, due to which objects cannot be modified after they are created."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nfinal class User {\n\n    private final String name;\n\n    public User(String name){\n        this.name = name;\n    }\n\n    public String getName(){\n        return name;\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "In this case the 'name' field is final and private, so it cannot be changed after the object is created."
-            },
-            {
-              "type": "heading",
-              "text": "Encapsulation in enterprise:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Order {\n\n    private String status;\n\n    public void markAsShipped(){\n        status = \"SHIPPED\";\n    }\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "So instead of order.status = \"SHIPPED\"; we have to call the markAsShipped method, which could contain additional logic such as sending a notification email to the customer or updating the inventory. This way we have full control over how the order status is modified and we can ensure that all necessary actions are taken when the status changes."
+              "text": "Cloud native development goes far beyond changing infrastructure. It requires designing applications specifically to leverage cloud capabilities such as elasticity, automation, resilience, and distributed computing."
             },
             {
               "type": "heading",
