@@ -4,146 +4,138 @@
   "modules": [
     {
       "slug": "foundation",
-      "title": "Module 0 - Pre-requisites",
+      "title": "Module 0 - Prerequisites & Mindset",
       "topics": [
         {
-          "slug": "linux-fundamentals",
-          "title": "Linux Fundamentals",
+          "slug": "cloud-native-meaning",
+          "title": "What Does \"Cloud Native\" Actually Mean?",
           "content": [
             {
               "type": "heading",
-              "text": "Why Linux?"
+              "text": "What Does \"Cloud Native\" Actually Mean?"
             },
             {
               "type": "paragraph",
-              "text": "Cloud runs on linux. Almost everything in modern infrastructure is built on top of linux, kubernetes nodes, docker hosts, databases, azure VMs, etc. You will spend a huge amount of your career inside linux terminals."
+              "text": "If you've spent any time looking at modern software engineering jobs, you've almost certainly come across the term cloud native. It's mentioned in job descriptions for Backend Engineers, DevOps Engineers, Platform Engineers, Site Reliability Engineers (SREs), and Cloud Engineers. Technologies such as Docker, Kubernetes, Terraform, and GitHub Actions are frequently associated with it."
             },
             {
               "type": "paragraph",
-              "text": "Think of your computer as a high-end restaurant. You, the user, want a meal. Let's relate this process with linux architecture."
+              "text": "Despite its popularity, cloud native is one of the most misunderstood concepts in software engineering. Many developers assume that deploying an application to a cloud provider like AWS, Microsoft Azure, or Google Cloud automatically makes it cloud native. This is not true."
             },
             {
               "type": "paragraph",
-              "text": "1. Application (customer) - this is the top most layer. This is the software you interact with. It does not know how the physical parts of a computer work. With our restaurant analogy, this is the customer who wants a meal but does not know how to cook it. Example, Google Chrome, Postman, etc."
+              "text": "Cloud native is not about where an application runs—it is about how that application is designed, built, deployed, and operated. It represents a modern architectural philosophy focused on scalability, resilience, automation, and rapid software delivery."
             },
             {
               "type": "paragraph",
-              "text": "2. Shell (Waiter) - this is the translator/middleman. It takes your commands and translates them into a language the kernel (cook) would understand. For example, you open a terminal and type a command \"mkdir new_folder\". Shell sees this command and tells the system to create a new folder."
-            },
-            {
-              "type": "paragraph",
-              "text": "3. Kernel (cook) - this is the core of the operating system. It manages the system's resources and allocates CPU, memorym storage to softwares. In our analogy, the cook takes the order from the waiter and decides HOW to cook it. For example, when you run the mkdir command, the kernel figures out where exactly the new folder should be created."
-            },
-            {
-              "type": "paragraph",
-              "text": "4. Hardware (kitchen appliances) - this is just the physical parts of your computer, this is where the actual work happens. In our analogy, this is the kitchen where the cook uses appliances to prepare the meal. For example, the CPU, RAM etc."
-            },
-            {
-              "type": "paragraph",
-              "text": "Let's say you want to save a photo from the internet: Application: You click \"Save Image\" in Google Chrome. Shell/OS Interface: Chrome passes this request down to the system's command layer to handle the file saving. Kernel: The Kernel takes the request, checks if you have enough storage space, and translates the image into raw binary (1s and 0s). Hardware: The Kernel sends those 1s and 0s to your physical SSD, which physically lasers/writes the data onto the drive."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "| Directory | Purpose                |\n| --------- | ---------------------- |\n| /         | Root                   |\n| /home     | User home directories  |\n| /root     | Root user home         |\n| /etc      | Configuration files    |\n| /var      | Logs, runtime data     |\n| /tmp      | Temporary files        |\n| /usr      | Installed applications |\n| /bin      | Essential commands     |\n| /sbin     | System commands        |\n| /opt      | Optional software      |\n| /dev      | Devices                |\n| /proc     | Process information    |\n| /lib      | Shared libraries       |\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Important note for backend engineers:'/etc' containts configuration files for the system and applications. For example, if you install nginx on your server, the configuration file will be located in '/etc/nginx/nginx.conf'. If you need to change the configuration of nginx, you would edit that file."
-            },
-            {
-              "type": "paragraph",
-              "text": "'/etc' contains configuration files for the system and applications. For example, if you install nginx on your server, the configuration file will be located in '/etc/nginx/nginx.conf'. If you need to change the configuration of nginx, you would edit that file."
-            },
-            {
-              "type": "paragraph",
-              "text": "'/var/log' contains logs. Production debugging starts here."
-            },
-            {
-              "type": "paragraph",
-              "text": "'/proc' shows CPU details."
+              "text": "In this chapter, we'll explore the origins of cloud native computing, understand why it became necessary, examine its core principles, and learn why companies around the world have adopted it as the standard approach to software development."
             },
             {
               "type": "heading",
-              "text": "Navigation Commands"
+              "text": "The Evolution of Software Architecture"
             },
             {
               "type": "paragraph",
-              "text": "pwd: prints working directory"
+              "text": "To understand cloud native computing, it's helpful to look at how software systems were traditionally built."
             },
             {
               "type": "paragraph",
-              "text": "ls: lists files and directories in the current directory NOTE: useful flags include -l which gives a detailed view and -a which shows hidden files. Example: drwxr-xr-x is a permission string where d stands for directory rwx means owner has read, write and execute permissions, r-x means group has read nad execute permissions and r-x means others have read and execute permissions."
+              "text": "Years ago, most applications followed a monolithic architecture. In a monolith, every feature of the application exists within a single codebase and is deployed as one unit."
             },
             {
               "type": "paragraph",
-              "text": "cd:  To navigate to different directories."
+              "text": "For example, an e-commerce website might include:"
+            },
+            {
+              "type": "code",
+              "language": "java",
+              "code": "User authentication\nProduct catalog\nShopping cart\nPayment processing\nInventory management\nOrder tracking\nEmail notifications\nAdministrative dashboard\n"
             },
             {
               "type": "paragraph",
-              "text": "find: Search files. find / -name \"*.log\" meaning find all .log files."
+              "text": "All of these components would be compiled and deployed together as one application."
             },
             {
               "type": "paragraph",
-              "text": "grep: Search inside files. For example, to search for error in a log file: grep \"error\" error.log. To make it case insensitive use -i flag. This command grep \"-r\" \"spring.datasource\" . means that search inside every folder and subfolder for spring.datasource starting from current directory (.)."
+              "text": "This approach works well for small applications and startups because it simplifies development and deployment. However, as the application grows, several problems begin to appear."
             },
             {
               "type": "paragraph",
-              "text": "cat: View file contents. To print the contents of error.log type: cat error.log"
+              "text": "Suppose the payment system experiences heavy traffic during a major sale. Since everything is bundled together, it's impossible to scale only the payment component. Instead, the entire application must be duplicated, even though most of its functionality doesn't require additional resources. This results in unnecessary infrastructure costs and inefficient resource utilization."
             },
             {
               "type": "paragraph",
-              "text": "tail: View the last lines of a file. tail app.log will show the last 10 lines of app.log. To continuously monitor the file for new lines, use tail -f app.log"
+              "text": "Furthermore, a bug in one component can affect the entire application, deployments become slower and riskier, and multiple development teams often struggle to work on the same codebase simultaneously."
+            },
+            {
+              "type": "paragraph",
+              "text": "These challenges became increasingly problematic as internet companies grew from serving thousands of users to serving millions—or even billions."
             },
             {
               "type": "heading",
-              "text": "Processes"
+              "text": "The Birth of Cloud Native Computing"
             },
             {
               "type": "paragraph",
-              "text": "A process is a running program instance. Each process has a unique process ID (PID). To view running processes, you can use the 'ps' command. For example, 'ps aux' shows all running processes with detailed information. To find a specific process, you can combine it with grep: 'ps aux | grep java' will show all processes related to Java. Types of processes include java app, nginx, postgresql etc. Each process has a PID, memory usage, CPU usage, and other details. To stop a process, you can use the 'kill' command followed by the PID. For example, 'kill 1234' will stop the process with PID 1234."
+              "text": "As companies like Netflix, Amazon, Google, Spotify, Uber, and Airbnb expanded globally, they encountered limitations that traditional monolithic applications simply couldn't overcome."
             },
             {
               "type": "paragraph",
-              "text": "Process lifecycle: program on disk -> executed -> process in memory. Example: java -Dserver.port=9090 -jar app.jar -> java runtime env to execute a bundled jar file (app.jar) on port 9090."
-            },
-            {
-              "type": "paragraph",
-              "text": "ps shows all running processes. ps aux shows detailed information about each process. ps aux | grep java filters the processes to show only those related to Java."
-            },
-            {
-              "type": "paragraph",
-              "text": "top: real-time process monitoring. It shows CPU, memory usage and processes."
-            },
-            {
-              "type": "paragraph",
-              "text": "kill: To terminate processes, kill <pid> or to force kill use kill -9 <pid>."
-            },
-            {
-              "type": "paragraph",
-              "text": "Signals are notifications sent by the OS to a running program, to take an action like stopping, restarting, or reloading."
-            },
-            {
-              "type": "paragraph",
-              "text": "For example, to trigger SIGINT press Ctrl + C in the terminal. This is how it looks:"
+              "text": "They needed software that could:"
             },
             {
               "type": "code",
               "language": "java",
-              "code": "\n$ java -jar app.jar\n^C\n$\n"
+              "text": "Handle millions of users simultaneously\nRecover automatically from failures\nScale individual components independently\nDeploy new features multiple times per day\nOperate reliably across multiple data centers and cloud providers\n"
             },
             {
               "type": "paragraph",
-              "text": "SIGTERM is running kill <pid>. This is a graceful shutdown signal, which allows the application to clean up resources before exiting. The application catches this signal, prints shutdown logs, and logs out gracefully."
+              "text": "Meeting these requirements required more than simply purchasing larger servers. Instead, companies fundamentally redesigned how software was built and operated."
+            },
+            {
+              "type": "paragraph",
+              "text": "Applications were broken into smaller independent services, infrastructure became automated, deployments were streamlined through continuous delivery pipelines, and containers replaced traditional deployment methods."
+            },
+            {
+              "type": "paragraph",
+              "text": "Over time, this collection of architectural practices became known as cloud native computing."
+            },
+            {
+              "type": "heading",
+              "text": "The CNCF Definition"
+            },
+            {
+              "type": "paragraph",
+              "text": "The official definition of cloud native computing is maintained by the Cloud Native Computing Foundation (CNCF), a project under the Linux Foundation."
+            },
+            {
+              "type": "paragraph",
+              "text": "According to the CNCF:"
+            },
+            {
+              "type": "paragraph",
+              "text": "Cloud native technologies empower organizations to build and run scalable applications in modern, dynamic environments such as public, private, and hybrid clouds."
+            },
+            {
+              "type": "paragraph",
+              "text": "Notice that this definition focuses on building and running scalable applications, rather than simply hosting software in the cloud."
+            },
+            {
+              "type": "paragraph",
+              "text": "The CNCF also hosts and maintains many of the technologies that define today's cloud native ecosystem, including:"
             },
             {
               "type": "code",
               "language": "java",
-              "code": "\n2026-06-02 22:38:00 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Stopping service [Tomcat]\n2026-06-02 22:38:01 [main] INFO  AppApplication - Shutdown complete.\n[1]+  Terminated              java -jar app.jar\n"
+              "code": "Kubernetes\nPrometheus\nEnvoy\nHelm\ncontainerd\nOpenTelemetry\nHarbor\nArgo CD"
             },
             {
               "type": "paragraph",
-              "text": "SIGKILL is running kill -9 <pid>. This forces the OS to delete the process immediately. The application gets no chance to log anything. The terminal abruptly stops it."
+              "text": "These projects form the foundation of modern cloud infrastructure across thousands of organizations worldwide."
+            },
+            {
+              "type": "heading",
+              "text": "Cloud Native Is More Than Running Applications in the Cloud"
             },
             {
               "type": "paragraph",
