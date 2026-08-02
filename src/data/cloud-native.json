@@ -283,49 +283,40 @@
               "text": "Kubernetes has become the de facto standard for orchestrating containerized applications in modern cloud environments."
             },
             {
-              "type": "paragraph",
-              "text": "This approach is commonly called lift-and-shift migration because the existing system is lifted from one environment and shifted into another without changing its architecture."
-            },
-            {
-              "type": "paragraph",
-              "text": "Although the application now runs in the cloud, it still suffers from many of the same limitations:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "Manual deployments\nSingle points of failure\nLimited scalability\nTight coupling between components\nDowntime during updates\nInefficient resource usage"
-            },
-            {
-              "type": "paragraph",
-              "text": "Cloud native development goes far beyond changing infrastructure. It requires designing applications specifically to leverage cloud capabilities such as elasticity, automation, resilience, and distributed computing."
-            },
-            {
               "type": "heading",
-              "text": "The 12-Factor App Philosophy"
+              "text": "Why Companies Adopted Cloud Native"
             },
             {
               "type": "paragraph",
-              "text": "One of the most influential frameworks behind cloud native application design is the 12-Factor App, introduced by engineers at Heroku in 2011."
+              "text": "Organizations embraced cloud native computing because it delivers tangible business benefits, not simply because it introduces new technologies."
             },
             {
               "type": "paragraph",
-              "text": "Rather than prescribing technologies, the 12-Factor methodology provides design principles that make applications easier to deploy, scale, and maintain."
+              "text": "Some of the key advantages include:"
             },
             {
               "type": "paragraph",
-              "text": "Some of its most important principles include:"
+              "text": "Faster Software Delivery: Development teams can deploy new features multiple times per day rather than waiting weeks or months between releases."
             },
             {
               "type": "paragraph",
-              "text": "One Codebase: Each application should have a single source code repository from which all deployments are produced."
+              "text": "Improved Scalability: Applications automatically scale according to demand, reducing infrastructure costs while maintaining performance during traffic spikes."
             },
             {
               "type": "paragraph",
-              "text": "Configuration Through Environment Variables: Configuration values such as database credentials, API keys, and secret tokens should never be hardcoded into the application. Instead, they should be provided through environment variables or secret management systems."
+              "text": "Higher Reliability: If one service or container fails, orchestration platforms automatically replace it, minimizing downtime."
             },
             {
               "type": "paragraph",
-              "text": "Explicit Dependency Management: Applications should declare all required dependencies, ensuring that every deployment environment remains consistent and eliminating the classic \"it works on my machine\" problem."
+              "text": "Better Resource Utilization: Instead of scaling an entire application, organizations can allocate resources only where they are needed."
+            },
+            {
+              "type": "paragraph",
+              "text": "Greater Team Productivity: Independent services allow multiple development teams to work simultaneously without interfering with one another."
+            },
+            {
+              "type": "paragraph",
+              "text": "These benefits enable businesses to respond more quickly to customer needs while operating more efficiently."
             },
             {
               "type": "paragraph",
