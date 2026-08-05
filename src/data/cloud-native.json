@@ -1150,35 +1150,1116 @@
       "title": "Module 1 - Containers Fundamentals",
       "topics": [
         {
-          "slug": "containers-intro",
-          "title": "What Are Containers & Why They Changed Everything",
-          "content": [
-            {
-              "type": "paragraph",
-              "text": "Java Collections Framework provides data structures like List, Set, and Map."
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "What does the Java Collections Framework provide?",
-              "options": [
-                {
-                  "text": "Data structures",
-                  "explanation": "Correct! Collections provide data structures."
-                },
-                {
-                  "text": "Networking tools",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Operating systems",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            }
-          ]
-        }
+  "slug": "what-are-containers",
+  "title": "What Are Containers & Why They Changed Everything",
+  "content": [
+    {
+      "type": "heading",
+      "text": "What Are Containers & Why They Changed Everything"
+    },
+    {
+      "type": "paragraph",
+      "text": "If cloud native computing has one single technology that kicked off the entire movement, it's the container. Before containers became mainstream, deploying software reliably across different machines was a genuine nightmare. Developers would say \"it works on my machine\" while operations teams struggled to reproduce the exact same environment in production. Containers solved this problem so thoroughly that they became the default unit of deployment for almost every modern application."
+    },
+    {
+      "type": "paragraph",
+      "text": "In this chapter, we'll break down exactly what a container is, how it differs from a virtual machine, the underlying Linux technology that makes containers possible, and why this single innovation reshaped software delivery for the entire industry."
+    },
+    {
+      "type": "heading",
+      "text": "The Problem Before Containers"
+    },
+    {
+      "type": "paragraph",
+      "text": "Imagine you're a developer building an application. On your laptop, you have Python 3.11, a specific version of a database driver, and certain environment variables configured just right. You hand this application to your operations team to deploy on a production server."
+    },
+    {
+      "type": "paragraph",
+      "text": "The production server might have Python 3.9 installed instead, a different version of the database driver, or missing system libraries. Even small differences in the operating system, installed packages, or configuration can cause an application that worked perfectly on your machine to crash or behave unexpectedly in production."
+    },
+    {
+      "type": "paragraph",
+      "text": "Before containers, teams tried to solve this problem with detailed setup documentation, configuration management tools, or full virtual machines that replicated an entire environment. Each of these approaches worked to a degree, but they were slow, heavy, or error-prone."
+    },
+    {
+      "type": "heading",
+      "text": "Virtual Machines vs Containers"
+    },
+    {
+      "type": "paragraph",
+      "text": "To understand why containers are different, it helps to understand how virtual machines work first. A virtual machine runs on top of a hypervisor, which is software that emulates physical hardware. Each virtual machine includes its own full operating system, complete with its own kernel, drivers, and system libraries — completely isolated from the host machine and from other virtual machines."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Virtual Machine Architecture:\n\n[ App A ]   [ App B ]   [ App C ]\n[ Guest OS ] [ Guest OS ] [ Guest OS ]\n[        Hypervisor        ]\n[         Host OS          ]\n[      Physical Hardware   ]\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "This full isolation is powerful, but it comes at a real cost. Each virtual machine needs gigabytes of disk space for its own operating system, takes minutes to boot because it has to start an entire OS from scratch, and consumes significant CPU and memory just to run the guest operating system itself — before your application even starts."
+    },
+    {
+      "type": "paragraph",
+      "text": "Containers take a fundamentally different approach. Instead of virtualizing the entire hardware stack, containers virtualize at the operating system level. All containers running on a host share that host's kernel. What gets isolated is not the entire OS — just the process, its filesystem view, its network stack, and its resource usage."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Container Architecture:\n\n[ App A ]   [ App B ]   [ App C ]\n[    Container Runtime (e.g. containerd)  ]\n[            Host OS Kernel                ]\n[          Physical Hardware                ]\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Because there's no separate guest OS to boot, containers start in milliseconds instead of minutes. Because they don't need to bundle a full operating system, container images are often just tens or hundreds of megabytes instead of gigabytes. And because they share the host kernel efficiently, you can run far more containers than virtual machines on the exact same hardware."
+    },
+    {
+      "type": "heading",
+      "text": "The Linux Technology Behind Containers"
+    },
+    {
+      "type": "paragraph",
+      "text": "Containers aren't magic — they're built on two core Linux kernel features that have existed for years: namespaces and control groups (cgroups)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Namespaces provide isolation. They make a process believe it has its own dedicated view of certain system resources, even though it's actually sharing the underlying kernel with other processes. Linux provides several types of namespaces, each isolating a different resource:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "PID namespace      -> isolates process IDs (a container's process 1 isn't the host's process 1)\nNET namespace       -> isolates network interfaces, IP addresses, and routing tables\nMNT namespace       -> isolates the filesystem mount points a process can see\nUTS namespace       -> isolates hostname and domain name\nIPC namespace       -> isolates inter-process communication resources\nUSER namespace      -> isolates user and group IDs\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Control groups (cgroups) provide resource limiting. They let the kernel restrict and account for how much CPU, memory, disk I/O, and network bandwidth a process (or group of processes) is allowed to use. This is exactly what prevents one misbehaving container from starving every other container on the same host of resources."
+    },
+    {
+      "type": "paragraph",
+      "text": "When you run a container, what's really happening under the hood is that the container runtime creates a new set of namespaces for isolation and attaches cgroups for resource limits, then starts your application as a regular Linux process inside that isolated environment. There's no separate kernel booting — just a normal process with a very carefully constructed, restricted view of the system."
+    },
+    {
+      "type": "heading",
+      "text": "A Brief History: From chroot to Docker"
+    },
+    {
+      "type": "paragraph",
+      "text": "The idea of isolating processes on Linux isn't new. The `chroot` system call, introduced decades ago, allowed a process to see a restricted view of the filesystem — a primitive precursor to today's containers. Over time, this evolved into more sophisticated isolation mechanisms like Solaris Zones and FreeBSD Jails, and eventually Linux Containers (LXC), which combined namespaces and cgroups into a more complete containerization system."
+    },
+    {
+      "type": "paragraph",
+      "text": "Docker, released in 2013, didn't invent containers — but it made them dramatically easier to use. Docker introduced a simple command-line interface, a standard image format, and a registry system (Docker Hub) for sharing images. This combination of usability and standardization is what took container technology from a niche Linux feature to a mainstream industry standard almost overnight."
+    },
+    {
+      "type": "heading",
+      "text": "The Shipping Container Analogy"
+    },
+    {
+      "type": "paragraph",
+      "text": "The name \"container\" is intentional, and the analogy to physical shipping containers is genuinely useful for understanding why this technology mattered so much."
+    },
+    {
+      "type": "paragraph",
+      "text": "Before standardized shipping containers existed, cargo was loaded onto ships as loose, irregularly shaped goods — barrels, crates, sacks — each handled differently, taking enormous time and labor to load and unload, with goods secured differently for every single shipment. Once the shipping industry standardized on a single container size and shape, cranes, ships, trucks, and trains could all be built to handle that one standard. Cargo could move between completely different modes of transport without ever being repacked."
+    },
+    {
+      "type": "paragraph",
+      "text": "Software containers achieve the exact same standardization. An application packaged into a container image, with all its dependencies included, can run identically on a developer's laptop, a testing server, a staging environment, or a production Kubernetes cluster — regardless of what's installed on the underlying host. This is the promise of \"build once, run anywhere,\" and it's the foundation that everything else in this course is built on top of."
+    },
+    {
+      "type": "heading",
+      "text": "Why This Changed Everything"
+    },
+    {
+      "type": "paragraph",
+      "text": "Containers didn't just make deployment more convenient — they enabled entirely new architectural patterns. Because containers are lightweight and start quickly, it became practical to break large monolithic applications into many small, independently deployable microservices, each running in its own container. Because containers are portable and consistent, teams could confidently move workloads between different cloud providers or between on-premises and cloud environments. And because containers are so cheap to create and destroy, orchestration systems like Kubernetes could treat them as disposable, replaceable units — automatically restarting, scaling, and rescheduling them without any special handling."
+    },
+    {
+      "type": "paragraph",
+      "text": "In the next chapter, we'll move from theory into practice and get hands-on with Docker itself — building images, running containers, and understanding exactly how the pieces we discussed here translate into real commands you'll use every day."
+    }
+  ],
+  "quizzes": [
+    {
+      "question": "What is the main difference between a container and a virtual machine?",
+      "options": [
+        { "text": "Containers share the host OS kernel; VMs include their own full guest OS", "explanation": "Correct! This is the fundamental architectural difference between the two." },
+        { "text": "Containers run only on Windows; VMs run only on Linux", "explanation": "Incorrect. Both technologies run across multiple operating systems." },
+        { "text": "VMs are always faster to start than containers", "explanation": "Incorrect. It's the opposite — containers start much faster since they don't boot a full OS." },
+        { "text": "There is no real difference between them", "explanation": "Incorrect. They differ significantly in architecture, resource usage, and startup time." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What software allows a virtual machine to emulate physical hardware?",
+      "options": [
+        { "text": "A hypervisor", "explanation": "Correct! The hypervisor manages and allocates hardware resources to each virtual machine." },
+        { "text": "A container runtime", "explanation": "Incorrect. Container runtimes (like containerd) manage containers, not virtual machines." },
+        { "text": "A namespace", "explanation": "Incorrect. Namespaces are a Linux kernel feature used for container isolation, unrelated to VM hardware emulation." },
+        { "text": "A cgroup", "explanation": "Incorrect. Cgroups manage resource limits for processes, not hardware emulation." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which two Linux kernel features together make containers possible?",
+      "options": [
+        { "text": "Namespaces and cgroups", "explanation": "Correct! Namespaces provide isolation while cgroups provide resource limiting — together they form the foundation of containers." },
+        { "text": "Hypervisors and guest OS images", "explanation": "Incorrect. Those are associated with virtual machines, not containers." },
+        { "text": "DNS and TCP/IP", "explanation": "Incorrect. These are networking protocols, not isolation mechanisms." },
+        { "text": "Firewalls and VPNs", "explanation": "Incorrect. These relate to network security, not process isolation." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What does a PID namespace isolate?",
+      "options": [
+        { "text": "Process IDs, so a container's process 1 isn't the host's actual process 1", "explanation": "Correct! Each PID namespace gives processes inside it their own independent numbering." },
+        { "text": "Network interfaces and IP addresses", "explanation": "Incorrect. That's the role of the NET namespace." },
+        { "text": "Filesystem mount points", "explanation": "Incorrect. That's the role of the MNT namespace." },
+        { "text": "Hostnames", "explanation": "Incorrect. That's the role of the UTS namespace." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why can containers typically start in milliseconds while virtual machines often take minutes?",
+      "options": [
+        { "text": "Containers don't need to boot a separate operating system since they share the host's already-running kernel", "explanation": "Correct! Starting a container is just starting an isolated process — no OS boot sequence required." },
+        { "text": "Containers use faster CPUs than virtual machines", "explanation": "Incorrect. Startup speed has nothing to do with CPU choice — it's about what has to be initialized." },
+        { "text": "Virtual machines require an internet connection to start", "explanation": "Incorrect. VMs can start entirely offline; the slowness comes from booting a full guest OS." },
+        { "text": "Containers skip loading any application code", "explanation": "Incorrect. Containers still load and run the full application — they just skip OS boot overhead." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What role did Docker specifically play in the history of container technology?",
+      "options": [
+        { "text": "Docker invented the concept of process isolation on Linux", "explanation": "Incorrect. Isolation mechanisms like chroot and LXC predate Docker by years." },
+        { "text": "Docker made existing container technology dramatically easier to use through a simple CLI, standard image format, and registry system", "explanation": "Correct! Docker's key contribution was usability and standardization, not inventing containers from scratch." },
+        { "text": "Docker replaced the Linux kernel with its own custom kernel", "explanation": "Incorrect. Docker containers still run on the host's existing Linux kernel." },
+        { "text": "Docker only works with virtual machines, not real containers", "explanation": "Incorrect. Docker is a container platform, distinct from virtual machine technology." }
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "question": "In the shipping container analogy, what does the pre-container era of loose, irregularly packed cargo represent in software terms?",
+      "options": [
+        { "text": "The \"it works on my machine\" problem, where applications behaved inconsistently across differently configured environments", "explanation": "Correct! Just as unstandardized cargo required custom handling for every shipment, unpackaged applications required custom setup for every environment." },
+        { "text": "The concept of a Kubernetes cluster", "explanation": "Incorrect. Kubernetes is an orchestration system for containers, not related to this specific analogy." },
+        { "text": "A fully virtualized data center", "explanation": "Incorrect. This analogy is specifically about environment consistency, not virtualization architecture." },
+        { "text": "A CI/CD pipeline", "explanation": "Incorrect. CI/CD pipelines are a separate concept covered in a later module." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why do cgroups matter in a multi-container environment, even though namespaces already provide isolation?",
+      "options": [
+        { "text": "Namespaces isolate what a process can see, but without cgroups a single misbehaving container could still consume unlimited CPU/memory and starve every other container on the host", "explanation": "Correct! Isolation (namespaces) and resource limiting (cgroups) solve two different problems — you need both for safe multi-tenancy on shared hardware." },
+        { "text": "Cgroups are only used for network isolation, which namespaces don't provide", "explanation": "Incorrect. Network isolation is handled by the NET namespace; cgroups handle resource limits like CPU and memory." },
+        { "text": "Cgroups replace the need for namespaces entirely", "explanation": "Incorrect. They serve complementary, not overlapping, purposes." },
+        { "text": "Cgroups are a Windows-only feature not used in Linux containers", "explanation": "Incorrect. Cgroups are a Linux kernel feature central to how Linux containers work." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A team argues that since containers share the host kernel, they must be exactly as secure as virtual machines with zero meaningful tradeoff. What's the flaw in this reasoning?",
+      "options": [
+        { "text": "Because containers share the kernel, a kernel-level vulnerability or container escape can potentially expose the host and other containers in a way that's architecturally impossible with the stronger hardware-level isolation of separate VM kernels", "explanation": "Correct! Shared-kernel isolation (namespaces/cgroups) is generally considered weaker than the hardware-enforced isolation between separate VM kernels — this is a real, well-documented tradeoff, not a myth." },
+        { "text": "There is no tradeoff at all — containers and VMs provide identical security guarantees in every scenario", "explanation": "Incorrect. This is the flawed claim itself, not a valid explanation of the flaw." },
+        { "text": "Containers are always less secure than VMs in every possible way with no exceptions", "explanation": "Incorrect. This overstates the case — in practice, properly configured containers (non-root, limited capabilities, seccomp, etc.) can be very secure, but the architectural tradeoff around shared-kernel attack surface is still real." },
+        { "text": "Security has nothing to do with kernel sharing", "explanation": "Incorrect. Kernel sharing is precisely the relevant architectural factor in this security tradeoff." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why did the rise of lightweight, fast-starting containers specifically enable the shift toward microservices architecture, rather than microservices simply becoming possible on their own?",
+      "options": [
+        { "text": "Running dozens or hundreds of small, independent services as separate heavyweight VMs would have been prohibitively expensive and slow to scale; containers made it practical to run many small isolated services efficiently on the same hardware", "explanation": "Correct! Microservices architecture was theoretically possible before containers, but the operational cost and complexity of running many small services as separate VMs made it impractical at scale — cheap, fast, portable containers removed that barrier." },
+        { "text": "Microservices require containers by strict technical definition and cannot exist without them", "explanation": "Incorrect. Microservices can technically run on VMs or bare metal, but containers make the pattern dramatically more practical and efficient." },
+        { "text": "Containers eliminate the need for networking between services", "explanation": "Incorrect. Microservices still require networking between services; containers don't remove this need, they just make deployment more efficient." },
+        { "text": "Containers were created specifically and only for microservices, with no other use case", "explanation": "Incorrect. Containers are a general-purpose packaging/isolation technology used far beyond microservices alone." }
+      ],
+      "correctAnswer": 0
+    }
+  ]
+},
+        {
+  "slug": "docker-deep-dive-images-containers-layers",
+  "title": "Docker Deep Dive — Images, Containers, Layers",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Docker Deep Dive — Images, Containers, Layers"
+    },
+    {
+      "type": "paragraph",
+      "text": "In the last chapter, we covered the theory behind containers — namespaces, cgroups, and why this technology matters. Now it's time to get hands-on. Docker is the tool most people use to actually build and run containers, and in this chapter we'll go deep on how Docker's architecture works, what an image actually is, how layers make builds efficient, and how to write your first real Dockerfile."
+    },
+    {
+      "type": "heading",
+      "text": "Docker's Architecture: Client, Daemon, Registry"
+    },
+    {
+      "type": "paragraph",
+      "text": "When you type a Docker command, you're not directly manipulating containers yourself. Docker uses a client-server architecture made up of three main pieces."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Docker client is the command-line tool (`docker`) you interact with directly. When you run `docker run nginx`, the client doesn't create the container itself — it sends an API request to the Docker daemon."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Docker daemon (`dockerd`) is a background service running on the host. It does the actual work: pulling images, creating containers, managing networks and volumes, and handling the container lifecycle. It listens for API requests from the client (or from other tools) over a Unix socket or network socket."
+    },
+    {
+      "type": "paragraph",
+      "text": "The registry is where images live. Docker Hub is the default public registry, but organizations frequently run private registries (like Amazon ECR, Google Artifact Registry, or a self-hosted Harbor instance) to store their own images securely."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "docker CLI (client)\n      |\n      | API request (create/run/stop container)\n      v\ndockerd (daemon)  <----->  Registry (pull/push images)\n      |\n      v\ncontainerd -> runc -> Linux kernel (namespaces + cgroups)\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Under the hood, the daemon itself delegates the actual container creation to `containerd`, a lower-level container runtime, which in turn uses `runc` to interact directly with the Linux kernel features we covered in the last chapter. Understanding this chain matters because it explains why Docker isn't the only way to run containers — Kubernetes, for instance, can use containerd directly without Docker installed at all."
+    },
+    {
+      "type": "heading",
+      "text": "What Is an Image, Really?"
+    },
+    {
+      "type": "paragraph",
+      "text": "A Docker image is a read-only template containing everything needed to run an application: the application code, a runtime (like Node.js or Python), system libraries, environment variables, and default configuration. When you run an image, Docker adds a thin writable layer on top — and that combination of the read-only image plus a writable layer is what we call a container."
+    },
+    {
+      "type": "paragraph",
+      "text": "This distinction matters a lot: an image is a static, immutable artifact, while a container is a running (or stopped) instance of that image. You can start many containers from the exact same image, each with its own isolated writable layer, exactly the same way you can create many objects from a single class in object-oriented programming."
+    },
+    {
+      "type": "heading",
+      "text": "Image Layers and the Union Filesystem"
+    },
+    {
+      "type": "paragraph",
+      "text": "Images aren't a single flat file — they're built from a stack of layers, each representing a set of filesystem changes. Every instruction in a Dockerfile (like `RUN`, `COPY`, or `ADD`) typically creates a new layer on top of the previous one."
+    },
+    {
+      "type": "code",
+      "language": "dockerfile",
+      "code": "FROM node:20-alpine       # Layer 1: base OS + Node.js runtime\nWORKDIR /app              # Layer 2: metadata change (working directory)\nCOPY package.json .       # Layer 3: adds package.json\nRUN npm install           # Layer 4: adds node_modules\nCOPY . .                  # Layer 5: adds application source code\nCMD [\"node\", \"server.js\"] # Metadata: default command, no filesystem change\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Docker uses a union filesystem to stack these layers together and present them as a single unified view to the running container. Layers are cached and shared. If two different images both use `node:20-alpine` as their base, Docker only stores that base layer once on disk, and both images reference it. This dramatically reduces both disk usage and download time when pulling images."
+    },
+    {
+      "type": "paragraph",
+      "text": "This caching also directly affects build speed. When you rebuild an image, Docker checks each instruction in order. If a layer's instruction and its inputs haven't changed since the last build, Docker reuses the cached layer instead of re-executing it. But the moment one layer changes, every layer after it in the Dockerfile must be rebuilt — this is why instruction order matters so much, which we'll return to in Chapter 1.3."
+    },
+    {
+      "type": "heading",
+      "text": "Writing Your First Dockerfile"
+    },
+    {
+      "type": "paragraph",
+      "text": "Let's walk through a simple Dockerfile for a Node.js application, instruction by instruction."
+    },
+    {
+      "type": "code",
+      "language": "dockerfile",
+      "code": "# Start from an official, minimal Node.js base image\nFROM node:20-alpine\n\n# Set the working directory inside the container for subsequent instructions\nWORKDIR /app\n\n# Copy only dependency manifests first (better layer caching)\nCOPY package.json package-lock.json ./\n\n# Install dependencies inside the image\nRUN npm ci --production\n\n# Now copy the rest of the application source code\nCOPY . .\n\n# Document which port the app listens on (informational only)\nEXPOSE 3000\n\n# Define the default command run when a container starts\nCMD [\"node\", \"server.js\"]\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "A few important details worth calling out: `FROM` always has to be the first meaningful instruction, since every subsequent layer builds on top of the base image. `WORKDIR` is safer than manually running `cd` inside `RUN` commands, since it persists across every following instruction. `EXPOSE` is purely documentation — it doesn't actually publish the port; that happens later with `docker run -p`. And `CMD` defines the default process the container runs, but it can be overridden at runtime if needed."
+    },
+    {
+      "type": "heading",
+      "text": "Core Docker Commands"
+    },
+    {
+      "type": "paragraph",
+      "text": "Once you have a Dockerfile, here are the commands you'll use constantly:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker build -t myapp:1.0 .        # build an image from the Dockerfile in this directory\ndocker images                       # list local images\ndocker run -d -p 3000:3000 myapp:1.0   # run a container in the background, mapping ports\ndocker ps                           # list running containers\ndocker ps -a                        # list all containers, including stopped ones\ndocker exec -it <container-id> sh   # open an interactive shell inside a running container\ndocker logs <container-id>          # view a container's stdout/stderr logs\ndocker stop <container-id>          # gracefully stop a running container\ndocker rm <container-id>            # remove a stopped container\ndocker rmi myapp:1.0                # remove an image\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "`docker exec` deserves special attention — it's the tool you'll reach for constantly when debugging. It lets you \"step inside\" a running container to inspect files, check environment variables, or manually test connectivity, exactly as if you had SSH'd into a tiny isolated machine."
+    },
+    {
+      "type": "heading",
+      "text": "Common Beginner Mistakes"
+    },
+    {
+      "type": "paragraph",
+      "text": "A few mistakes show up constantly when people first start writing Dockerfiles. Copying the entire project directory (`COPY . .`) before installing dependencies destroys layer caching — every code change forces a full dependency reinstall. Not using a `.dockerignore` file means `node_modules`, `.git`, and other unnecessary files get copied into the build context, bloating images and slowing builds. Running processes as the root user by default is a security risk we'll cover properly in the security module. And building without pinning a specific base image version (using `latest` instead of a specific tag) can silently break builds when the base image updates unexpectedly."
+    },
+    {
+      "type": "paragraph",
+      "text": "In the next chapter, we'll build directly on this foundation and tackle multi-stage builds — a technique for keeping production images small, fast, and secure by separating the tools needed to build your app from the tools needed to run it."
+    }
+  ],
+  "quizzes": [
+    {
+      "question": "What three main components make up Docker's architecture?",
+      "options": [
+        { "text": "Client, daemon, and registry", "explanation": "Correct! The CLI client talks to the daemon, which pulls/pushes images from a registry." },
+        { "text": "Kernel, hypervisor, and firmware", "explanation": "Incorrect. Those relate to hardware/OS virtualization, not Docker's own architecture." },
+        { "text": "Frontend, backend, and database", "explanation": "Incorrect. This describes a typical web app architecture, not Docker's." },
+        { "text": "Namespace, cgroup, and volume", "explanation": "Incorrect. These are underlying Linux/Docker features, not Docker's high-level architecture components." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What command lists all running containers?",
+      "options": [
+        { "text": "docker ps", "explanation": "Correct! docker ps lists currently running containers." },
+        { "text": "docker images", "explanation": "Incorrect. This lists local images, not running containers." },
+        { "text": "docker build", "explanation": "Incorrect. This builds an image from a Dockerfile." },
+        { "text": "docker logs", "explanation": "Incorrect. This shows logs for a specific container." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What is the key difference between a Docker image and a Docker container?",
+      "options": [
+        { "text": "An image is a static, read-only template; a container is a running (or stopped) instance of that image with a writable layer", "explanation": "Correct! This is the exact relationship — one image can produce many independent containers." },
+        { "text": "They are exactly the same thing with two different names", "explanation": "Incorrect. They are related but distinct concepts." },
+        { "text": "An image can only exist after a container is created", "explanation": "Incorrect. It's the reverse — a container is created from an existing image." },
+        { "text": "Containers are stored in registries, while images run on hosts", "explanation": "Incorrect. It's the opposite — images are stored in registries, and containers run on hosts." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What does the `docker exec -it <container-id> sh` command do?",
+      "options": [
+        { "text": "Opens an interactive shell session inside a running container", "explanation": "Correct! This is commonly used to inspect or debug a container from the inside." },
+        { "text": "Builds a new image from the Dockerfile", "explanation": "Incorrect. That's docker build." },
+        { "text": "Permanently deletes the container", "explanation": "Incorrect. That's docker rm." },
+        { "text": "Lists all images on the host", "explanation": "Incorrect. That's docker images." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What lower-level components does the Docker daemon rely on to actually create containers on Linux?",
+      "options": [
+        { "text": "containerd and runc, which ultimately interact with the Linux kernel's namespaces and cgroups", "explanation": "Correct! Docker delegates the actual container creation work down this chain to the kernel-level primitives." },
+        { "text": "A separate guest operating system for each container", "explanation": "Incorrect. That describes virtual machines, not how Docker containers work." },
+        { "text": "Only the Docker Hub registry", "explanation": "Incorrect. The registry stores images; it plays no role in actually creating a running container." },
+        { "text": "A hypervisor", "explanation": "Incorrect. Hypervisors are used for VMs, not containers." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why does Docker's layer caching speed up image builds?",
+      "options": [
+        { "text": "Layers whose instructions and inputs haven't changed are reused from cache instead of being re-executed", "explanation": "Correct! Docker only rebuilds layers starting from the first instruction that actually changed." },
+        { "text": "Docker skips running any instructions after the first build", "explanation": "Incorrect. Changed instructions and everything after them still execute; only unchanged layers are cached." },
+        { "text": "Caching only works for the FROM instruction", "explanation": "Incorrect. Caching applies to every instruction/layer in the Dockerfile, not just FROM." },
+        { "text": "Docker compresses all layers into one before building", "explanation": "Incorrect. This isn't how the caching mechanism works." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is `EXPOSE 3000` in a Dockerfile insufficient on its own to make a containerized app reachable from outside the container?",
+      "options": [
+        { "text": "EXPOSE is purely documentation about which port the app listens on; actually publishing/mapping the port requires the -p flag on `docker run`", "explanation": "Correct! Without `-p hostPort:containerPort`, the port isn't actually bound to the host, regardless of what EXPOSE says." },
+        { "text": "EXPOSE only works with UDP traffic, never TCP", "explanation": "Incorrect. EXPOSE isn't protocol-restricted in this way, and this isn't why it's insufficient." },
+        { "text": "EXPOSE requires a paid Docker Hub subscription to function", "explanation": "Incorrect. This isn't a real restriction — EXPOSE is a free, standard Dockerfile instruction." },
+        { "text": "EXPOSE automatically opens the port but only for other containers, and this is a full solution", "explanation": "Incorrect. This partially describes container-to-container Docker networking behavior but misses that host access still needs explicit port publishing." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is copying the entire project directory (`COPY . .`) before running `npm install`/`RUN` steps considered a Dockerfile anti-pattern?",
+      "options": [
+        { "text": "It breaks layer caching — any change to application code invalidates the cache for the dependency-install layer too, forcing a full reinstall on every build", "explanation": "Correct! Since Docker rebuilds a layer and everything after it once any earlier layer changes, copying source code before installing dependencies means routine code edits trigger unnecessary, slow dependency reinstalls." },
+        { "text": "Docker doesn't allow copying entire directories at all", "explanation": "Incorrect. Copying a directory is fully valid Docker syntax — the issue is about caching efficiency, not validity." },
+        { "text": "It causes a syntax error in the Dockerfile", "explanation": "Incorrect. This produces a working (if inefficient) Dockerfile, not a syntax error." },
+        { "text": "It prevents the image from being pushed to a registry", "explanation": "Incorrect. This has no effect on whether the image can be pushed." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Two different Dockerfiles both start with `FROM node:20-alpine`, and you build both images on the same host. Why does Docker not need to store that base layer twice?",
+      "options": [
+        { "text": "Docker's layer caching and union filesystem let multiple images reference the exact same underlying layer on disk rather than duplicating it", "explanation": "Correct! Shared base layers are stored once and referenced by any image built on top of them, saving both disk space and pull time." },
+        { "text": "Docker automatically deletes one of the two images to save space", "explanation": "Incorrect. Docker doesn't delete images automatically like this — both images remain fully usable." },
+        { "text": "Because both Dockerfiles are considered the same image by Docker", "explanation": "Incorrect. They are still distinct images (with potentially very different final layers); only the shared base layer itself is stored once." },
+        { "text": "This only works if both images have identical final CMD instructions", "explanation": "Incorrect. Layer sharing works at the layer level regardless of what the final CMD or other later instructions are." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Your Dockerfile pins `FROM node:latest` instead of a specific version like `node:20.11-alpine`. Weeks later, a teammate's build unexpectedly breaks with a dependency error even though no application code changed. What's the most likely explanation, and why does it illustrate a broader Docker best practice?",
+      "options": [
+        { "text": "`node:latest` isn't a fixed version — it can point to a newer Node.js release over time, silently changing the base image and potentially breaking compatibility; pinning specific version tags makes builds reproducible", "explanation": "Correct! Using floating tags like `latest` sacrifices build reproducibility — the same Dockerfile can produce a different image weeks later purely because the tag's target moved, which is exactly why pinning specific versions is a core best practice." },
+        { "text": "Docker images can never be rebuilt once created, so this must be a caching bug unrelated to the base image tag", "explanation": "Incorrect. Images can absolutely be rebuilt, and this scenario is a very common, well-documented consequence of floating base image tags, not a caching bug." },
+        { "text": "This has nothing to do with the FROM instruction and is purely a networking issue", "explanation": "Incorrect. The scenario specifically points to the base image tag as the variable that changed, making this a versioning issue, not networking." },
+        { "text": "`node:latest` and a specific pinned version tag always produce byte-for-byte identical images", "explanation": "Incorrect. This is the opposite of what actually happens — that's exactly why the build behavior changed over time." }
+      ],
+      "correctAnswer": 0
+    }
+  ]
+},
+        {
+  "slug": "multi-stage-builds-image-optimization",
+  "title": "Multi-Stage Builds & Image Optimization",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Multi-Stage Builds & Image Optimization"
+    },
+    {
+      "type": "paragraph",
+      "text": "So far, we've built a working Dockerfile, but there's a hidden problem with the simple, single-stage approach we've used: it often bundles far more into the final image than the application actually needs to run. Build tools, compilers, test frameworks, and dev dependencies frequently end up shipped straight into production. In this chapter, we'll fix that with multi-stage builds, and along the way we'll talk about base image tradeoffs and basic image scanning."
+    },
+    {
+      "type": "heading",
+      "text": "The Problem: Bloated Production Images"
+    },
+    {
+      "type": "paragraph",
+      "text": "Consider a typical Go application. To compile it, you need the full Go toolchain — compiler, standard library source, and build tools. But once compiled, a Go binary is self-contained and doesn't need the compiler at all to run. If you build your image in a single stage, though, you're stuck: the final image ships with the entire multi-hundred-megabyte Go toolchain sitting alongside a binary that might be only a few megabytes."
+    },
+    {
+      "type": "paragraph",
+      "text": "The same problem shows up constantly with Node.js and TypeScript projects. You need `devDependencies`, TypeScript compilers, and test libraries to build the app, but at runtime you only need the compiled output and production dependencies. Shipping the build tools into production bloats the image, slows down deployments, and — just as importantly — increases the attack surface, since every extra tool and library is one more thing that could contain a vulnerability."
+    },
+    {
+      "type": "heading",
+      "text": "Multi-Stage Builds Explained"
+    },
+    {
+      "type": "paragraph",
+      "text": "A multi-stage Dockerfile lets you use multiple `FROM` instructions in a single file. Each `FROM` starts a new, independent build stage. You can copy specific files or artifacts from an earlier stage into a later one using `COPY --from=<stage>`, while leaving everything else behind. Only the final stage becomes your actual image — every intermediate stage is discarded."
+    },
+    {
+      "type": "paragraph",
+      "text": "Here's a multi-stage build for a Go application:"
+    },
+    {
+      "type": "code",
+      "language": "dockerfile",
+      "code": "# Stage 1: build — includes the full Go toolchain\nFROM golang:1.22 AS builder\nWORKDIR /src\nCOPY go.mod go.sum ./\nRUN go mod download\nCOPY . .\nRUN CGO_ENABLED=0 GOOS=linux go build -o /app ./cmd/server\n\n# Stage 2: run — a tiny final image with just the compiled binary\nFROM alpine:3.19\nCOPY --from=builder /app /app\nENTRYPOINT [\"/app\"]\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Notice the `AS builder` label on the first `FROM` — this names the stage so we can reference it later. The second stage starts completely fresh from a minimal `alpine` base and pulls across only the single compiled binary via `COPY --from=builder`. The entire Go toolchain, source code, and build cache from stage one never make it into the final image at all."
+    },
+    {
+      "type": "paragraph",
+      "text": "Here's the same pattern applied to a Node.js/TypeScript app:"
+    },
+    {
+      "type": "code",
+      "language": "dockerfile",
+      "code": "# Stage 1: build — install all dependencies and compile TypeScript\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package.json package-lock.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\n# Stage 2: production — install only production deps, copy compiled output\nFROM node:20-alpine AS production\nWORKDIR /app\nCOPY package.json package-lock.json ./\nRUN npm ci --omit=dev\nCOPY --from=builder /app/dist ./dist\nCMD [\"node\", \"dist/server.js\"]\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "The production stage never installs TypeScript, test libraries, linters, or any other `devDependencies` — it only installs what's declared as a production dependency, and pulls in the already-compiled `dist` folder from the builder stage. The result is a smaller, cleaner, more secure final image with a much smaller attack surface."
+    },
+    {
+      "type": "heading",
+      "text": "Choosing a Base Image: Alpine vs Distroless vs Full OS"
+    },
+    {
+      "type": "paragraph",
+      "text": "Once you're only shipping what's necessary, the choice of base image for that final stage matters a lot. There are roughly three tiers to choose from."
+    },
+    {
+      "type": "paragraph",
+      "text": "A full OS base image like `ubuntu` or `debian` includes a complete package manager, shell, and a wide range of common tools. This makes debugging easy — you can `exec` in and use familiar commands — but it also means a larger image size and more installed packages that could carry vulnerabilities."
+    },
+    {
+      "type": "paragraph",
+      "text": "Alpine-based images use musl libc and BusyBox instead of the full GNU toolchain, resulting in images that are often just 5-10 MB for the base layer alone. They still include a shell (`sh`) and a package manager (`apk`), so debugging is still possible, just with a different (smaller) set of tools. The tradeoff: musl libc has subtle behavioral differences from glibc that occasionally cause compatibility issues with certain compiled binaries or native Node.js modules."
+    },
+    {
+      "type": "paragraph",
+      "text": "Distroless images, maintained by Google, strip things down even further — they contain only your application and its runtime dependencies, with no shell, no package manager, and no unnecessary OS utilities at all. This gives you the smallest possible attack surface, since there's no shell for an attacker to exploit even if they find a way into the container. The tradeoff is debugging difficulty: you can't simply `docker exec` into a shell to poke around, since there isn't one."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Full OS (ubuntu):     ~70-120 MB base, full toolchain, easiest to debug\nAlpine:                ~5-10 MB base, shell + package manager, minor compatibility quirks\nDistroless:             ~2-20 MB depending on runtime, no shell, hardest to debug, smallest attack surface\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "There's no universally \"correct\" choice — it's a genuine tradeoff between operational convenience and security posture, and different teams reasonably land in different places depending on how mature their observability and debugging tooling already is."
+    },
+    {
+      "type": "heading",
+      "text": "Scanning Images for Vulnerabilities"
+    },
+    {
+      "type": "paragraph",
+      "text": "Smaller images with fewer packages naturally have fewer known vulnerabilities, but you shouldn't rely on image size alone as a security strategy — you need to actively scan images. Trivy, an open-source scanner, is one of the most popular tools for this and something we'll use hands-on in the security module later in this course."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "trivy image myapp:1.0\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Running this against an image produces a report of known CVEs (Common Vulnerabilities and Exposures) found in the OS packages and application dependencies baked into the image, along with severity ratings. Teams commonly wire this directly into CI/CD pipelines, failing a build automatically if critical vulnerabilities are detected — we'll cover exactly how to do that in Module 4."
+    },
+    {
+      "type": "heading",
+      "text": "Measuring the Impact"
+    },
+    {
+      "type": "paragraph",
+      "text": "It's worth actually seeing the size difference for yourself once you apply these techniques:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker images myapp\n\n# Example before/after for the same Node.js app:\n# myapp:single-stage      1.1 GB\n# myapp:multi-stage-alpine  180 MB\n# myapp:multi-stage-distroless  140 MB\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Smaller images pull faster, start faster, cost less to store in a registry, and reduce your exposure to vulnerabilities. As your applications move toward Kubernetes in Module 2, image size and pull speed also directly affect how quickly new Pods can start during scaling events and rolling deployments — this isn't just a nice-to-have optimization, it has real operational consequences."
+    }
+  ],
+  "quizzes": [
+    {
+      "question": "What Dockerfile keyword marks the start of a new build stage in a multi-stage build?",
+      "options": [
+        { "text": "FROM", "explanation": "Correct! Each FROM instruction (optionally with AS <name>) begins a new independent stage." },
+        { "text": "STAGE", "explanation": "Incorrect. STAGE is not a real Dockerfile instruction." },
+        { "text": "COPY", "explanation": "Incorrect. COPY moves files, including between stages, but doesn't start a new stage itself." },
+        { "text": "RUN", "explanation": "Incorrect. RUN executes a command within the current stage." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What instruction lets you copy files from a previous build stage into the current one?",
+      "options": [
+        { "text": "COPY --from=<stage>", "explanation": "Correct! This pulls specific files/artifacts from a named earlier stage." },
+        { "text": "ADD --stage=<stage>", "explanation": "Incorrect. This is not valid Dockerfile syntax." },
+        { "text": "IMPORT <stage>", "explanation": "Incorrect. IMPORT is not a Dockerfile instruction." },
+        { "text": "FETCH <stage>", "explanation": "Incorrect. FETCH is not a Dockerfile instruction." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why do teams commonly use Alpine-based base images?",
+      "options": [
+        { "text": "Much smaller image size, faster pulls and deploys, and a reduced attack surface", "explanation": "Correct! Alpine's minimal design (musl libc + BusyBox) makes for very lightweight images." },
+        { "text": "Alpine images always run faster at the CPU level than any other base image", "explanation": "Incorrect. Alpine reduces image size, not necessarily CPU execution speed of the application itself." },
+        { "text": "Alpine is the only base image compatible with Docker", "explanation": "Incorrect. Docker supports many base images, including full OS images like Ubuntu and Debian." },
+        { "text": "Alpine automatically fixes all security vulnerabilities in dependencies", "explanation": "Incorrect. A smaller base reduces the number of packages that could contain vulnerabilities, but doesn't automatically fix vulnerabilities in your own app dependencies." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What open-source tool was introduced in this chapter for scanning container images for known vulnerabilities?",
+      "options": [
+        { "text": "Trivy", "explanation": "Correct! Trivy scans images for CVEs in OS packages and application dependencies." },
+        { "text": "Terraform", "explanation": "Incorrect. Terraform is an Infrastructure as Code tool, unrelated to image scanning." },
+        { "text": "Helm", "explanation": "Incorrect. Helm is a Kubernetes package manager." },
+        { "text": "ArgoCD", "explanation": "Incorrect. ArgoCD is a GitOps continuous delivery tool." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "In a multi-stage Dockerfile, what happens to the intermediate (non-final) build stages once the image is built?",
+      "options": [
+        { "text": "They are discarded and don't become part of the final image, unless files are explicitly copied out of them", "explanation": "Correct! Only the last stage forms the resulting image; earlier stages exist purely to produce artifacts that get selectively copied forward." },
+        { "text": "They are merged together into one combined final layer automatically", "explanation": "Incorrect. Stages are not automatically merged — only explicitly copied files carry over." },
+        { "text": "They remain permanently stored inside the final image, just hidden from view", "explanation": "Incorrect. Discarded stages are not hidden inside the final image; they simply aren't included at all." },
+        { "text": "They get pushed to the registry as separate images automatically", "explanation": "Incorrect. Intermediate stages aren't automatically pushed anywhere unless you explicitly build and tag them separately." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What is a distroless image, and what is its main tradeoff?",
+      "options": [
+        { "text": "An image containing only the application and its runtime dependencies with no shell or package manager, making it very secure but harder to debug", "explanation": "Correct! Distroless images minimize attack surface at the cost of easy in-container debugging via exec." },
+        { "text": "An image that contains every Linux distribution's tools combined into one", "explanation": "Incorrect. This is the opposite of what \"distroless\" means." },
+        { "text": "An image type that can only run stateless applications", "explanation": "Incorrect. Distroless refers to the absence of a full OS distribution's tools, not statefulness." },
+        { "text": "An Alpine-specific feature that must be manually enabled", "explanation": "Incorrect. Distroless images are their own separate category of base images (maintained by Google), distinct from Alpine." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A team ships a Go application in a single-stage Dockerfile that keeps the entire Go compiler toolchain in the final production image. Why is this a meaningful problem beyond just wasted disk space?",
+      "options": [
+        { "text": "Every extra tool shipped in the image (like a full compiler toolchain) is additional surface area that could contain vulnerabilities, increasing the image's overall risk beyond what's strictly necessary to run the compiled binary", "explanation": "Correct! Security risk scales with what's present in the image, not just what's actually used at runtime — unused tooling is pure liability with no functional benefit in production." },
+        { "text": "Go binaries cannot run at all unless the Go compiler is present in the same image", "explanation": "Incorrect. A compiled Go binary is self-contained (especially with CGO_ENABLED=0) and doesn't need the compiler present to execute." },
+        { "text": "This only affects build time, not the running production container in any way", "explanation": "Incorrect. It affects the deployed production image directly — larger attack surface, larger size, slower pulls — not just build time." },
+        { "text": "Docker automatically strips unused tools from single-stage builds, so this isn't actually a real problem", "explanation": "Incorrect. Docker does not automatically remove unused tools from a single-stage build; that's precisely the problem multi-stage builds solve." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why might a team specifically choose an Alpine-based image over a fully distroless image for their production Node.js service, despite distroless offering a smaller attack surface?",
+      "options": [
+        { "text": "They may value the ability to `docker exec` into the container with a shell for live debugging, and may be concerned about musl libc/native module compatibility being easier to diagnose with Alpine's available tooling than with no shell at all in distroless", "explanation": "Correct! This is exactly the security-vs-operability tradeoff discussed — teams without mature remote debugging/observability practices often lean toward Alpine's debuggability despite the larger (though still small) attack surface compared to distroless." },
+        { "text": "Distroless images are incompatible with Node.js applications entirely", "explanation": "Incorrect. Distroless images do support Node.js runtimes (Google publishes Node.js distroless base images) — this isn't a compatibility blocker." },
+        { "text": "Alpine images are always more secure than distroless images in every scenario", "explanation": "Incorrect. This reverses the typical tradeoff — distroless generally has a smaller attack surface than Alpine due to the absence of a shell/package manager." },
+        { "text": "There is no real functional difference between the two, so the choice is arbitrary", "explanation": "Incorrect. There are real, meaningful tradeoffs between the two options, as discussed in the chapter." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "You've adopted multi-stage builds and see your image shrink from 1.1 GB to 180 MB. Why does this size reduction matter operationally beyond just registry storage costs, especially once workloads move to Kubernetes?",
+      "options": [
+        { "text": "Smaller images pull and start faster, which directly speeds up Pod startup during scaling events and rolling deployments — a real operational win beyond storage savings", "explanation": "Correct! In orchestrated environments, image pull time is often a meaningful part of how quickly new replicas can come online during autoscaling or rollouts, so smaller images have a direct, measurable operational benefit." },
+        { "text": "Image size has zero effect on anything once a container is already running", "explanation": "Incorrect. While a fully-running container's runtime performance isn't directly tied to image size, the startup/scaling/rollout speed absolutely is affected." },
+        { "text": "Smaller images automatically use less CPU and memory at runtime regardless of application behavior", "explanation": "Incorrect. Image size on disk is independent of runtime CPU/memory usage, which depends on the application's actual behavior, not the size of its image." },
+        { "text": "Kubernetes refuses to schedule Pods using images larger than 500 MB", "explanation": "Incorrect. Kubernetes has no such hard limit on image size by default." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A CI pipeline runs Trivy against an image and finds several CVEs rated \"Low\" severity in OS packages that aren't even used by the application at runtime. The team is debating whether to automatically fail every build on any detected CVE, regardless of severity. What's the strongest argument against that approach, based on the tradeoffs discussed in the security-adjacent parts of this chapter?",
+      "options": [
+        { "text": "Failing builds on every low-severity, often-irrelevant CVE can cause pipeline fatigue and unnecessarily block releases, so teams typically tune failure thresholds by severity rather than treating all CVEs as equally build-breaking", "explanation": "Correct! This mirrors the general shift-left security tradeoff — overly strict, undifferentiated gating erodes trust in the pipeline and slows delivery without proportional security benefit, which is why severity-based thresholds and exception processes are common in practice." },
+        { "text": "Vulnerability scanning should never be part of a CI pipeline under any circumstances", "explanation": "Incorrect. Scanning in CI is a widely recommended shift-left security practice — the debate is about calibrating thresholds, not whether to scan at all." },
+        { "text": "Low severity CVEs are always false positives and can be safely ignored by disabling the scanner entirely", "explanation": "Incorrect. Low severity findings aren't automatically false positives, and disabling scanning entirely removes valuable visibility rather than solving the calibration problem." },
+        { "text": "Image size, not vulnerability count, should be the only factor considered when deciding whether to pass a build", "explanation": "Incorrect. Image size and vulnerability scanning are related but distinct concerns — reducing size lowers exposure, but doesn't replace the need for a sensible scanning/threshold policy." }
+      ],
+      "correctAnswer": 0
+    }
+  ]
+},
+        {
+  "slug": "docker-networking-volumes",
+  "title": "Docker Networking & Volumes",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Docker Networking & Volumes"
+    },
+    {
+      "type": "paragraph",
+      "text": "So far we've focused on building and running a single, self-contained container. But real applications rarely live in isolation — a web server needs to talk to a database, a cache needs to be reachable by multiple services, and most applications need to persist data beyond the lifetime of any single container. This chapter covers how Docker handles networking between containers, and how it handles data that needs to survive container restarts and recreation."
+    },
+    {
+      "type": "heading",
+      "text": "Docker Network Drivers"
+    },
+    {
+      "type": "paragraph",
+      "text": "When Docker is installed, it automatically creates a few default networks, and you can create your own. Each network uses a driver that determines how it behaves."
+    },
+    {
+      "type": "paragraph",
+      "text": "The bridge driver is the default for standalone containers not otherwise configured. Docker creates a private internal network on the host, assigns each container an internal IP address, and uses NAT (which you learned about back in Chapter 0.2) so containers can reach the outside world. Containers on the same custom bridge network can resolve each other by container name via Docker's built-in DNS."
+    },
+    {
+      "type": "paragraph",
+      "text": "The host driver removes network isolation entirely — the container shares the host's network namespace directly. This means the container's ports are the host's ports with no NAT or port mapping involved, but you lose the isolation benefits and it only works on Linux."
+    },
+    {
+      "type": "paragraph",
+      "text": "The none driver disables networking entirely — the container gets a loopback interface only. This is useful for security-sensitive batch jobs that have no legitimate need for any network access at all."
+    },
+    {
+      "type": "paragraph",
+      "text": "The overlay driver is used for multi-host networking, letting containers on different physical or virtual machines communicate as if they were on the same network. This becomes essential once you move into orchestrated environments like Docker Swarm or, more relevantly for this course, Kubernetes."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker network ls                    # list all networks\ndocker network create mynet          # create a custom bridge network\ndocker run -d --name db --network mynet postgres\ndocker run -d --name api --network mynet myapp\n# 'api' container can now reach the database simply at hostname 'db'\n"
+    },
+    {
+      "type": "heading",
+      "text": "Why the Default Bridge Network Isn't Ideal"
+    },
+    {
+      "type": "paragraph",
+      "text": "It's worth calling out a subtle but important detail: containers on Docker's default `bridge` network can reach each other by IP address, but they cannot resolve each other by container name using DNS. Name-based service discovery only works on user-defined custom bridge networks. This is exactly why, in practice, you almost always create your own named network rather than relying on the default one — it's a common source of confusion for beginners who can't figure out why `ping db` fails until they realize they never created a custom network."
+    },
+    {
+      "type": "heading",
+      "text": "Volumes vs Bind Mounts vs tmpfs"
+    },
+    {
+      "type": "paragraph",
+      "text": "By default, any data written inside a container lives in that container's writable layer — and that layer is destroyed the moment the container is removed. If you restart your database container and haven't set up persistent storage properly, you lose everything. Docker offers three distinct mechanisms for handling data outside a container's ephemeral lifecycle."
+    },
+    {
+      "type": "paragraph",
+      "text": "Volumes are storage areas fully managed by Docker itself, stored in a dedicated part of the host filesystem (typically under `/var/lib/docker/volumes/`) that you don't interact with directly. Docker handles their creation, and they can be shared across multiple containers, backed up, or migrated more easily than raw host paths."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker volume create db-data\ndocker run -d --name db -v db-data:/var/lib/postgresql/data postgres\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bind mounts map a specific, explicit path on the host filesystem directly into the container. Unlike volumes, you choose exactly where on the host the data lives, and changes made from either side (host or container) are immediately visible on the other. This is extremely useful during local development — for example, mounting your source code directory into a container so code changes are reflected instantly without rebuilding the image."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker run -d --name api -v $(pwd)/src:/app/src myapp\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "tmpfs mounts store data only in the host's memory (RAM), never touching disk at all. Data is lost the moment the container stops. This is useful for storing sensitive, short-lived data (like temporary secrets or session tokens) that you specifically don't want persisted to disk under any circumstances."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker run -d --tmpfs /app/tmp myapp\n"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Volumes:      Docker-managed storage location, portable, best for production data (databases)\nBind mounts:  Direct host path mapping, best for local development (live code editing)\ntmpfs:        In-memory only, never persisted to disk, best for sensitive/ephemeral data\n"
+    },
+    {
+      "type": "heading",
+      "text": "The Stateful Database Gotcha"
+    },
+    {
+      "type": "paragraph",
+      "text": "This is a mistake nearly every developer makes at least once: running a database container without any volume attached at all, just to \"try something out.\" It works fine — until the container is removed (intentionally or accidentally, say during a `docker system prune`), and every bit of data disappears instantly and permanently, with no warning."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "# DANGEROUS: no volume — all data lost when container is removed\ndocker run -d --name db postgres\n\n# CORRECT: named volume decouples data lifecycle from container lifecycle\ndocker run -d --name db -v db-data:/var/lib/postgresql/data postgres\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "The core lesson here is that a container's lifecycle and your data's lifecycle are two entirely separate concerns, and Docker requires you to explicitly decouple them using a volume. This same principle reappears in a more formalized way in Kubernetes with PersistentVolumes and PersistentVolumeClaims, which we'll cover in Module 2 — so getting this concept solid now will make that material click much faster."
+    },
+    {
+      "type": "heading",
+      "text": "Putting It Together"
+    },
+    {
+      "type": "paragraph",
+      "text": "A realistic local setup for a web app with a database might look like this:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker network create appnet\ndocker volume create db-data\n\ndocker run -d --name db \\\n  --network appnet \\\n  -v db-data:/var/lib/postgresql/data \\\n  -e POSTGRES_PASSWORD=secret \\\n  postgres:16\n\ndocker run -d --name api \\\n  --network appnet \\\n  -p 3000:3000 \\\n  -e DATABASE_URL=postgres://postgres:secret@db:5432/postgres \\\n  myapp:1.0\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Here, the `api` container reaches the `db` container by name (`db`) thanks to the custom network's built-in DNS, and the database's data survives independently of either container's lifecycle thanks to the named volume. This is exactly the pattern that motivates the next chapter — writing all of this out by hand with individual `docker run` commands gets unwieldy fast, which is precisely the problem Docker Compose was built to solve."
+    }
+  ],
+  "quizzes": [
+    {
+      "question": "What is Docker's default network driver for standalone containers?",
+      "options": [
+        { "text": "bridge", "explanation": "Correct! Standalone containers use the bridge driver by default unless configured otherwise." },
+        { "text": "host", "explanation": "Incorrect. host removes network isolation and must be explicitly specified." },
+        { "text": "overlay", "explanation": "Incorrect. overlay is used for multi-host networking, not the standalone default." },
+        { "text": "none", "explanation": "Incorrect. none disables networking entirely and must be explicitly specified." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What's the difference between a volume and a bind mount?",
+      "options": [
+        { "text": "Volumes are managed by Docker in its own storage area; bind mounts map directly to a specific host filesystem path you choose", "explanation": "Correct! This is the core distinction between the two mechanisms." },
+        { "text": "Volumes only work with databases; bind mounts only work with web servers", "explanation": "Incorrect. Both mechanisms are general-purpose and work with any type of container." },
+        { "text": "Bind mounts are managed entirely by Docker; volumes require manual host path selection", "explanation": "Incorrect. This reverses the actual relationship." },
+        { "text": "There is no meaningful difference between the two", "explanation": "Incorrect. They differ in management and use case, as described above." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What command lists all Docker networks on a host?",
+      "options": [
+        { "text": "docker network ls", "explanation": "Correct! This lists all networks Docker currently manages." },
+        { "text": "docker volume ls", "explanation": "Incorrect. This lists volumes, not networks." },
+        { "text": "docker ps", "explanation": "Incorrect. This lists running containers." },
+        { "text": "docker network create", "explanation": "Incorrect. This creates a new network rather than listing existing ones." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What happens to a tmpfs mount's data when the container stops?",
+      "options": [
+        { "text": "It's lost immediately, since tmpfs stores data only in memory and never writes to disk", "explanation": "Correct! tmpfs is explicitly designed for ephemeral, in-memory-only data." },
+        { "text": "It's automatically backed up to a named volume", "explanation": "Incorrect. tmpfs data isn't automatically backed up anywhere." },
+        { "text": "It persists permanently on disk", "explanation": "Incorrect. This is the opposite of how tmpfs works — it never touches disk at all." },
+        { "text": "It's pushed to the container registry", "explanation": "Incorrect. Registries store images, not runtime tmpfs data." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why can't containers on Docker's default bridge network resolve each other by container name via DNS, while containers on a user-defined custom bridge network can?",
+      "options": [
+        { "text": "Docker's built-in name-based service discovery is only enabled on user-defined networks, not the default bridge network — this is a deliberate Docker design distinction", "explanation": "Correct! This is exactly why creating a custom network is standard practice rather than relying on the default bridge." },
+        { "text": "The default bridge network doesn't support any networking at all", "explanation": "Incorrect. The default bridge does provide connectivity via IP address — it just lacks automatic DNS-based name resolution between containers." },
+        { "text": "DNS resolution requires a paid Docker license", "explanation": "Incorrect. This isn't a licensing restriction — it's a default behavior difference between network types." },
+        { "text": "Custom networks require an internet connection to enable DNS, while the default bridge does not", "explanation": "Incorrect. This isn't related to internet connectivity — Docker's embedded DNS server works for container name resolution on custom networks regardless of external internet access." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is it risky to run a stateful database purely with container-local storage and no volume attached?",
+      "options": [
+        { "text": "Data is stored in the container's ephemeral writable layer and is permanently lost if the container is removed or recreated", "explanation": "Correct! Volumes exist specifically to decouple data lifecycle from the container's own disposable lifecycle." },
+        { "text": "Databases physically cannot start without a volume attached", "explanation": "Incorrect. A database container will start and run fine without a volume — the risk is purely about data durability, not startup capability." },
+        { "text": "Container-local storage is slower than volumes, causing performance issues but no data loss risk", "explanation": "Incorrect. The primary risk described is data loss on container removal, not performance." },
+        { "text": "This only matters for databases larger than 1 GB", "explanation": "Incorrect. The data-loss risk applies regardless of database size — even a tiny dataset is fully lost without persistent storage." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is a bind mount particularly useful for local development, in a way that a named volume typically isn't as convenient for?",
+      "options": [
+        { "text": "A bind mount maps a specific host directory (e.g., your source code folder) directly into the container, so edits made on the host are instantly reflected inside the running container without rebuilding the image", "explanation": "Correct! This live-reload workflow is exactly why bind mounts are a local development staple, especially for hot-reloading dev servers." },
+        { "text": "Bind mounts are the only mechanism that supports any form of data persistence", "explanation": "Incorrect. Named volumes also fully support persistence — this isn't a unique bind mount capability." },
+        { "text": "Bind mounts automatically sync data to a remote cloud backup", "explanation": "Incorrect. Bind mounts have no built-in cloud syncing behavior." },
+        { "text": "Named volumes cannot be used during local development under any circumstances", "explanation": "Incorrect. Volumes can be used locally too — they're just less convenient than a direct bind mount for live-editing source code specifically." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "In the combined example (`db` and `api` containers on a custom `appnet` network), why does the api container's `DATABASE_URL` environment variable use the hostname `db` instead of an IP address?",
+      "options": [
+        { "text": "Because both containers are on the same user-defined custom network, Docker's embedded DNS resolves the container name `db` to its current internal IP automatically, avoiding the need to hardcode a potentially-changing IP address", "explanation": "Correct! This mirrors the same underlying principle you'll later see in Kubernetes: hardcoded IPs are fragile, name-based resolution is resilient to IP changes." },
+        { "text": "Environment variables can only ever contain hostnames, never IP addresses, as a strict Docker rule", "explanation": "Incorrect. Environment variables can contain IP addresses just fine — using a hostname here is a deliberate design choice for resilience, not a technical requirement." },
+        { "text": "Postgres containers automatically reject connections that use an IP address instead of a hostname", "explanation": "Incorrect. This isn't a real restriction imposed by Postgres or Docker." },
+        { "text": "The hostname `db` is a reserved, universal Docker keyword that always refers to the first container started", "explanation": "Incorrect. `db` is simply the `--name` given to that specific container — it works as a DNS hostname because of the custom network, not because it's a reserved keyword." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A teammate wants to run a short-lived container that processes a sensitive session token and insists the token should never touch the host's disk, even temporarily. Which Docker storage mechanism best fits this requirement, and why?",
+      "options": [
+        { "text": "tmpfs, because it stores data only in host memory (RAM) and is never written to disk, and the data disappears the moment the container stops", "explanation": "Correct! This is precisely the scenario tmpfs is designed for — sensitive, ephemeral data that must never persist to disk." },
+        { "text": "A named volume, because Docker automatically encrypts all volume data by default", "explanation": "Incorrect. Docker volumes are not encrypted by default, and more importantly, they do persist to disk — the opposite of the stated requirement." },
+        { "text": "A bind mount to a hidden host directory, since hidden directories are inherently secure", "explanation": "Incorrect. A hidden directory is still a real path on disk and offers no meaningful security guarantee against being read — it also fails the \"never touch disk\" requirement entirely." },
+        { "text": "The default container writable layer, since it's automatically wiped on every write", "explanation": "Incorrect. The writable layer is only wiped when the container is removed, not on every write, and it still persists to disk in the meantime." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A production team runs their database container with `--network host` for a perceived performance benefit, but later discovers this created unexpected port conflicts with another service on the same host and reduced their ability to isolate the database from other processes. What tradeoff does this scenario illustrate about the host network driver?",
+      "options": [
+        { "text": "The host driver removes network isolation entirely, so the container's ports become the host's own ports directly — eliminating NAT overhead but also eliminating the isolation benefits and increasing the risk of port collisions across unrelated services sharing the host", "explanation": "Correct! This is the core tradeoff of the host driver: you gain direct host-network performance/simplicity at the cost of container network isolation, which is exactly why it's used selectively rather than as a default choice." },
+        { "text": "The host driver is strictly worse than bridge in every way with no legitimate use case", "explanation": "Incorrect. The host driver has valid use cases (e.g., certain performance-sensitive or network-monitoring workloads) — the issue here is it wasn't the right fit given the isolation and port-conflict tradeoffs for this particular scenario." },
+        { "text": "Port conflicts under the host driver are a Docker bug, not expected behavior", "explanation": "Incorrect. This is expected, documented behavior of the host driver, not a bug — since containers on host networking share the host's actual port space directly." },
+        { "text": "This issue would not occur with the bridge driver either, since bridge also shares the host's port space directly", "explanation": "Incorrect. The bridge driver uses NAT and explicit port mapping (`-p`), which lets you deliberately choose and avoid host port conflicts, unlike the host driver's direct port sharing." }
+      ],
+      "correctAnswer": 0
+    }
+  ]
+},
+        {
+  "slug": "docker-compose-multi-container-apps",
+  "title": "Docker Compose for Local Multi-Container Apps",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Docker Compose for Local Multi-Container Apps"
+    },
+    {
+      "type": "paragraph",
+      "text": "At the end of the last chapter, we manually wired together a database and an API container using individual `docker run` commands — creating a network, creating a volume, and passing a long list of flags to each container. That worked, but it's tedious, error-prone to reproduce, and gets significantly worse the moment you add a third or fourth service like a cache or message queue. Docker Compose exists to solve exactly this problem."
+    },
+    {
+      "type": "heading",
+      "text": "Why Compose Exists"
+    },
+    {
+      "type": "paragraph",
+      "text": "Docker Compose lets you define an entire multi-container application — services, networks, volumes, and their relationships — declaratively in a single YAML file. Instead of remembering and re-typing a sequence of `docker run` commands in the right order with the right flags, you describe the desired end state once, and Compose figures out how to create it."
+    },
+    {
+      "type": "paragraph",
+      "text": "This declarative approach should feel familiar if you think back to Module 0 — it's the same underlying philosophy as Infrastructure as Code, just scoped to your local development environment rather than your cloud infrastructure. And as you'll see very soon in Module 2, it's also a direct conceptual preview of how Kubernetes itself works: you describe desired state in YAML, and the system reconciles reality to match it."
+    },
+    {
+      "type": "heading",
+      "text": "Anatomy of a docker-compose.yml File"
+    },
+    {
+      "type": "paragraph",
+      "text": "Let's rebuild the web + database example from the previous chapter, but this time as a Compose file, and add a Redis cache alongside it."
+    },
+    {
+      "type": "code",
+      "language": "yaml",
+      "code": "version: \"3.9\"\n\nservices:\n  api:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      DATABASE_URL: postgres://postgres:secret@db:5432/postgres\n      REDIS_URL: redis://cache:6379\n    depends_on:\n      - db\n      - cache\n\n  db:\n    image: postgres:16\n    environment:\n      POSTGRES_PASSWORD: secret\n    volumes:\n      - db-data:/var/lib/postgresql/data\n\n  cache:\n    image: redis:7-alpine\n\nvolumes:\n  db-data:\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "Let's break down what's happening here. Under `services`, each key (`api`, `db`, `cache`) defines one container. The `api` service uses `build: .`, telling Compose to build an image from the Dockerfile in the current directory, rather than pulling a pre-built image like `db` and `cache` do. The `ports` mapping works exactly like the `-p` flag from `docker run`. The `environment` section passes environment variables, exactly like `-e` flags. And `volumes` at the bottom declares a named volume, referenced by the `db` service, exactly like the `-v` flag we used manually before."
+    },
+    {
+      "type": "heading",
+      "text": "Service Discovery Within Compose"
+    },
+    {
+      "type": "paragraph",
+      "text": "Notice that `DATABASE_URL` references the hostname `db`, and `REDIS_URL` references the hostname `cache` — these are simply the service names defined in the YAML file. This works for exactly the same reason it worked in the previous chapter's manual example: Compose automatically creates a custom bridge network for your entire application and registers each service's name in that network's built-in DNS. You get name-based service discovery for free, with zero manual network setup required."
+    },
+    {
+      "type": "heading",
+      "text": "Running Your Compose Application"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "docker compose up               # build (if needed) and start all services in the foreground\ndocker compose up -d            # start in detached (background) mode\ndocker compose ps                # list running services in this project\ndocker compose logs -f api      # follow logs for a specific service\ndocker compose down              # stop and remove containers + networks\ndocker compose down -v          # also remove named volumes (careful — this deletes data!)\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "A single `docker compose up` command replaces what would otherwise be four or five separate manual commands, executed in the correct dependency order, with the correct network and volume already wired up. This is exactly why Compose became the standard tool for local development environments, and why so many open-source projects ship a `docker-compose.yml` file that lets a new contributor get a full working environment running with one command."
+    },
+    {
+      "type": "heading",
+      "text": "Environment Variables and .env Files"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hardcoding values like `POSTGRES_PASSWORD: secret` directly in a YAML file that gets committed to Git is a bad habit worth breaking early — especially once we get to the security module. Compose automatically reads a `.env` file placed in the same directory, letting you separate configuration values from the file structure itself."
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": ".env file:\nPOSTGRES_PASSWORD=secret\nAPI_PORT=3000\n"
+    },
+    {
+      "type": "code",
+      "language": "yaml",
+      "code": "services:\n  api:\n    ports:\n      - \"${API_PORT}:3000\"\n  db:\n    image: postgres:16\n    environment:\n      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}\n"
+    },
+    {
+      "type": "paragraph",
+      "text": "It's standard practice to add `.env` to your `.gitignore` file and commit only a `.env.example` template with placeholder values, so real secrets never end up in version control while still documenting exactly what configuration a new developer needs to provide."
+    },
+    {
+      "type": "heading",
+      "text": "The Limits of Compose"
+    },
+    {
+      "type": "paragraph",
+      "text": "As convenient as Compose is, it's fundamentally designed for a single host. There's no built-in concept of scheduling containers across multiple machines, no automatic rescheduling if a host goes down, no rolling update strategy across a fleet of servers, and no cluster-aware load balancing. If your `docker compose up` machine crashes, your entire application goes down with it — there's nothing distributing that risk."
+    },
+    {
+      "type": "paragraph",
+      "text": "This single-host limitation is precisely the gap that Kubernetes was built to fill. Everything you've learned in this chapter — declaring desired state in YAML, service discovery by name, environment-based configuration, persistent volumes — reappears in Kubernetes, just designed from the ground up to work reliably across many machines instead of one. Compose is genuinely excellent for local development and small, single-server deployments, but it was never intended to be a production-grade orchestrator for anything running at meaningful scale."
+    },
+    {
+      "type": "paragraph",
+      "text": "With that gap clearly in view, we're ready to move into Module 2 and tackle the orchestration problem head-on: Kubernetes."
+    }
+  ],
+  "quizzes": [
+    {
+      "question": "What file format does Docker Compose use to define an application's services?",
+      "options": [
+        { "text": "YAML", "explanation": "Correct! docker-compose.yml files are written in YAML." },
+        { "text": "JSON", "explanation": "Incorrect. While Compose can technically parse some JSON-compatible YAML, the standard format is YAML." },
+        { "text": "XML", "explanation": "Incorrect. Compose does not use XML." },
+        { "text": "INI", "explanation": "Incorrect. Compose does not use INI format." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which command starts all services defined in a docker-compose.yml file in detached (background) mode?",
+      "options": [
+        { "text": "docker compose up -d", "explanation": "Correct! The -d flag runs the services in the background." },
+        { "text": "docker compose down", "explanation": "Incorrect. This stops and removes services rather than starting them." },
+        { "text": "docker compose build", "explanation": "Incorrect. This only builds images defined with 'build:', without starting containers." },
+        { "text": "docker compose ps", "explanation": "Incorrect. This lists currently running services rather than starting them." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "How do services in a Docker Compose file discover and reach each other by default?",
+      "options": [
+        { "text": "By service name, since Compose automatically creates a custom network with built-in DNS resolving each service name", "explanation": "Correct! This is the same name-based service discovery mechanism as a manually created custom Docker network." },
+        { "text": "By manually configured static IP addresses only", "explanation": "Incorrect. While static IPs are possible to configure, the default and standard approach is name-based DNS resolution." },
+        { "text": "Services in Compose cannot communicate with each other at all by default", "explanation": "Incorrect. Communication between services on the shared Compose network is a core, default feature." },
+        { "text": "Only by exposing every service's port to the host machine first", "explanation": "Incorrect. Services communicate directly over the internal Compose network without needing host port exposure." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What does the `build: .` line under a service in a docker-compose.yml file indicate?",
+      "options": [
+        { "text": "Compose should build an image from the Dockerfile located in the current directory rather than pulling a pre-built image", "explanation": "Correct! This tells Compose to use a local Dockerfile for that specific service." },
+        { "text": "The service will pull an image named 'build' from Docker Hub", "explanation": "Incorrect. 'build' is a Compose keyword, not an image name reference." },
+        { "text": "The service will run without any image at all", "explanation": "Incorrect. Compose still produces and uses an image — it just builds it locally instead of pulling one." },
+        { "text": "It disables that service from starting automatically", "explanation": "Incorrect. This has nothing to do with whether the service starts automatically." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is committing a `.env` file containing real secrets to a Git repository generally considered bad practice, based on this chapter?",
+      "options": [
+        { "text": "It exposes sensitive values (like database passwords) directly in version control history, which is why teams typically gitignore `.env` and commit only a `.env.example` template instead", "explanation": "Correct! This mirrors the general principle of separating configuration/secrets from code that gets committed and shared." },
+        { "text": "Docker Compose physically cannot read `.env` files if they're tracked by Git", "explanation": "Incorrect. Whether a file is tracked by Git has no effect on Compose's ability to read it — the concern is purely about secret exposure." },
+        { "text": ".env files are deprecated and no longer supported by Docker Compose", "explanation": "Incorrect. .env files are a fully supported, standard Compose feature." },
+        { "text": "Committing a `.env` file will cause `docker compose up` to fail immediately", "explanation": "Incorrect. It won't cause any technical failure — the issue is a security/best-practices concern, not a functional error." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why does Docker Compose not scale to reliable production deployment across multiple hosts the way Kubernetes does?",
+      "options": [
+        { "text": "Compose is designed for single-host orchestration with no built-in cross-host scheduling, automatic failover, rolling updates across a fleet, or cluster-aware load balancing", "explanation": "Correct! This single-host limitation is exactly why Kubernetes exists as a separate, more capable orchestration layer." },
+        { "text": "Compose files cannot define more than three services at once", "explanation": "Incorrect. There's no such service count limit in Compose — the limitation is architectural (single host), not a service count cap." },
+        { "text": "Compose doesn't support environment variables, unlike Kubernetes", "explanation": "Incorrect. Compose fully supports environment variables, as shown throughout this chapter." },
+        { "text": "Compose requires a paid subscription for production use", "explanation": "Incorrect. Compose is free and open source; the limitation discussed is purely architectural, not a licensing restriction." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "In the example Compose file, the `api` service lists `depends_on: [db, cache]`. What does this actually guarantee, and what might a team incorrectly assume it guarantees?",
+      "options": [
+        { "text": "It guarantees `db` and `cache` containers are started before `api`, but does NOT guarantee those services are fully ready/healthy inside — a team might incorrectly assume the database is ready to accept connections the instant its container starts", "explanation": "Correct! This is a very common Compose gotcha — container start order isn't the same as application readiness, and teams often need explicit healthchecks or app-level retry logic to handle the gap." },
+        { "text": "It guarantees the database has finished initializing and is ready to accept connections before the api service starts", "explanation": "Incorrect. By default, depends_on only controls container start order, not application-level readiness — this is the exact misconception the correct answer addresses." },
+        { "text": "It automatically restarts the api service whenever db or cache restart", "explanation": "Incorrect. depends_on affects startup ordering, not automatic restart propagation between services." },
+        { "text": "It has no effect on startup behavior at all and is purely documentation", "explanation": "Incorrect. depends_on does affect actual startup ordering behavior, it's not purely cosmetic." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A developer runs `docker compose down -v` thinking it will just stop their local environment for the day, but comes back the next morning to find all their local database data gone. What happened, and what should they have run instead?",
+      "options": [
+        { "text": "The `-v` flag also removes named volumes, permanently deleting persisted data; they should have run plain `docker compose down` (without -v) to stop and remove containers/networks while preserving volume data", "explanation": "Correct! This is a very real, very common mistake — the -v flag's destructive effect on volumes is easy to overlook when you just intend to \"shut things down for the day.\"" },
+        { "text": "`docker compose down -v` only removes networks, so the data loss must be caused by something unrelated", "explanation": "Incorrect. The -v flag specifically targets named volumes for removal, which directly explains the data loss." },
+        { "text": "Data loss like this is unrelated to any Compose command and must be a Docker bug", "explanation": "Incorrect. This is expected, documented behavior of the -v flag, not a bug." },
+        { "text": "They should have run `docker compose up -v` instead, which would have preserved the data", "explanation": "Incorrect. -v is not a valid/meaningful flag on `docker compose up` in this context — the fix is simply omitting -v from the down command." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Why is it accurate to describe Docker Compose's declarative YAML approach as a conceptual \"preview\" of how Kubernetes works, even though the two tools solve different scale problems?",
+      "options": [
+        { "text": "Both use a declarative model where you describe desired state (services, networking, storage) in YAML and let the tool reconcile the running environment to match it, rather than issuing a sequence of imperative commands", "explanation": "Correct! This shared declarative philosophy is exactly why the mental model built in this chapter transfers directly to understanding Kubernetes manifests and controllers in the next module." },
+        { "text": "Compose and Kubernetes use the exact same underlying scheduling algorithm across multiple hosts", "explanation": "Incorrect. Compose has no multi-host scheduling at all — the similarity is in the declarative configuration philosophy, not the underlying scheduling engine." },
+        { "text": "Kubernetes is literally built directly on top of Docker Compose's codebase", "explanation": "Incorrect. Kubernetes is an independently built orchestration system, not built on Compose's codebase." },
+        { "text": "There is no meaningful conceptual overlap between the two tools at all", "explanation": "Incorrect. This contradicts the explicit parallel drawn in the chapter regarding declarative state management." }
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "A team wants to reproduce their exact multi-container local dev environment (API, database, cache, with correct startup dependencies and named volumes) on a new teammate's laptop with minimal friction. Comparing the approach from Chapter 1.4 (manual `docker run` commands) to this chapter's Compose approach, what's the strongest justification for using Compose here specifically?",
+      "options": [
+        { "text": "Compose captures the entire multi-service topology — networks, volumes, environment variables, dependency order — in one version-controlled file, so a new teammate can reproduce the exact environment with a single `docker compose up` instead of manually re-running and correctly sequencing several long, error-prone docker run commands", "explanation": "Correct! Reproducibility and reduced manual error are precisely the problem Compose was designed to solve, especially as the number of services and flags grows." },
+        { "text": "Compose containers run measurably faster than containers started via docker run", "explanation": "Incorrect. Compose and manual docker run ultimately create the same kind of containers with no inherent runtime performance difference — the benefit is in reproducibility and convenience, not raw speed." },
+        { "text": "Manual docker run commands cannot create networks or volumes at all, unlike Compose", "explanation": "Incorrect. As shown in Chapter 1.4, docker run combined with docker network/volume commands can absolutely create networks and volumes manually — Compose just automates and centralizes that process." },
+        { "text": "Docker Compose is required by Docker in order to run more than one container on the same host", "explanation": "Incorrect. Multiple containers can run simultaneously via plain docker run commands, as demonstrated in the previous chapter — Compose is a convenience layer, not a hard requirement." }
+      ],
+      "correctAnswer": 0
+    }
+  ]
+}
       ]
     }
   ]
