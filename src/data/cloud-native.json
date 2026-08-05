@@ -571,3527 +571,571 @@
         },
 
         {
-          "slug": "inheritance",
-          "title": "Object Oriented Programming - Inheritance",
+          "slug": "linux-shell-networking-refresher",
+          "title": "Linux, Shell & Networking Refresher",
           "content": [
             {
-              "type": "paragraph",
-              "text": "Inheritance is the mechanism where one class acquires the fields and methods of another class."
-            },
-            {
-              "type": "image",
-              "src": "/images/inheritance.png",
-              "alt": "Inheritance Diagram"
+              "type": "heading",
+              "text": "Linux, Shell & Networking Refresher"
             },
             {
               "type": "paragraph",
-              "text": "The class that is inherited from is called superclass / parent class, and the class that inherits is called subclass / child class."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nAnimal (Parent)\n   \u2193\nDog (Child)\n"
+              "text": "Every tool you'll touch in this course — Docker, Kubernetes, Terraform, CI/CD runners — assumes you're comfortable in a Linux shell. Container images are built on Linux, Kubernetes nodes run Linux, and almost every production server you'll ever SSH into is Linux. If the terminal still feels foreign, this chapter is your reset point before things get more advanced."
             },
             {
               "type": "paragraph",
-              "text": "The dog class inherits all the properties that the animal class has made accessible. For example, if the animal class has a method called eat(), the dog class can call that method without having to define it again."
+              "text": "We won't turn you into a sysadmin here — we're building just enough fluency that later chapters (containers, orchestration, networking policies) feel like a natural extension of what you already know, not a completely new language."
             },
             {
               "type": "heading",
-              "text": "Why inheritance exists?"
+              "text": "Essential Shell Commands"
             },
             {
               "type": "paragraph",
-              "text": "1. Instead of repeating code like this:"
+              "text": "A handful of commands account for the vast majority of what you'll actually type day to day:"
             },
             {
               "type": "code",
               "language": "java",
-              "code": "\nclass Dog {\n    void eat(){}\n}\n\nclass Cat {\n    void eat(){}\n}\n"
+              "code": "ps aux          # list running processes\ntop / htop      # live resource usage\nss -tulpn       # list listening ports (modern replacement for netstat)\ncurl -I <url>   # inspect HTTP response headers\njournalctl -u <service> -f   # tail logs for a systemd service\n"
             },
             {
               "type": "paragraph",
-              "text": "You can write it like this and reuse it in both Cat and Dog classes:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n    void eat(){}\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "2. Many applications in real world follow hierarchical relationships. For example, a car is a type of vehicle, so it makes sense for the Car class to inherit from a Vehicle class."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nVehicle\n \u251c\u2500\u2500 Car\n \u251c\u2500\u2500 Bike\n \u2514\u2500\u2500 Truck\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "3. Maintainability. If you have to make changes to the eat() method, you only have to change it in the Animal class and all subclasses will automatically inherit the updated behavior."
+              "text": "Notice how many of these are about observing state — what's running, what's listening, what happened. That habit of \"go check, don't assume\" is exactly the debugging instinct you'll need once workloads move inside containers and pods."
             },
             {
               "type": "heading",
-              "text": "Basic syntax"
+              "text": "Files, Permissions & Processes"
             },
             {
               "type": "paragraph",
-              "text": "Inheritance uses the 'extends' keyword in Java. For example:"
+              "text": "Linux permissions (read/write/execute for owner/group/others) determine what a process can touch. This becomes directly relevant later when we talk about running containers as non-root users — the exact same permission model applies inside the container's filesystem."
             },
             {
               "type": "code",
               "language": "java",
-              "code": "\nclass ParentClass {\n\n}\n\nclass ChildClass extends ParentClass {\n\n}\n"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n\n    void eat(){\n        System.out.println(\"Animal eats food\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n}\n"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nDog dog = new Dog();\ndog.eat();\n"
+              "code": "chmod 755 script.sh   # owner: rwx, group/others: r-x\nchown appuser:appuser file.txt\nkill -9 <pid>          # forcibly terminate a process\n"
             },
             {
               "type": "heading",
-              "text": "Types of inheritance in Java"
+              "text": "Networking Fundamentals"
             },
             {
               "type": "paragraph",
-              "text": "Java supports single inheritance (a child inherits from one parent), multilevel inheritance (a child inherits from a parents, which in turn inherits from another parent), and hierarchical inheritance (multiple children inherit from the same parent). Java does not support multiple inheritance (a child inherits from multiple parents) to avoid ambiguity issues."
+              "text": "Before Kubernetes networking makes sense, the basics have to be automatic knowledge: IP addresses identify hosts, ports identify a specific service on that host, and DNS translates human-friendly names into IP addresses. TCP guarantees ordered, reliable delivery via a handshake; UDP is a fire-and-forget protocol that trades reliability for speed."
             },
             {
               "type": "paragraph",
-              "text": "Single Inheritance"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {}\nclass Dog extends Animal {}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Multilevel Inheritance"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {}\n\nclass Dog extends Animal {}\n\nclass Puppy extends Dog {}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Hierarchical Inheritance"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {}\n\nclass Dog extends Animal {}\n\nclass Cat extends Animal {}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Multiple Inheritance (not supported in Java)"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass A {}\nclass B {}\n\nclass C extends A, B {}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Java instead uses interfaces for multiple inheritance."
+              "text": "NAT (Network Address Translation) lets many private IPs share a single public IP — the same underlying concept that later explains how Pods get routed to the outside world."
             },
             {
               "type": "heading",
-              "text": "Super keyword"
+              "text": "Why This Matters for Kubernetes"
             },
             {
               "type": "paragraph",
-              "text": "The 'super' keyword is used to refer to the parent class. It can be used to call the parent class's methods and constructors."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n\n    String name = \"Animal\";\n\n}\n\nclass Dog extends Animal {\n\n    void printName(){\n        System.out.println(super.name);\n    }\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Parent constructors can also be called using the 'super' keyword. For example:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n\n    Animal(){\n        System.out.println(\"Animal created\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n    Dog(){\n        super();\n        System.out.println(\"Dog created\");\n    }\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Output:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "Animal created\nDog created\n"
-            },
-            {
-              "type": "heading",
-              "text": "Method Overriding"
-            },
-            {
-              "type": "paragraph",
-              "text": "Inheritance allows child classes to redefine behavior of methods."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class Animal {\n\n    void sound(){\n        System.out.println(\"Animal makes sound\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n    @Override\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Now, if you call dog.sound(), it will print \"Dog barks\""
-            },
-            {
-              "type": "heading",
-              "text": "Access Modifiers in Inheritance"
-            },
-            {
-              "type": "paragraph",
-              "text": "public parent methods are accessible by child class."
-            },
-            {
-              "type": "paragraph",
-              "text": "protected parent methods are accessible by child class."
-            },
-            {
-              "type": "paragraph",
-              "text": "private parent methods are NOT accessible by child class."
-            },
-            {
-              "type": "paragraph",
-              "text": "default parent methods are accessible by child class as long as they are in the same package."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n\n    private int age;\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Dog cannot access age."
-            },
-            {
-              "type": "heading",
-              "text": "Inheritance vs. Composition"
-            },
-            {
-              "type": "paragraph",
-              "text": "Inheritance: Dog extends Animal"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class Animal {\n    void eat() {\n        System.out.println(\"Eating...\");\n    }\n}\n\n// Dog IS-A Animal\nclass Dog extends Animal {\n    void bark() {\n        System.out.println(\"Barking...\");\n    }\n}\n\n// Usage\nDog myDog = new Dog();\nmyDog.eat();  // Inherited method\nmyDog.bark(); // Own method\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Composition: Car has a Engine"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class Engine {\n    void start() {\n        System.out.println(\"Engine starting...\");\n    }\n}\n\nclass Car {\n    // Car HAS-A Engine\n    private Engine engine = new Engine(); \n\n    void move() {\n        engine.start(); // Delegates work to the component\n        System.out.println(\"Car is moving\");\n    }\n}\n\n// Usage\nCar myCar = new Car();\nmyCar.move();\n"
-            },
-            {
-              "type": "heading",
-              "text": "So why use composition over inheritance?"
-            },
-            {
-              "type": "paragraph",
-              "text": "In Java, Inheritance is static: once you say class Tesla extends Car, every Tesla object is permanently a Car with fixed parent code."
-            },
-            {
-              "type": "paragraph",
-              "text": "Composition with Interfaces is dynamic: because the class only holds a reference to an interface, you can \"unplug\" one implementation and \"plug in\" another while the program is actually running. "
-            },
-            {
-              "type": "heading",
-              "text": "The Example: A \"Smart\" Car"
-            },
-            {
-              "type": "paragraph",
-              "text": "Imagine a car that can switch between Gas and Electric power on the fly."
-            },
-            {
-              "type": "paragraph",
-              "text": "1. Define an Interface (The \"Plug\"). This defines what an engine does without saying how it does it."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\ninterface Engine {\n    void consumeFuel();\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "2. Create Multiple Implementations. Each type of engine implements the same interface but with different behavior."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass GasEngine implements Engine {\n    public void consumeFuel() { System.out.println(\"Burning gasoline...\"); }\n}\n\nclass ElectricEngine implements Engine {\n    public void consumeFuel() { System.out.println(\"Using battery power...\"); }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "3. Use Composition to Attach the Engine to the Car."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass HybridCar {\n    private Engine engine; // Composition: refers to the interface\n\n    public void setEngine(Engine newEngine) {\n        this.engine = newEngine; // Swapping at runtime!\n    }\n\n    public void drive() {\n        engine.consumeFuel();\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "4. Seeing it in action."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\npublic class Main {\n    public static void main(String[] args) {\n        HybridCar myCar = new HybridCar();\n\n        // Start with Gas\n        myCar.setEngine(new GasEngine());\n        myCar.drive(); // Output: Burning gasoline...\n\n        // SWAP AT RUNTIME: Now it's an Electric car\n        myCar.setEngine(new ElectricEngine());\n        myCar.drive(); // Output: Using battery power...\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "With Inheritance: You would need two separate classes: GasCar and ElectricCar. A GasCar could never become an ElectricCar once it's created."
-            },
-            {
-              "type": "paragraph",
-              "text": "With Composition: A single HybridCar object can change its behavior completely just by swapping its internal parts."
-            },
-            {
-              "type": "heading",
-              "text": "Benefits of Inheritance"
-            },
-            {
-              "type": "paragraph",
-              "text": "Code reuse, logical hierarchy, and method overriding."
-            },
-            {
-              "type": "heading",
-              "text": "Problems with Inheritance"
-            },
-            {
-              "type": "paragraph",
-              "text": "Bad inheritance can create tight coupling. If the parent class changes, all child classes are affected. It can also lead to the fragile base class problem, where changes to the base class can break derived classes in unexpected ways. This is why many applications prefer composition over this."
-            },
-            {
-              "type": "heading",
-              "text": "Tight Coupling vs. Loose Coupling"
-            },
-            {
-              "type": "paragraph",
-              "text": "Tight coupling occurs when classes are highly dependent on one another. If you change one class, you are often forced to modify the others."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass GasolineEngine {\n    void start() { System.out.println(\"Gas engine started\"); }\n}\n\nclass Car {\n    // Car is hardcoded to only work with GasolineEngine\n    private GasolineEngine engine = new GasolineEngine(); \n\n    void drive() {\n        engine.start();\n        System.out.println(\"Car is moving\");\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Problem: If you want to create an ElectricCar, you have to rewrite the Car class."
-            },
-            {
-              "type": "paragraph",
-              "text": "Loose coupling is achieved using interfaces and Dependency Injection. The class doesn't know the specific implementation it is using; it only knows the \"contract\" (the interface)."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\ninterface Engine {\n    void start();\n}\n\nclass GasolineEngine implements Engine {\n    public void start() { System.out.println(\"Gas engine started\"); }\n}\n\nclass ElectricEngine implements Engine {\n    public void start() { System.out.println(\"Electric motor humming\"); }\n}\n\nclass Car {\n    private Engine engine;\n\n    // The specific engine is passed in (Injected)\n    Car(Engine engine) {\n        this.engine = engine;\n    }\n\n    void drive() {\n        engine.start();\n        System.out.println(\"Car is moving\");\n    }\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Benefit: You can swap GasolineEngine for ElectricEngine without changing a single line of code in the Car class."
-            },
-            {
-              "type": "image",
-              "src": "/images/coupling.png",
-              "alt": "Tight Coupling vs. Loose Coupling"
-            },
-            {}
+              "text": "Every Pod gets its own IP, and Kubernetes relies on internal DNS (CoreDNS) so services can find each other by name instead of hardcoded, ever-changing IPs. If DNS resolution, ports, or TCP/UDP behavior are shaky concepts now, cluster networking will feel like magic instead of a logical extension of what you already know. Get this refresher solid, and everything from Module 2 onward gets noticeably easier."
+            }
           ],
           "quizzes": [
             {
-              "question": "What is inheritance in Java?",
+              "question": "Which command lists currently running processes on a Linux system?",
               "options": [
                 {
-                  "text": "A class acquiring properties and methods of another class",
-                  "explanation": "Correct! Inheritance allows reuse of fields and methods."
+                  "text": "ps aux",
+                  "explanation": "Correct! ps (process status) lists running processes; aux shows all processes for all users."
                 },
                 {
-                  "text": "Creating multiple objects",
-                  "explanation": "Incorrect. That is object instantiation."
+                  "text": "ls -la",
+                  "explanation": "Incorrect. ls lists files and directories, not processes."
                 },
                 {
-                  "text": "Hiding data",
-                  "explanation": "Incorrect. That is encapsulation."
+                  "text": "cd /proc",
+                  "explanation": "Incorrect. This navigates into the proc filesystem but doesn't list processes directly."
                 },
                 {
-                  "text": "Running threads",
-                  "explanation": "Incorrect. That is multithreading."
+                  "text": "mkdir",
+                  "explanation": "Incorrect. mkdir creates a directory."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "Which keyword is used for inheritance in Java?",
+              "question": "What does DNS do?",
               "options": [
                 {
-                  "text": "implements",
-                  "explanation": "Incorrect. Implements is used for interfaces."
+                  "text": "Encrypts network traffic",
+                  "explanation": "Incorrect. That's the role of TLS/SSL."
                 },
                 {
-                  "text": "extends",
-                  "explanation": "Correct! The extends keyword enables inheritance."
+                  "text": "Translates domain names into IP addresses",
+                  "explanation": "Correct! DNS resolves human-readable names to machine IP addresses."
                 },
                 {
-                  "text": "inherit",
-                  "explanation": "Incorrect. Java has no such keyword."
+                  "text": "Assigns permissions to files",
+                  "explanation": "Incorrect. That's file permission management (chmod/chown)."
                 },
                 {
-                  "text": "super",
-                  "explanation": "Incorrect. Super refers to the parent class."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which inheritance type is NOT supported by Java classes?",
-              "options": [
-                {
-                  "text": "Single inheritance",
-                  "explanation": "Incorrect. Java supports this."
-                },
-                {
-                  "text": "Hierarchical inheritance",
-                  "explanation": "Incorrect. Java supports this."
-                },
-                {
-                  "text": "Multiple inheritance",
-                  "explanation": "Correct! Java does not allow multiple inheritance with classes."
-                },
-                {
-                  "text": "Multilevel inheritance",
-                  "explanation": "Incorrect. Java supports this."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "You have Dog and Cat classes that both use the same eat() method. Which design would you choose?",
-              "options": [
-                {
-                  "text": "Duplicate the eat() method in each class",
-                  "explanation": "Incorrect. This leads to code duplication."
-                },
-                {
-                  "text": "Create an Animal parent class containing eat() and extend it",
-                  "explanation": "Correct! This allows code reuse through inheritance."
-                },
-                {
-                  "text": "Make eat() static",
-                  "explanation": "Incorrect. Static does not solve duplication."
-                },
-                {
-                  "text": "Create separate unrelated classes",
-                  "explanation": "Incorrect. You lose logical hierarchy."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You are designing a Vehicle system with Car, Truck, and Bike. Which approach would you choose?",
-              "options": [
-                {
-                  "text": "Create separate classes with duplicate code",
-                  "explanation": "Incorrect. This increases maintenance effort."
-                },
-                {
-                  "text": "Create a Vehicle parent class and extend it",
-                  "explanation": "Correct! Shared functionality belongs in a parent class."
-                },
-                {
-                  "text": "Use only static methods",
-                  "explanation": "Incorrect. Static methods remove object hierarchy."
-                },
-                {
-                  "text": "Put everything in one class",
-                  "explanation": "Incorrect. This breaks object-oriented design."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You want a class Bird with fly() and subclasses Sparrow and Eagle. Which design would you choose?",
-              "options": [
-                {
-                  "text": "Create Sparrow and Eagle without any parent class",
-                  "explanation": "Incorrect. Shared behavior should be reused."
-                },
-                {
-                  "text": "Create a Bird parent class containing fly()",
-                  "explanation": "Correct! Both classes inherit the behavior."
-                },
-                {
-                  "text": "Make fly() static",
-                  "explanation": "Incorrect. Static methods remove object flexibility."
-                },
-                {
-                  "text": "Put fly() in Sparrow only",
-                  "explanation": "Incorrect. Eagle would duplicate code."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen if a child class defines a method with the same signature as a parent class method?",
-              "options": [
-                {
-                  "text": "The program will fail to compile",
-                  "explanation": "Incorrect. Java allows this behavior."
-                },
-                {
-                  "text": "The child class method overrides the parent method",
-                  "explanation": "Correct! This is called method overriding."
-                },
-                {
-                  "text": "Both methods will execute automatically",
-                  "explanation": "Incorrect. Only the child method runs unless super is called."
-                },
-                {
-                  "text": "Java will ignore the child method",
-                  "explanation": "Incorrect. The child method takes priority."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which of the following members are NOT inherited by a subclass?",
-              "options": [
-                {
-                  "text": "Public methods",
-                  "explanation": "Incorrect. Public members are inherited."
-                },
-                {
-                  "text": "Protected fields",
-                  "explanation": "Incorrect. Protected members are inherited."
-                },
-                {
-                  "text": "Private fields",
-                  "explanation": "Correct! Private members are not accessible by subclasses."
-                },
-                {
-                  "text": "Public constructors",
-                  "explanation": "Incorrect. Constructors aren't inherited but can be called."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What is the purpose of the super keyword in inheritance?",
-              "options": [
-                {
-                  "text": "To create a new object",
-                  "explanation": "Incorrect. Objects are created using new."
-                },
-                {
-                  "text": "To refer to the parent class",
-                  "explanation": "Correct! super refers to the immediate parent class."
-                },
-                {
-                  "text": "To define a subclass",
-                  "explanation": "Incorrect. Subclasses use extends."
-                },
-                {
-                  "text": "To override methods",
-                  "explanation": "Incorrect. @Override handles overriding."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output of the following code?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void sound() {\n    System.out.println(\"Animal sound\");\n  }\n}\n\nclass Dog extends Animal {\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.sound();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Dog sound",
-                  "explanation": "Incorrect. Dog does not override the method."
-                },
-                {
-                  "text": "Animal sound",
-                  "explanation": "Correct! The Dog class inherits the sound() method."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect. The code compiles successfully."
-                },
-                {
-                  "text": "No output",
-                  "explanation": "Incorrect. The inherited method executes."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void eat() {\n    System.out.println(\"Animal eats\");\n  }\n}\n\nclass Dog extends Animal {\n  void eat() {\n    System.out.println(\"Dog eats\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.eat();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Animal eats",
-                  "explanation": "Incorrect. The method is overridden."
-                },
-                {
-                  "text": "Dog eats",
-                  "explanation": "Correct! The child method overrides the parent method."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect. Overriding is allowed."
-                },
-                {
-                  "text": "Both lines will print",
-                  "explanation": "Incorrect. Only the overridden method runs."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which statement about inheritance in Java is TRUE?",
-              "options": [
-                {
-                  "text": "Java supports multiple inheritance with classes",
-                  "explanation": "Incorrect. Java prevents this due to the diamond problem."
-                },
-                {
-                  "text": "Java supports multiple inheritance using interfaces",
-                  "explanation": "Correct! Classes can implement multiple interfaces."
-                },
-                {
-                  "text": "Java does not support hierarchical inheritance",
-                  "explanation": "Incorrect. Java supports it."
-                },
-                {
-                  "text": "Java only allows one level of inheritance",
-                  "explanation": "Incorrect. Multilevel inheritance is allowed."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void display(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void display(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    A obj = new B();\n    obj.display();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect. The object type determines method execution."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Correct! Method overriding uses runtime polymorphism."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect. The code compiles correctly."
-                },
-                {
-                  "text": "Both A and B",
-                  "explanation": "Incorrect. Only the overridden method executes."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You want to share behavior between classes but avoid tight coupling. Which design would you choose?",
-              "options": [
-                {
-                  "text": "Deep inheritance hierarchies",
-                  "explanation": "Incorrect. Deep hierarchies often create maintenance problems."
-                },
-                {
-                  "text": "Composition over inheritance",
-                  "explanation": "Correct! Modern design prefers composition for flexibility."
-                },
-                {
-                  "text": "Static utility methods",
-                  "explanation": "Incorrect. Static methods remove object relationships."
-                },
-                {
-                  "text": "Public global variables",
-                  "explanation": "Incorrect. This breaks encapsulation."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  A(){\n    System.out.println(\"A Constructor\");\n  }\n}\n\nclass B extends A {\n  B(){\n    System.out.println(\"B Constructor\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    new B();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "B Constructor",
-                  "explanation": "Incorrect. Parent constructor runs first."
-                },
-                {
-                  "text": "A Constructor then B Constructor",
-                  "explanation": "Correct! Constructors execute parent → child."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect. The code compiles."
-                },
-                {
-                  "text": "No output",
+                  "text": "Compresses files for storage",
                   "explanation": "Incorrect."
                 }
               ],
               "correctAnswer": 1
             },
             {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void display(){\n    System.out.println(\"Class A\");\n  }\n}\n\nclass B extends A {\n  void display(){\n    System.out.println(\"Class B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new B();\n    obj.display();\n  }\n}"
-              },
+              "question": "Which command shows live CPU and memory usage on a Linux machine?",
               "options": [
                 {
-                  "text": "Class A",
-                  "explanation": "Incorrect. Method overriding happens at runtime."
+                  "text": "top or htop",
+                  "explanation": "Correct! Both provide a live, updating view of system resource usage."
                 },
                 {
-                  "text": "Class B",
-                  "explanation": "Correct! Runtime polymorphism calls the child method."
+                  "text": "cat",
+                  "explanation": "Incorrect. cat prints file contents."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "grep",
+                  "explanation": "Incorrect. grep searches text for patterns."
                 },
                 {
-                  "text": "Both A and B",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What happens if a subclass does not define a constructor?",
-              "options": [
-                {
-                  "text": "The program fails to compile",
-                  "explanation": "Incorrect. Java provides a default constructor."
-                },
-                {
-                  "text": "Java automatically calls the parent constructor",
-                  "explanation": "Correct! super() is implicitly called."
-                },
-                {
-                  "text": "The subclass cannot be instantiated",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "The parent constructor will never execute",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which method cannot be overridden?",
-              "options": [
-                {
-                  "text": "static method",
-                  "explanation": "Correct! Static methods are hidden, not overridden."
-                },
-                {
-                  "text": "public method",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "protected method",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "default method",
-                  "explanation": "Incorrect."
+                  "text": "touch",
+                  "explanation": "Incorrect. touch creates an empty file or updates a timestamp."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "What will happen if a subclass tries to access a private variable from the parent class?",
+              "question": "What is the primary purpose of the chmod command?",
               "options": [
                 {
-                  "text": "It works normally",
-                  "explanation": "Incorrect. Private members are not accessible."
+                  "text": "Change file/directory permissions",
+                  "explanation": "Correct! chmod modifies read/write/execute permissions."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Correct! Private fields cannot be accessed directly."
+                  "text": "Change file ownership",
+                  "explanation": "Incorrect. That's chown."
                 },
                 {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
+                  "text": "Compress a file",
+                  "explanation": "Incorrect. That's tools like gzip/tar."
                 },
                 {
-                  "text": "It returns null",
-                  "explanation": "Incorrect."
+                  "text": "Kill a running process",
+                  "explanation": "Incorrect. That's the kill command."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What is the key functional difference between TCP and UDP?",
+              "options": [
+                {
+                  "text": "TCP is connection-oriented and reliable; UDP is connectionless and unreliable",
+                  "explanation": "Correct! TCP uses a handshake and guarantees ordered delivery; UDP just sends packets with no delivery guarantee."
+                },
+                {
+                  "text": "TCP is used only for email; UDP is used only for web traffic",
+                  "explanation": "Incorrect. Both protocols are used across many types of traffic."
+                },
+                {
+                  "text": "UDP encrypts data by default; TCP does not",
+                  "explanation": "Incorrect. Neither protocol encrypts data by default — that's a separate layer (e.g., TLS)."
+                },
+                {
+                  "text": "There is no real difference in modern networking",
+                  "explanation": "Incorrect. The reliability/ordering distinction is fundamental and still very relevant."
+                }
+              ],
+              "correctAnswer": 0
+            },
+            {
+              "question": "What does the command `ss -tulpn` help you inspect?",
+              "options": [
+                {
+                  "text": "Disk usage per directory",
+                  "explanation": "Incorrect. That's tools like du or df."
+                },
+                {
+                  "text": "Listening ports and the processes bound to them",
+                  "explanation": "Correct! ss (socket statistics) with these flags shows TCP/UDP listening sockets and owning processes."
+                },
+                {
+                  "text": "Git commit history",
+                  "explanation": "Incorrect. That's git log."
+                },
+                {
+                  "text": "Kubernetes pod status",
+                  "explanation": "Incorrect. That's kubectl get pods."
                 }
               ],
               "correctAnswer": 1
             },
             {
-              "question": "Which keyword allows a subclass to access a parent class constructor?",
+              "question": "Why does NAT (Network Address Translation) matter for understanding cloud infrastructure later on?",
               "options": [
                 {
-                  "text": "this",
-                  "explanation": "Incorrect. this refers to the current object."
+                  "text": "It has nothing to do with cloud networking",
+                  "explanation": "Incorrect. NAT concepts reappear directly in cloud/container networking."
                 },
                 {
-                  "text": "super",
-                  "explanation": "Correct! super() calls the parent constructor."
+                  "text": "It lets multiple private IPs share a single public IP, a concept mirrored in how Pods reach external networks",
+                  "explanation": "Correct! The same address-translation principle underlies how internal cluster IPs get routed to and from the outside world."
                 },
                 {
-                  "text": "extends",
-                  "explanation": "Incorrect. extends defines inheritance."
+                  "text": "It only applies to physical routers, never to software-defined networks",
+                  "explanation": "Incorrect. NAT is implemented in both hardware and software-defined networking."
                 },
                 {
-                  "text": "override",
-                  "explanation": "Incorrect."
+                  "text": "It's a deprecated protocol no longer used",
+                  "explanation": "Incorrect. NAT is still widely used today."
                 }
               ],
               "correctAnswer": 1
             },
             {
-              "question": "What is the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    super.show();\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    B obj = new B();\n    obj.show();\n  }\n}"
-              },
+              "question": "A process is misbehaving and won't respond to a normal termination request. What's the correct way to force-kill it by PID, and why is this a last resort?",
               "options": [
                 {
-                  "text": "A",
-                  "explanation": "Incorrect."
+                  "text": "`kill -9 <pid>` — because SIGKILL terminates immediately without letting the process clean up resources or save state",
+                  "explanation": "Correct! SIGKILL (-9) can't be caught or ignored, so the OS terminates it instantly — but the process has no chance to close files, flush buffers, or release locks gracefully."
                 },
                 {
-                  "text": "B",
-                  "explanation": "Incorrect."
+                  "text": "`rm -rf <pid>` — because deleting the PID removes the process",
+                  "explanation": "Incorrect. rm deletes files, not processes; PIDs aren't filesystem paths."
                 },
                 {
-                  "text": "A then B",
-                  "explanation": "Correct! super.show() runs first."
+                  "text": "`chmod 000 <pid>` — because removing permissions stops execution",
+                  "explanation": "Incorrect. chmod affects file permissions, not a running process's execution."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "`ps -9 <pid>`",
+                  "explanation": "Incorrect. This isn't valid usage of ps."
                 }
               ],
-              "correctAnswer": 2
+              "correctAnswer": 0
             },
             {
-              "question": "You have a deep inheritance hierarchy: Vehicle → Car → ElectricCar → AutonomousElectricCar. What design problem might this cause?",
+              "question": "Why is DNS resolution specifically important inside a Kubernetes cluster, beyond general internet browsing?",
               "options": [
                 {
-                  "text": "Improved flexibility",
-                  "explanation": "Incorrect. Deep hierarchies reduce flexibility."
+                  "text": "Kubernetes doesn't use DNS internally at all",
+                  "explanation": "Incorrect. Kubernetes relies heavily on internal DNS via CoreDNS."
                 },
                 {
-                  "text": "Tight coupling and difficult maintenance",
-                  "explanation": "Correct! Deep inheritance trees are hard to maintain."
+                  "text": "Because Pods get ephemeral IPs that change on recreation, so services must be discoverable by stable names resolved dynamically via CoreDNS",
+                  "explanation": "Correct! Hardcoding Pod IPs would break constantly — internal DNS lets services reliably find each other by name regardless of underlying IP churn."
                 },
                 {
-                  "text": "Faster program execution",
-                  "explanation": "Incorrect."
+                  "text": "Because Kubernetes only supports UDP traffic, and DNS is required to enable TCP",
+                  "explanation": "Incorrect. Kubernetes supports both TCP and UDP independently of DNS."
                 },
                 {
-                  "text": "Less memory usage",
-                  "explanation": "Incorrect."
+                  "text": "DNS is only used for external, internet-facing traffic in Kubernetes, never internal traffic",
+                  "explanation": "Incorrect. Internal service-to-service communication is exactly where cluster DNS matters most."
                 }
               ],
               "correctAnswer": 1
             },
             {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {}\nclass B extends A {}\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n  }\n}"
-              },
+              "question": "You SSH into a production server and find a process consuming 100% CPU with an unknown PID, and outbound connections on an unusual port. What's the most correct sequence of shell commands to investigate before taking action?",
               "options": [
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "`ps aux` to find the process, `ss -tulpn` to check what ports/connections it owns, then `journalctl` or logs to see its recent behavior before deciding to kill it",
+                  "explanation": "Correct! This sequence identifies the process, correlates it to network activity, and reviews its history — giving you evidence before you act, rather than guessing."
                 },
                 {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
+                  "text": "Immediately run `kill -9` on every process with high CPU usage",
+                  "explanation": "Incorrect. This risks killing legitimate workloads without understanding what's actually happening — investigation should come before drastic action."
                 },
                 {
-                  "text": "Object of C stored in reference of A",
-                  "explanation": "Correct! Parent references can point to child objects."
+                  "text": "Run `rm -rf /` to reset the server to a clean state",
+                  "explanation": "Incorrect. This is destructive and unrelated to diagnosing the issue — it would delete the entire filesystem."
                 },
                 {
-                  "text": "Object of A created",
-                  "explanation": "Incorrect."
+                  "text": "Reboot the server without checking anything, since reboots fix most issues",
+                  "explanation": "Incorrect. Rebooting destroys the evidence (running process, open connections) needed to understand what actually happened, especially important if this is a security incident."
                 }
               ],
-              "correctAnswer": 2
+              "correctAnswer": 0
             }
           ]
         },
         {
-          "slug": "polymorphism",
-          "title": "Object Oriented Programming - Polymorphism",
+          "slug": "git-version-control-essentials",
+          "title": "Git & Version Control Essentials",
           "content": [
             {
-              "type": "paragraph",
-              "text": "Polymorphism literally means: \"Many forms\"."
-            },
-            {
-              "type": "image",
-              "src": "/images/polymorphism.png",
-              "alt": "Polymorphism Diagram"
+              "type": "heading",
+              "text": "Git & Version Control Essentials"
             },
             {
               "type": "paragraph",
-              "text": "However, in programming it can mean that same method can have different implementations, meaning it can behave differently based on the input."
+              "text": "Git isn't just a nice-to-have skill for cloud native engineers — it's the backbone the entire ecosystem is built on. Every CI/CD pipeline triggers off a Git event. Every GitOps workflow treats a Git repository as the literal source of truth for what's running in production. Even Infrastructure as Code lives and dies in version control. If you're shaky on Git, you'll feel it in almost every later module."
             },
             {
               "type": "paragraph",
-              "text": "Polymorphism exists to allow flexible code and dynamic behavior, making logic reusable. Instead of writing separate logic for every class, you can write general code that works with many types."
+              "text": "This chapter isn't a full Git course — it's the working knowledge you need so branching, merging, and commit history stop being obstacles and start being tools you reach for naturally."
             },
             {
               "type": "heading",
-              "text": "Two Types of Polymorphism"
+              "text": "The Core Workflow"
             },
             {
               "type": "paragraph",
-              "text": "There are two types of polymorphism in Java: compile-time (method overloading) and runtime (method overriding)."
+              "text": "At its heart, Git tracks snapshots of your project over time. You stage changes, commit them with a message, and push them to a remote repository so others (and your pipelines) can see them."
+            },
+            {
+              "type": "code",
+              "language": "bash",
+              "code": "git status              # see what's changed\ngit add .                # stage changes\ngit commit -m \"message\"  # snapshot staged changes\ngit push origin main     # send commits to the remote\ngit pull                 # fetch + merge latest remote changes\n"
+            },
+            {
+              "type": "paragraph",
+              "text": "A good commit message matters more in cloud native workflows than people expect — many CI/CD systems parse commit messages to decide version bumps, changelogs, or even which pipeline stages to run (e.g., a `[skip ci]` tag)."
             },
             {
               "type": "heading",
-              "text": "Compile-Time Polymorphism (Method Overloading)"
+              "text": "Branching Strategies"
             },
             {
               "type": "paragraph",
-              "text": "Multiple methods with the same name but different parameters"
+              "text": "There are two dominant philosophies you'll encounter. GitFlow uses long-lived branches (develop, feature/*, release/*, hotfix/*) with a fairly rigid structure — historically popular, but heavy for fast-moving teams. Trunk-based development keeps everyone merging small, frequent changes directly into a single main branch, often behind feature flags."
             },
             {
               "type": "code",
-              "language": "java",
-              "code": "\nclass Calculator {\n\n    int add(int a, int b){\n        return a + b;\n    }\n\n    double add(double a, double b){\n        return a + b;\n    }\n\n    int add(int a, int b, int c){\n        return a + b + c;\n    }\n\n}\n// Usage\nCalculator calc = new Calculator();\n\ncalc.add(2,3);\ncalc.add(2.5,4.5);\ncalc.add(1,2,3);\n"
+              "language": "bash",
+              "code": "git branch feature/new-login    # create a branch\ngit checkout -b feature/new-login  # create and switch in one step\ngit merge feature/new-login     # merge into current branch\ngit rebase main                 # replay your commits on top of main\n"
             },
             {
               "type": "paragraph",
-              "text": "Java decides which method to use during compilation."
-            },
-            {
-              "type": "paragraph",
-              "text": "To override a method, you must change: number of parameters, type of parameters, or order of parameters."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// valid \n\nvoid print(int a)\nvoid print(double a)\n\n// not valid\n\nint add(int a, int b)\ndouble add(int a, int b)\n"
+              "text": "Cloud native teams that ship multiple times a day tend to favor trunk-based development — it minimizes long-lived merge conflicts and pairs naturally with continuous integration, where every small change gets built, tested, and validated immediately rather than in one large, risky merge at the end."
             },
             {
               "type": "heading",
-              "text": "Runtime Polymorphism (Method Overriding)"
+              "text": "Why This Sets Up Everything Else"
             },
             {
               "type": "paragraph",
-              "text": "Runtime polymorphism happens when a subclass provides a specific implementation of a parent method."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class Animal {\n\n    void sound(){\n        System.out.println(\"Animal makes sound\");\n    }\n\n}\n\nclass Dog extends Animal {\n\n    @Override\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n\n}\n\n// Usage\nAnimal animal = new Dog();\nanimal.sound();\n\n// Output: Dog barks\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "The decision happens at runtime, not compile time."
-            },
-            {
-              "type": "paragraph",
-              "text": "Runtime polymorphism uses dynamic method dispatch."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Animal {\n    void sound(){\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Cat extends Animal {\n    void sound(){\n        System.out.println(\"Cat meows\");\n    }\n}\n\nclass Dog extends Animal {\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n}\n\n// usage\n\nAnimal a;\n\na = new Dog();\na.sound();\n\na = new Cat();\na.sound();\n\n// output\n\nDog barks\nCat meows\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Same reference -> different behavior based on actual object type."
-            },
-            {
-              "type": "heading",
-              "text": "Real World Example of Polymorphism"
-            },
-            {
-              "type": "paragraph",
-              "text": "Consider a payment system."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Payment {\n\n    void pay(){\n        System.out.println(\"Processing payment\");\n    }\n\n}\n\nclass CreditCardPayment extends Payment {\n\n    void pay(){\n        System.out.println(\"Paying with credit card\");\n    }\n\n}\n\nclass PayPalPayment extends Payment {\n\n    void pay(){\n        System.out.println(\"Paying with PayPal\");\n    }\n\n}\n\n// usage\n\nPayment payment;\n\npayment = new CreditCardPayment();\npayment.pay();\n\npayment = new PayPalPayment();\npayment.pay();\n\n// output\n\nPaying with credit card\nPaying with PayPal\n"
-            },
-            {
-              "type": "heading",
-              "text": "Polymorphism with Interfaces"
-            },
-            {
-              "type": "paragraph",
-              "text": "Polymorphism is often used with interfaces."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "interface Shape {\n    void draw();\n}\n\nclass Circle implements Shape {\n\n    public void draw(){\n        System.out.println(\"Drawing circle\");\n    }\n\n}\n\nclass Square implements Shape {\n\n    public void draw(){\n        System.out.println(\"Drawing square\");\n    }\n\n}\n\n// usage\n\nShape shape;\n\nshape = new Circle();\nshape.draw();\n\nshape = new Square();\nshape.draw();\n"
-            },
-            {
-              "type": "heading",
-              "text": "TL;DR"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\n| Concept      | Happens When                           |\n| ------------ | -------------------------------------- |\n| Overloading  | same method name, different parameters |\n| Overriding   | subclass redefines parent method       |\n| Polymorphism | one interface \u2192 many implementations   |\n\n"
+              "text": "Later in this course, you'll see Git used as far more than a code backup tool: CI pipelines trigger on `git push`, GitOps tools like ArgoCD literally reconcile your cluster to match whatever is committed to a Git repo, and Terraform state changes get reviewed via pull requests before being applied to real infrastructure. Get comfortable now — Git fluency is the thread running through nearly every remaining module."
             }
           ],
           "quizzes": [
             {
-              "question": "What does polymorphism mean in Java?",
+              "question": "Which command creates a snapshot of your staged changes with a message?",
               "options": [
                 {
-                  "text": "Many forms of the same method or behavior",
-                  "explanation": "Correct! Polymorphism means one interface with multiple implementations."
+                  "text": "git commit -m \"message\"",
+                  "explanation": "Correct! This records a snapshot of staged changes with a descriptive message."
                 },
                 {
-                  "text": "Hiding data inside a class",
-                  "explanation": "Incorrect. That is encapsulation."
+                  "text": "git push",
+                  "explanation": "Incorrect. push sends existing commits to a remote — it doesn't create a commit itself."
                 },
                 {
-                  "text": "Creating subclasses",
-                  "explanation": "Incorrect. That is inheritance."
+                  "text": "git status",
+                  "explanation": "Incorrect. status only shows the current state of changes, it doesn't commit anything."
                 },
                 {
-                  "text": "Using private variables",
-                  "explanation": "Incorrect."
+                  "text": "git clone",
+                  "explanation": "Incorrect. clone copies an existing remote repository locally."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "Which type of polymorphism occurs at compile time?",
+              "question": "What does `git add .` do?",
               "options": [
                 {
-                  "text": "Method overriding",
-                  "explanation": "Incorrect."
+                  "text": "Stages all changed files in the current directory for the next commit",
+                  "explanation": "Correct! It moves changes into the staging area, preparing them to be committed."
                 },
                 {
-                  "text": "Method overloading",
-                  "explanation": "Correct! Overloading is resolved at compile time."
+                  "text": "Permanently deletes uncommitted changes",
+                  "explanation": "Incorrect. That would be closer to git checkout or git reset --hard, not git add."
                 },
                 {
-                  "text": "Dynamic binding",
-                  "explanation": "Incorrect."
+                  "text": "Pushes changes to the remote repository",
+                  "explanation": "Incorrect. That's git push."
                 },
                 {
-                  "text": "Constructor chaining",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal sound\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog bark\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Animal sound",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Dog bark",
-                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Both outputs",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Correct! C inherits B's overridden method."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You are designing a system where multiple payment methods exist (CreditCard, PayPal, Crypto). Which design would you choose?",
-              "options": [
-                {
-                  "text": "Create a Payment parent class with a pay() method and override it",
-                  "explanation": "Correct! This allows runtime polymorphism."
-                },
-                {
-                  "text": "Write separate unrelated classes",
-                  "explanation": "Incorrect. You lose polymorphic behavior."
-                },
-                {
-                  "text": "Use only static methods",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Put all logic in one class",
-                  "explanation": "Incorrect."
+                  "text": "Creates a new branch",
+                  "explanation": "Incorrect. That's git branch."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "You want to process many shapes (Circle, Square, Triangle) with a draw() method. Which design would you choose?",
+              "question": "Which command creates a new branch AND switches to it in a single step?",
               "options": [
                 {
-                  "text": "Use if-else statements for each shape",
-                  "explanation": "Incorrect. This becomes hard to maintain."
+                  "text": "git checkout -b <branch-name>",
+                  "explanation": "Correct! The -b flag creates the branch and checks it out immediately."
                 },
                 {
-                  "text": "Create a Shape interface with draw() and implement it",
-                  "explanation": "Correct! This allows polymorphic behavior."
+                  "text": "git branch <branch-name>",
+                  "explanation": "Incorrect. This only creates the branch — you'd still need git checkout to switch to it."
                 },
                 {
-                  "text": "Create static methods",
-                  "explanation": "Incorrect."
+                  "text": "git merge <branch-name>",
+                  "explanation": "Incorrect. merge combines branch histories, it doesn't create branches."
                 },
                 {
-                  "text": "Put all logic in one large class",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which statement best describes runtime polymorphism?",
-              "options": [
-                {
-                  "text": "A method call resolved during compilation",
-                  "explanation": "Incorrect. That is compile-time polymorphism."
-                },
-                {
-                  "text": "A method call resolved during runtime based on object type",
-                  "explanation": "Correct! Runtime polymorphism decides method behavior at runtime."
-                },
-                {
-                  "text": "Multiple constructors in a class",
-                  "explanation": "Incorrect. That is constructor overloading."
-                },
-                {
-                  "text": "Using static methods across classes",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Animal",
-                  "explanation": "Incorrect. The method is overridden."
-                },
-                {
-                  "text": "Dog",
-                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Both Animal and Dog",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  static void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  static void show(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new B();\n    obj.show();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Correct! Static methods are resolved by reference type, not object type."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect. Static methods are not overridden."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
+                  "text": "git log <branch-name>",
+                  "explanation": "Incorrect. log shows commit history."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
-              },
+              "question": "What does `git pull` actually do under the hood?",
               "options": [
                 {
-                  "text": "A",
-                  "explanation": "Incorrect."
+                  "text": "It fetches remote changes and merges them into your current branch",
+                  "explanation": "Correct! git pull is effectively git fetch followed by git merge."
                 },
                 {
-                  "text": "B",
-                  "explanation": "Correct! C inherits B's overridden method."
+                  "text": "It uploads your local commits to the remote",
+                  "explanation": "Incorrect. That's git push."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "It permanently deletes your local repository",
+                  "explanation": "Incorrect. This is not something git pull does."
                 },
                 {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Test {\n  void print(int a){\n    System.out.println(\"int\");\n  }\n\n  void print(double a){\n    System.out.println(\"double\");\n  }\n\n  public static void main(String[] args){\n    Test t = new Test();\n    t.print(5);\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "double",
-                  "explanation": "Incorrect. Java prefers exact match."
-                },
-                {
-                  "text": "int",
-                  "explanation": "Correct! Method overloading resolves at compile time."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  A(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  B(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    new B();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "A then B",
-                  "explanation": "Correct! Parent constructor runs first."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "No output",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which methods participate in runtime polymorphism?",
-              "options": [
-                {
-                  "text": "static methods",
-                  "explanation": "Incorrect. Static methods are hidden, not overridden."
-                },
-                {
-                  "text": "private methods",
-                  "explanation": "Incorrect. Private methods are not inherited."
-                },
-                {
-                  "text": "overridden instance methods",
-                  "explanation": "Correct! Instance methods participate in runtime polymorphism."
-                },
-                {
-                  "text": "final methods",
-                  "explanation": "Incorrect. Final methods cannot be overridden."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "Which statement about polymorphism in Java is TRUE?",
-              "options": [
-                {
-                  "text": "Method overloading is resolved at runtime",
-                  "explanation": "Incorrect. Overloading is resolved at compile time."
-                },
-                {
-                  "text": "Method overriding supports runtime polymorphism",
-                  "explanation": "Correct! Overridden methods are resolved at runtime."
-                },
-                {
-                  "text": "Static methods support runtime polymorphism",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Private methods participate in polymorphism",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            }
-          ]
-        },
-        {
-          "slug": "abstraction",
-          "title": "Object Oriented Programming - Abstraction",
-          "content": [
-            {
-              "type": "paragraph",
-              "text": "Hiding implementation details and exposing only the necessary functionality. You show WHAT something does, not HOW it works."
-            },
-            {
-              "type": "paragraph",
-              "text": "For example, when you drive a car you turn the steering wheel and press the accelerator but you can't see the engine."
-            },
-            {
-              "type": "image",
-              "src": "/images/abstraction.png",
-              "alt": "Abstraction Diagram"
-            },
-            {
-              "type": "paragraph",
-              "text": "In java, abstraction is achieved using abstract classes and interfaces."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n\n// implementation\n\nclass Dog extends Animal {\n\n    void sound(){\n        System.out.println(\"Dog barks\");\n    }\n\n}\n\n// usage\n\nAnimal a = new Dog();\na.sound();\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Abstract methods have no body and must be implemented by subclasses, for example:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nabstract void sound();\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Abstract classes cannot be instantiated, for example the following is invalid:"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nAnimal a = new Animal();\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "If a class has one abstract method, the class must be abstract. For example, since sound() is abstract, Animal must be abstract."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Subclasses must implement abstract methods, for example in the example below, since sound() is abstract the subclass Dog HAS to implement it."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nabstract class Animal {\n\n    abstract void sound();\n\n    void sleep(){\n        System.out.println(\"Sleeping\");\n    }\n\n}\n\n// subclass\n\nclass Dog extends Animal {\n\n    void sound(){ \n        System.out.println(\"Dog barks\");\n    }\n\n}\n"
-            },
-            {
-              "type": "heading",
-              "text": "Interfaces"
-            },
-            {
-              "type": "paragraph",
-              "text": "Interfaces are a way to achieve full abstraction in Java."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "interface Shape {\n    void draw();\n}\n\n// implementation\n\nclass Circle implements Shape {\n\n    public void draw(){\n        System.out.println(\"Drawing circle\");\n    }\n\n}\n\n//usage\nShape shape = new Circle();\nshape.draw();\n"
-            },
-            {
-              "type": "heading",
-              "text": "Abstract Class vs. Interfaces"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "| Feature              | Abstract Class    | Interface           |\n| -------------------- | ----------------- | ------------------- |\n| Methods              | Abstract + normal | Mostly abstract     |\n| Variables            | Any               | public static final |\n| Inheritance          | extends           | implements          |\n| Multiple inheritance | No                | Yes                 |\n\n"
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "What does polymorphism mean in Java?",
-              "options": [
-                {
-                  "text": "Many forms of the same method or behavior",
-                  "explanation": "Correct! Polymorphism means one interface with multiple implementations."
-                },
-                {
-                  "text": "Hiding data inside a class",
-                  "explanation": "Incorrect. That is encapsulation."
-                },
-                {
-                  "text": "Creating subclasses",
-                  "explanation": "Incorrect. That is inheritance."
-                },
-                {
-                  "text": "Using private variables",
-                  "explanation": "Incorrect."
+                  "text": "It creates a backup branch automatically",
+                  "explanation": "Incorrect. No automatic branch is created by git pull."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "Which type of polymorphism occurs at compile time?",
+              "question": "What is the fundamental difference between GitFlow and trunk-based development?",
               "options": [
                 {
-                  "text": "Method overriding",
-                  "explanation": "Incorrect."
+                  "text": "GitFlow uses multiple long-lived branches with a structured release process; trunk-based development favors small, frequent merges into a single main branch",
+                  "explanation": "Correct! GitFlow separates work across develop/feature/release/hotfix branches, while trunk-based keeps everyone integrating into main constantly."
                 },
                 {
-                  "text": "Method overloading",
-                  "explanation": "Correct! Overloading is resolved at compile time."
+                  "text": "GitFlow doesn't use branches at all",
+                  "explanation": "Incorrect. GitFlow is actually defined by its structured use of multiple branch types."
                 },
                 {
-                  "text": "Dynamic binding",
-                  "explanation": "Incorrect."
+                  "text": "Trunk-based development requires a separate repository for every feature",
+                  "explanation": "Incorrect. Trunk-based development minimizes separate long-lived branches, not repositories."
                 },
                 {
-                  "text": "Constructor chaining",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal sound\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog bark\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Animal sound",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Dog bark",
-                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Both outputs",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Correct! C inherits B's overridden method."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You are designing a system where multiple payment methods exist (CreditCard, PayPal, Crypto). Which design would you choose?",
-              "options": [
-                {
-                  "text": "Create a Payment parent class with a pay() method and override it",
-                  "explanation": "Correct! This allows runtime polymorphism."
-                },
-                {
-                  "text": "Write separate unrelated classes",
-                  "explanation": "Incorrect. You lose polymorphic behavior."
-                },
-                {
-                  "text": "Use only static methods",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Put all logic in one class",
-                  "explanation": "Incorrect."
+                  "text": "There is no meaningful difference between the two",
+                  "explanation": "Incorrect. They represent genuinely different philosophies around branch lifetime and integration frequency."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "You want to process many shapes (Circle, Square, Triangle) with a draw() method. Which design would you choose?",
+              "question": "What's the core difference between `git merge` and `git rebase`?",
               "options": [
                 {
-                  "text": "Use if-else statements for each shape",
-                  "explanation": "Incorrect. This becomes hard to maintain."
+                  "text": "Merge creates a new commit combining two histories; rebase rewrites commit history by replaying your commits on top of another base",
+                  "explanation": "Correct! Merge preserves both histories with a merge commit; rebase creates a linear history by moving your commits onto a new base."
                 },
                 {
-                  "text": "Create a Shape interface with draw() and implement it",
-                  "explanation": "Correct! This allows polymorphic behavior."
+                  "text": "Merge deletes the source branch automatically; rebase does not",
+                  "explanation": "Incorrect. Neither command automatically deletes branches by default."
                 },
                 {
-                  "text": "Create static methods",
-                  "explanation": "Incorrect."
+                  "text": "Rebase can only be used on the main branch",
+                  "explanation": "Incorrect. Rebase can be used on any branch relative to any base."
                 },
                 {
-                  "text": "Put all logic in one large class",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which statement best describes runtime polymorphism?",
-              "options": [
-                {
-                  "text": "A method call resolved during compilation",
-                  "explanation": "Incorrect. That is compile-time polymorphism."
-                },
-                {
-                  "text": "A method call resolved during runtime based on object type",
-                  "explanation": "Correct! Runtime polymorphism decides method behavior at runtime."
-                },
-                {
-                  "text": "Multiple constructors in a class",
-                  "explanation": "Incorrect. That is constructor overloading."
-                },
-                {
-                  "text": "Using static methods across classes",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Animal {\n  void sound(){\n    System.out.println(\"Animal\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound(){\n    System.out.println(\"Dog\");\n  }\n}\n\npublic class Test {\n  public static void main(String[] args){\n    Animal a = new Dog();\n    a.sound();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Animal",
-                  "explanation": "Incorrect. The method is overridden."
-                },
-                {
-                  "text": "Dog",
-                  "explanation": "Correct! Runtime polymorphism calls the Dog implementation."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Both Animal and Dog",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  static void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  static void show(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new B();\n    obj.show();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Correct! Static methods are resolved by reference type, not object type."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect. Static methods are not overridden."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
+                  "text": "They are functionally identical commands with different names",
+                  "explanation": "Incorrect. They produce different resulting commit histories."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  void show(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  void show(){\n    System.out.println(\"B\");\n  }\n}\n\nclass C extends B {}\n\npublic class Test{\n  public static void main(String[] args){\n    A obj = new C();\n    obj.show();\n  }\n}"
-              },
+              "question": "Why might a fast-shipping cloud native team specifically prefer trunk-based development over long-lived feature branches?",
               "options": [
                 {
-                  "text": "A",
-                  "explanation": "Incorrect."
+                  "text": "It reduces large, painful merge conflicts and integrates naturally with continuous integration and feature flags",
+                  "explanation": "Correct! Small, frequent merges catch integration issues early and align with CI's goal of validating changes continuously rather than in large batches."
                 },
                 {
-                  "text": "B",
-                  "explanation": "Correct! C inherits B's overridden method."
+                  "text": "It completely eliminates the need for automated testing",
+                  "explanation": "Incorrect. Trunk-based development actually relies more heavily on strong automated testing since changes land in main so frequently."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "It requires fewer developers on the team",
+                  "explanation": "Incorrect. Team size isn't inherently tied to branching strategy."
                 },
                 {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Test {\n  void print(int a){\n    System.out.println(\"int\");\n  }\n\n  void print(double a){\n    System.out.println(\"double\");\n  }\n\n  public static void main(String[] args){\n    Test t = new Test();\n    t.print(5);\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "double",
-                  "explanation": "Incorrect. Java prefers exact match."
-                },
-                {
-                  "text": "int",
-                  "explanation": "Correct! Method overloading resolves at compile time."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class A {\n  A(){\n    System.out.println(\"A\");\n  }\n}\n\nclass B extends A {\n  B(){\n    System.out.println(\"B\");\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    new B();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "A then B",
-                  "explanation": "Correct! Parent constructor runs first."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "No output",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which methods participate in runtime polymorphism?",
-              "options": [
-                {
-                  "text": "static methods",
-                  "explanation": "Incorrect. Static methods are hidden, not overridden."
-                },
-                {
-                  "text": "private methods",
-                  "explanation": "Incorrect. Private methods are not inherited."
-                },
-                {
-                  "text": "overridden instance methods",
-                  "explanation": "Correct! Instance methods participate in runtime polymorphism."
-                },
-                {
-                  "text": "final methods",
-                  "explanation": "Incorrect. Final methods cannot be overridden."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "Which statement about polymorphism in Java is TRUE?",
-              "options": [
-                {
-                  "text": "Method overloading is resolved at runtime",
-                  "explanation": "Incorrect. Overloading is resolved at compile time."
-                },
-                {
-                  "text": "Method overriding supports runtime polymorphism",
-                  "explanation": "Correct! Overridden methods are resolved at runtime."
-                },
-                {
-                  "text": "Static methods support runtime polymorphism",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Private methods participate in polymorphism",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            }
-          ]
-        },
-        {
-          "slug": "oop-relationships",
-          "title": "Object Oriented Programming Relationships",
-          "content": [
-            {
-              "type": "paragraph",
-              "text": "In object-oriented design, classes interact with each other. These relationships describe how objects connect. The main relationships are Association, Aggregation, and Composition."
-            },
-            {
-              "type": "heading",
-              "text": "Association"
-            },
-            {
-              "type": "paragraph",
-              "text": "One class uses or interacts with another class. It is the loosest relationship. For example, a Student takes a Course. Both can exist independently, even if Course has a reference to Student."
-            },
-            {
-              "type": "paragraph",
-              "text": "There's mainly two types of association: unidirectional and bidirectional. In unidirectional association, one class knows about the other but not vice versa. In bidirectional association, both classes know about each other."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\n// Unidirectional\nclass Student {}\n\nclass Course {\n\n    Student student;\n\n}\n\n// Bidirectional\nclass Student {\n    Course course;\n}\n\nclass Course {\n    Student student;\n}\n"
-            },
-            {
-              "type": "heading",
-              "text": "Aggregation"
-            },
-            {
-              "type": "paragraph",
-              "text": "Aggregation is a special form of association. A class can contain another class but the contained object can exist independently. It has a weak \"has-a\" relationship."
-            },
-            {
-              "type": "paragraph",
-              "text": "For example, [ University → Students ] If the university closes, students still exist. University has students. Students can exist without the university."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Student {\n    String name;\n}\n\nclass University {\n\n    List<Student> students;\n\n}\n"
-            },
-            {
-              "type": "heading",
-              "text": "Composition"
-            },
-            {
-              "type": "paragraph",
-              "text": "Composition is stronger than aggregation. A class owns another class and controls its lifecycle. If the parent is destroyed, so is the child."
-            },
-            {
-              "type": "paragraph",
-              "text": "For example, House → Rooms. If the house is destroyed, the rooms are also destroyed. Rooms cannot exist without the house. Room is created inside the house. It has a strong \"has-a\" relationship."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Room {\n    String name;\n}\n\nclass House {\n\n    private Room room;\n\n    House(){\n        room = new Room();\n    }\n\n}\n"
-            },
-            {
-              "type": "heading",
-              "text": "Real Software Example"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nUser \u2192 Posts // User has posts and posts belong to a user\nPost \u2192 Comments // Post has comments and comments belong to a post, but comments can exist without a post\nOrder \u2192 OrderItems // Order items belong to an order, but order items can exist without an order\n"
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "What is association in OOP?",
-              "options": [
-                {
-                  "text": "A relationship where one class interacts with another",
-                  "explanation": "Correct! Association describes how classes interact."
-                },
-                {
-                  "text": "A subclass inheriting from a parent class",
-                  "explanation": "Incorrect. That is inheritance."
-                },
-                {
-                  "text": "Hiding data in a class",
-                  "explanation": "Incorrect. That is encapsulation."
-                },
-                {
-                  "text": "Multiple forms of the same method",
-                  "explanation": "Incorrect. That is polymorphism."
+                  "text": "It prevents any code review from being necessary",
+                  "explanation": "Incorrect. Code review (often via fast, small PRs) is still standard practice in trunk-based workflows."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "Which relationship represents a weak 'has-a' relationship?",
+              "question": "You accidentally committed a large binary file and pushed it to the remote. Simply deleting the file in a new commit doesn't solve your repo size problem. Why?",
               "options": [
                 {
-                  "text": "Composition",
-                  "explanation": "Incorrect."
+                  "text": "Because Git retains the file in the commit history — deleting it in a later commit doesn't remove it from earlier snapshots, so it still bloats the repo",
+                  "explanation": "Correct! Git preserves full history by default; you'd need to rewrite history (e.g., with git filter-repo or BFG) to actually purge it."
                 },
                 {
-                  "text": "Aggregation",
-                  "explanation": "Correct! Aggregation represents weak ownership."
+                  "text": "Because Git automatically re-adds deleted files after every push",
+                  "explanation": "Incorrect. Git does not automatically re-add deleted files."
                 },
                 {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
+                  "text": "Because binary files can never be deleted from Git under any circumstances",
+                  "explanation": "Incorrect. They can be removed, but it requires rewriting history, not just deleting in a new commit."
                 },
                 {
-                  "text": "Polymorphism",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which relationship means the child object cannot exist without the parent?",
-              "options": [
-                {
-                  "text": "Association",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Aggregation",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Composition",
-                  "explanation": "Correct! Composition has strong ownership."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What type of relationship is shown below?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Engine {}\n\nclass Car {\n\n  Engine engine;\n\n}"
-              },
-              "options": [
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Association",
-                  "explanation": "Correct! Car simply references Engine."
-                },
-                {
-                  "text": "Composition",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Polymorphism",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What relationship does this represent?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Room {}\n\nclass House {\n\n  private Room room;\n\n  House(){\n    room = new Room();\n  }\n\n}"
-              },
-              "options": [
-                {
-                  "text": "Aggregation",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Association",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Composition",
-                  "explanation": "Correct! Room lifecycle depends on House."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What type of relationship is demonstrated?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Student { String name;\n}\n\nclass University {\n\n  List<Student> students;\n\n  University(List<Student> students){\n    this.students = students;\n  }\n\n}"
-              },
-              "options": [
-                {
-                  "text": "Composition",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Aggregation",
-                  "explanation": "Correct! Students can exist without University."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Encapsulation",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You are designing an Order system. Each Order contains multiple OrderItems that should not exist without the Order. Which relationship should you use?",
-              "options": [
-                {
-                  "text": "Association",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Aggregation",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Composition",
-                  "explanation": "Correct! OrderItems depend on Order."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "You are building a system where Students enroll in Universities, but students can exist without the university. Which relationship fits best?",
-              "options": [
-                {
-                  "text": "Composition",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Aggregation",
-                  "explanation": "Correct! Students exist independently."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Encapsulation",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which statement about composition is TRUE?",
-              "options": [
-                {
-                  "text": "Child objects can exist independently",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Parent controls the lifecycle of child objects",
-                  "explanation": "Correct! That defines composition."
-                },
-                {
-                  "text": "Composition is the same as inheritance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Composition is weaker than aggregation",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            }
-          ]
-        },
-        {
-          "slug": "collections",
-          "title": "Collections in Java",
-          "content": [
-            {
-              "type": "heading",
-              "text": "What is Collections Framework?"
-            },
-            {
-              "type": "paragraph",
-              "text": "The collections framework is a set of classes and interfaces used to store data, manipulate data and process groups of objects. Before collections, there used to be arrays which was fixed size and less flexible."
-            },
-            {
-              "type": "paragraph",
-              "text": "Collections allow for more flexible sizing, powerful operations, reusable data structures."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// Example of flexible sizing\n\nList<String> desk = new ArrayList<>(); // ArrayList is a Collections\ndesk.add(\"Laptop\"); // size is 1\ndesk.add(\"Mouse\"); // size is 2\n\n// Example of powerful operations\n\nList<Integers> scores = Arrays.asList(85, 90, 78);\nCollections.sort(scores); // sorts the scores in ascending order\nint max = Collections.max(scores); // finds the maximum score\nscores.removeIf(score -> score < 80); // removes scores less than 80\n\n\n// Example of reusable data structure\nMap<String, String> dictionary = new HashMap<>(); // mapping between word and definition\ndictionary.put(\"Java\", \"A high-level programming language.\");\n\nMap<Integerew HashMap<>(); // mapping between word and definition\ndictionary.pew HashMap<>(); // mapping between word and definition\ndictionary.put(\"Java\", \"A high-level programming language.\");\n\nMap<Integer, User> userCache = new HashMap<>(); // mapping between user ID and user object\nuserCache.put(1, new User(\"Alice\"));"
-            },
-            {
-              "type": "heading",
-              "text": "Core Interfaces"
-            },
-            {
-              "type": "paragraph",
-              "text": "Collection: List, Set, Queue."
-            },
-            {
-              "type": "paragraph",
-              "text": "Map (Separate hierarchy): HashMap, TreeMap."
-            },
-            {
-              "type": "heading",
-              "text": "List"
-            },
-            {
-              "type": "paragraph",
-              "text": "Lists are ordered and allows duplicates. Some of the common implementations are ArrayList and LinkedList."
-            },
-            {
-              "type": "paragraph",
-              "text": "Real world example of linked list: a music playlist where you can easily add/remove songs and navigate to the next/previous song. Real world example of array list: a photo gallery where you want quick access to photos by index."
-            },
-            {
-              "type": "paragraph",
-              "text": "Real world example 2 for linked list: In a scavenger hunt, you move linearly from point A to point B to point C. You can't reach point C without reaching point B. If you want to add a new point D between A and B, you change the clue at A to point to D. So now it will look like: A->D->C."
-            },
-            {
-              "type": "heading",
-              "text": "Set"
-            },
-            {
-              "type": "paragraph",
-              "text": "It cannot have duplicate elements and it is usually unordered. HashSet is the most common implementation."
-            },
-            {
-              "type": "paragraph",
-              "text": "Type of sets: HashSet, LinkedHashSet, TreeSet. HashSet is the most common and it does not maintain any order. LinkedHashSet maintains insertion order. TreeSet sorts the elements in natural order."
-            },
-            {
-              "type": "paragraph",
-              "text": "They all have their own personalities. HashSet is most commonly used because it is the fastest. It stores them in Hash table and doesn't care about order, only cares about finding them instantly. They are best used when you want fast results but don't care about order."
-            },
-            {
-              "type": "paragraph",
-              "text": "LinkedHashSet is a combo. It uses a hash table for speed but also maintains order. It maintains a doubly linked list. It's best for when you want to store unique items but also want the right order, like history log."
-            },
-            {
-              "type": "paragraph",
-              "text": "TreeSet is a step further, it does not care for when you added an item, it cares about the item's value. It uses Red-Black tree structure to constantly sort items as they are added. It is best used when you want to store something in alphabetical or numerical order."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// HashSet\n\nSet<String> brands = new HashSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\nbrands.add(\"Nike\"); // duplicate, will not be added\n\nSystem.out.println(brands.size()); // Output: 3\nSystem.out.println(brands);\n// Might be Output: [Nike, Fila, Adidas] (random order) \n// OR Output: [Adidas, Nike, Fila] (random order)\n\n// LinkedHashSet\n\nSet<String> brands = new LinkedHashSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\n\nSystem.out.println(brands);\n// Output: [Nike, Adidas, Fila] // insertion order\n\n// TreeSet\n\nSet<String> brands = new TreeSet<>();\nbrands.add(\"Nike\");\nbrands.add(\"Adidas\");\nbrands.add(\"Fila\");\n\nSystem.out.println(brands);\n// Output: [Adidas, Fila, Nike] // alphabetical order\n\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Internal structure: HashSet uses hash table, LinkedHashSet uses Hash table + linked list, TreeSet uses red-black tree."
-            },
-            {
-              "type": "paragraph",
-              "text": "Order: HashSet uses none, LinkedHashSet uses insertion order, TreeSet uses sorted."
-            },
-            {
-              "type": "paragraph",
-              "text": "Speed: HashSet O(1) > LinkedHashSet O(1) > TreeSet O(log n)."
-            },
-            {
-              "type": "paragraph",
-              "text": "Nulls: HashSet and LinkedHashSet allow one null, TreeSet does not allow nulls."
-            },
-            {
-              "type": "heading",
-              "text": "Map (Key-Value Pairs)"
-            },
-            {
-              "type": "paragraph",
-              "text": "Stores key-value pairs. Each key maps to a value. Each key is unique. Types of Map: HashMap, LinkedHashMap, TreeMap."
-            },
-            {
-              "type": "paragraph",
-              "text": "HashMap uses hash function to jump to a location in the memory to write in there."
-            },
-            {
-              "type": "paragraph",
-              "text": "LinkedHashMap is the same as HashMap except it adds a linked list that connects the entries in the order they were inserted. Best for 'recently viewed' or storing ranks."
-            },
-            {
-              "type": "paragraph",
-              "text": "TreeMap sorts the KEYS as you add them. For example, a directory of all products and their prices in a store."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// HashMap\n\nMap<String, String> capitalCities = new HashMap<>();\ncapitalCities.put(\"UK\", \"London\");\ncapitalCities.put(\"Germany\", \"Berlin\");\ncapitalCities.put(\"Norway\", \"Oslo\");\n\nSystem.out.println(capitalCities); \n// Output might be: {Norway=Oslo, UK=London, Germany=Berlin} (Random order)\n\n// LinkedHashMap\n\nMap<Integer, String> arcadeScores = new LinkedHashMap<>();\narcadeScores.put(1, \"PlayerOne\");\narcadeScores.put(2, \"RetroKing\");\narcadeScores.put(3, \"GameMaster\");\n\nSystem.out.println(arcadeScores); \n// Output: {1=PlayerOne, 2=RetroKing, 3=GameMaster} (Always in this order)\n\n// TreeMap\n\nMap<String, Double> productPrices = new TreeMap<>();\nproductPrices.put(\"Zebra Notebook\", 12.99);\nproductPrices.put(\"Apple Pencil\", 99.00);\nproductPrices.put(\"Banana Case\", 5.50);\n\nSystem.out.println(productPrices); \n// Output: {Apple Pencil=99.0, Banana Case=5.5, Zebra Notebook=12.99} (Sorted by Key A-Z)"
-            },
-            {
-              "type": "paragraph",
-              "text": "HashSet stores unique elements and HashMap stores unique keys mapped to values. LinkedHashSet stores unique elements in insertion order and LinkedHashMap stores unique key-value pair in insertion order. TreeSet keeps element sorted, TreeMap stores keys sorted."
-            },
-            {
-              "type": "heading",
-              "text": "Golden Rule of Choice"
-            },
-            {
-              "type": "paragraph",
-              "text": "Need it quick and don't care about order? Use Hash. Need to remember the order you put things in? Use LinkedHash. Need the data in alphabetical or numeric order? Use Tree."
-            },
-            {
-              "type": "heading",
-              "text": "Queue"
-            },
-            {
-              "type": "paragraph",
-              "text": "First in first out. Used for scheduling tasks. Think of it like a line at a store, first person in line gets served first. Common implementations are LinkedList and PriorityQueue."
-            },
-            {
-              "type": "paragraph",
-              "text": "Real World Example. When five people click 'print document' on their screen at the same time, the printer does not print all documents at the same time. It puts them in a queue and prints them one by one in the order they were added to the queue."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "Queue<String> printerQueue = new LinkedList<>();\n\n// Adding items (Enqueue)\nprinterQueue.add(\"Tax_Return.pdf\");\nprinterQueue.add(\"Holiday_Photos.jpg\");\nprinterQueue.add(\"Resume.docx\");\n\n// Seeing who is next without removing them\nString nextUp = printerQueue.peek(); // Returns \"Tax_Return.pdf\"\n\n// Processing items (Dequeue)\nString processed = printerQueue.poll(); // Removes and returns \"Tax_Return.pdf\"\nSystem.out.println(\"Printing: \" + processed);\n\nSystem.out.println(\"Remaining in line: \" + printerQueue); \n// Output: [Holiday_Photos.jpg, Resume.docx]"
-            },
-            {
-              "type": "paragraph",
-              "text": "Real World Example. In an Emergency Room, a patient with a broken arm might arrive first, but if a patient with a heart attack arrives two minutes later, the heart attack patient is moved to the front of the \"queue.\""
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "Queue<Integer> emergencyTriage = new PriorityQueue<>();\n\nemergencyTriage.add(3); // Minor injury\nemergencyTriage.add(1); // Critical (Priority 1)\nemergencyTriage.add(2); // Serious\n\n// Even though 3 was added first, 1 will be pulled out first\nSystem.out.println(emergencyTriage.poll()); // Output: 1"
-            },
-            {
-              "type": "heading",
-              "text": "Comparable vs Comparator"
-            },
-            {
-              "type": "paragraph",
-              "text": "Both are used to sort collections. Comparable is how an object describes itself, while Comparator is how an outside judge decides to rank objects."
-            },
-            {
-              "type": "paragraph",
-              "text": "An object that implements Comparable has a \"natural\" ordering. You write the logic inside the class itself using the compareTo() method"
-            },
-            {
-              "type": "paragraph",
-              "text": "Real World Example: A book class implements Comparable to sort by ISBN. This is the way books are organised on shlelves."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "public class Movie implements Comparable<Movie> {\n    String title;\n    int year;\n\n    // Default sorting by Year\n    public int compareTo(Movie m) {\n        return this.year - m.year;\n    }\n}\n\n// Usage:\nCollections.sort(movieList); // Automatically uses the year"
-            },
-            {
-              "type": "paragraph",
-              "text": "A separate class that is used to sort objects in different ways."
-            },
-            {
-              "type": "paragraph",
-              "text": "Real World Example: In Netflix, even if movies are sorted by release date, you can sort them by rating, title, genre."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\n// Logic for sorting by Title\nComparator<Movie> titleCompare = (m1, m2) -> m1.title.compareTo(m2.title);\n\n// Logic for sorting by Rating\nComparator<Movie> ratingCompare = (m1, m2) -> Double.compare(m1.rating, m2.rating);\n\n// Usage:\nCollections.sort(movieList, titleCompare);\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Use comparable for obvious sorting like by alphabets and Comparator for custom sorting."
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "Which interface allows duplicate elements?",
-              "options": [
-                {
-                  "text": "Set",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "List",
-                  "explanation": "Correct! Lists allow duplicates."
-                },
-                {
-                  "text": "Map",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Queue",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which collection does NOT allow duplicate elements?",
-              "options": [
-                {
-                  "text": "ArrayList",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "HashSet",
-                  "explanation": "Correct!"
-                },
-                {
-                  "text": "LinkedList",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Vector",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n    Set<Integer> set = new HashSet<>();\n\n    set.add(1);\n    set.add(1);\n    set.add(2);\n\n    System.out.println(set.size());\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "3",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "2",
-                  "explanation": "Correct! Duplicates are ignored."
-                },
-                {
-                  "text": "1",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n    List<Integer> list = new ArrayList<>();\n\n    list.add(10);\n    list.add(20);\n\n    System.out.println(list.get(1));\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "10",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "20",
-                  "explanation": "Correct!"
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "import java.util.*;\n\nclass Test{\n  public static void main(String[] args){\n    Map<String, Integer> map = new HashMap<>();\n\n    map.put(\"A\", 1);\n    map.put(\"A\", 2);\n\n    System.out.println(map.get(\"A\"));\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "1",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "2",
-                  "explanation": "Correct! Value is overwritten."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What happens if equals() is not overridden properly in HashSet?",
-              "options": [
-                {
-                  "text": "Duplicates may be stored",
-                  "explanation": "Correct! HashSet relies on equals() and hashCode()."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime crash",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Nothing changes",
-                  "explanation": "Incorrect."
+                  "text": "Because the remote server caches files independently of your commits",
+                  "explanation": "Incorrect. This isn't how Git's object storage and history work."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "You need fast lookups using key-value pairs. Which would you choose?",
+              "question": "In a GitOps workflow (which you'll see in a later module), why does trunk-based development with small, frequent commits become especially valuable?",
               "options": [
                 {
-                  "text": "ArrayList",
-                  "explanation": "Incorrect."
+                  "text": "Because GitOps tools continuously reconcile cluster state to match Git, so small, well-tested commits reduce the risk of pushing a broken desired state into production",
+                  "explanation": "Correct! Since the GitOps controller applies whatever is committed almost immediately, large, infrequent, poorly-tested commits are far riskier than small incremental ones that are easy to verify and roll back."
                 },
                 {
-                  "text": "HashMap",
-                  "explanation": "Correct! Provides O(1) lookup."
+                  "text": "Because GitOps tools ignore commit history entirely",
+                  "explanation": "Incorrect. Commit history and diffs are central to how GitOps tools track and apply changes."
                 },
                 {
-                  "text": "LinkedList",
-                  "explanation": "Incorrect."
+                  "text": "Because large binary commits deploy faster in GitOps pipelines",
+                  "explanation": "Incorrect. This isn't a real advantage and isn't related to deployment speed."
                 },
                 {
-                  "text": "Queue",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You need a collection that maintains order and allows duplicates. What would you choose?",
-              "options": [
-                {
-                  "text": "HashSet",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "ArrayList",
-                  "explanation": "Correct!"
-                },
-                {
-                  "text": "TreeSet",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "HashMap",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You need sorted unique elements. Which would you choose?",
-              "options": [
-                {
-                  "text": "HashSet",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "TreeSet",
-                  "explanation": "Correct! Sorted and unique."
-                },
-                {
-                  "text": "ArrayList",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "HashMap",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            }
-          ]
-        },
-        {
-          "slug": "exception-handling",
-          "title": "Exception Handling in Java",
-          "content": [
-            {
-              "type": "heading",
-              "text": "What is Exception Handling?"
-            },
-            {
-              "type": "paragraph",
-              "text": "Exception handling is a mechanism to handle runtime errors so the program can continue running instead of abruptly stopping."
-            },
-            {
-              "type": "paragraph",
-              "text": "If the error is serious like OutOfMemoryError then the program will crash regardless of exception handling. But for most exceptions, you can catch them and handle them more gracefully like IOException, SQLException or runtime exception like NullPointerException, ArithmeticException."
-            },
-            {
-              "type": "heading",
-              "text": "Types of Exception Handling"
-            },
-            {
-              "type": "paragraph",
-              "text": "There are two types of exceptions: checked exceptions that happen during compile time, for example, a missing file. Unchecked exceptions that happen during runtime, for example, dividing by zero."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// Checked Exception Example\nFileReader file = new FileReader(\"test.txt\"); // IOException\n\n// Unchecked Exception Example\nint x = 10 / 0; // ArithmeticException\n\ntry {\n    int x = 10 / 0;\n} catch (ArithmeticException e) {\n    System.out.println(\"Cannot divide by zero\");\n}"
-            },
-            {
-              "type": "heading",
-              "text": "Multiple Catch"
-            },
-            {
-              "type": "paragraph",
-              "text": "Order matters. Catch more specific exceptions first, then more general ones. Otherwise, the general catch will catch all exceptions and the specific catch will never be reached. And you wouldn't know right off the bat what went wrong."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "try {\n    String s = null;\n    System.out.println(s.length());\n} catch (NullPointerException e) {\n    System.out.println(\"Null issue\");\n} catch (Exception e) {\n    System.out.println(\"General issue\");\n}"
-            },
-            {
-              "type": "heading",
-              "text": "Finally"
-            },
-            {
-              "type": "paragraph",
-              "text": "Always executes (except JVM shutdown)"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "try {\n    int x = 10 / 0;\n} catch (Exception e) {\n    System.out.println(\"Error\");\n} finally {\n    System.out.println(\"Always runs\");\n}"
-            },
-            {
-              "type": "heading",
-              "text": "Throw"
-            },
-            {
-              "type": "paragraph",
-              "text": "Used to manually throw exception"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "throw new IllegalArgumentException(\"Invalid input\");"
-            },
-            {
-              "type": "heading",
-              "text": "Throws"
-            },
-            {
-              "type": "paragraph",
-              "text": "Declares exception"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "public void readFile() throws IOException {...}"
-            },
-            {
-              "type": "heading",
-              "text": "Flow of execution"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "try {\n    System.out.println(\"A\");\n    int x = 10 / 0;\n    System.out.println(\"B\");\n} catch (Exception e) {\n    System.out.println(\"C\");\n} finally {\n    System.out.println(\"D\");\n}\nSystem.out.println(\"E\") // output: A, C, D, E;"
-            },
-            {
-              "type": "heading",
-              "text": "try-with-resources"
-            },
-            {
-              "type": "paragraph",
-              "text": "Imagine you are writing a simple program to read a line from a text file."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "import java.io.*;\n\npublic class ResourceExample {\n    public static void main(String[] args) {\n        // The resource (BufferedReader) is opened here\n        try (BufferedReader br = new BufferedReader(new FileReader(\"notes.txt\"))) {\n            System.out.println(br.readLine());\n        } catch (IOException e) {\n            System.out.println(\"Error reading file: \" + e.getMessage());\n        }\n        // br.close() is called automatically the moment we hit this line, no need for finally!\n    }\n}"
-            },
-            {
-              "type": "heading",
-              "text": "Custom Exceptions"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class MyException extends Exception {\n    public MyException(String msg) {\n        super(msg);\n    }\n}\n\n// usage\nthrow new MyException(\"Custom error\");"
-            },
-            {
-              "type": "heading",
-              "text": "Best Practices"
-            },
-            {
-              "type": "paragraph",
-              "text": "Catch specific exceptions, logging, don't overuse try-catch, use try-with-resources for auto-closing, and create custom exceptions for specific error handling."
-            }
-          ],
-          "quizzes": [
-            {
-              "question": "Which class is the parent of all exceptions in Java?",
-              "options": [
-                {
-                  "text": "Exception",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Throwable",
-                  "explanation": "Correct! All exceptions and errors inherit from Throwable."
-                },
-                {
-                  "text": "Error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "RuntimeException",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which of the following is a checked exception?",
-              "options": [
-                {
-                  "text": "NullPointerException",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "IOException",
-                  "explanation": "Correct! Checked exceptions must be handled or declared."
-                },
-                {
-                  "text": "ArithmeticException",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "ArrayIndexOutOfBoundsException",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What happens if both try and finally blocks have return statements?",
-              "options": [
-                {
-                  "text": "try return executes",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "finally return executes",
-                  "explanation": "Correct! finally overrides the return from try."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime exception",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the difference between throw and throws in Java?",
-              "options": [
-                {
-                  "text": "throw declares exception, throws throws it",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "throw is used to throw an exception, throws is used to declare exceptions",
-                  "explanation": "Correct! throw is used inside method, throws is in method signature."
-                },
-                {
-                  "text": "Both are same",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "throws handles exception",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Why does catch block order matter?",
-              "options": [
-                {
-                  "text": "It improves performance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Java executes from bottom to top",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Child exceptions must be caught before parent exceptions",
-                  "explanation": "Correct! Otherwise compilation error occurs."
-                },
-                {
-                  "text": "It does not matter",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "Can we have a try block without a catch block?",
-              "options": [
-                {
-                  "text": "No, it is mandatory",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Yes, if there is a finally block",
-                  "explanation": "Correct! try can exist with finally only."
-                },
-                {
-                  "text": "Only in Java 8",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Only with throws keyword",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "When does finally block NOT execute?",
-              "options": [
-                {
-                  "text": "When exception occurs",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "When return is used",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "When System.exit() is called",
-                  "explanation": "Correct! JVM shuts down."
-                },
-                {
-                  "text": "Never",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What is exception propagation?",
-              "options": [
-                {
-                  "text": "Exception handled in same method",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Exception travels up the call stack",
-                  "explanation": "Correct! It moves to caller methods."
-                },
-                {
-                  "text": "Exception ignored",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Exception converted to error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "When should you use checked exceptions?",
-              "options": [
-                {
-                  "text": "For programming errors",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "For recoverable conditions like file or database issues",
-                  "explanation": "Correct! These require handling."
-                },
-                {
-                  "text": "For null pointer issues",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Never use checked exceptions",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the best practice when catching exceptions?",
-              "options": [
-                {
-                  "text": "Catch Exception everywhere",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Ignore exceptions",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Catch specific exceptions",
-                  "explanation": "Correct! It improves clarity and debugging."
-                },
-                {
-                  "text": "Always rethrow",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      int x = 10 / 0;\n    } catch (ArithmeticException e) {\n      System.out.println(\"A\");\n    } finally {\n      System.out.println(\"B\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "A B",
-                  "explanation": "Correct! Catch executes, then finally."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      return;\n    } finally {\n      System.out.println(\"Finally\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Nothing prints",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Finally",
-                  "explanation": "Correct! finally always executes even after return."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.println(\"A\");\n      return;\n    } finally {\n      System.out.println(\"B\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "A B",
-                  "explanation": "Correct!"
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  static int test() {\n    try {\n      return 1;\n    } finally {\n      return 2;\n    }\n  }\n\n  public static void main(String[] args) {\n    System.out.println(test());\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "1",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "2",
-                  "explanation": "Correct! finally overrides return."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime exception",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      throw new RuntimeException();\n    } catch (Exception e) {\n      System.out.println(\"Caught\");\n    } catch (RuntimeException e) {\n      System.out.println(\"Runtime\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Caught",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Correct! Parent catch before child."
-                },
-                {
-                  "text": "Runtime exception",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 2
-            },
-            {
-              "question": "What happens if both catch and finally throw exceptions?",
-              "options": [
-                {
-                  "text": "Catch exception is propagated",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Finally exception is propagated",
-                  "explanation": "Correct! finally overrides and suppresses the catch exception."
-                },
-                {
-                  "text": "Both are propagated",
-                  "explanation": "Incorrect (only finally unless suppressed manually)."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.print(\"A\");\n      throw new RuntimeException();\n    } catch (Exception e) {\n      System.out.print(\"B\");\n      throw new RuntimeException();\n    } finally {\n      System.out.print(\"C\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "ABC",
-                  "explanation": "Correct! A → B → finally C, then exception propagates."
-                },
-                {
-                  "text": "AB",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "AC",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "GitOps doesn't use Git commits at all, only tags",
+                  "explanation": "Incorrect. GitOps tools typically watch commits/branches, not just tags, for continuous reconciliation."
                 }
               ],
               "correctAnswer": 0
             },
             {
-              "question": "What happens if you return from try and modify value in finally?",
+              "question": "A teammate force-pushed (`git push --force`) over shared history on the `main` branch, and now several commits from other developers appear to be missing. What's the most accurate explanation of what happened, and the safest way to recover?",
               "options": [
                 {
-                  "text": "Returned value changes",
-                  "explanation": "Incorrect for primitives."
+                  "text": "Force-push rewrote the remote history, effectively discarding the commits that weren't included in the pushed branch; recovery usually involves finding the lost commits via `git reflog` (on an affected local machine) or restoring from a backup/mirror, then carefully re-integrating them",
+                  "explanation": "Correct! Force-push overwrites the remote ref rather than merging, which can orphan commits that no other branch/ref points to — reflog on a machine that had the old history is often the fastest recovery path before those commits get garbage collected."
                 },
                 {
-                  "text": "Returned value is already decided before finally",
-                  "explanation": "Correct! Value is stored before finally executes."
+                  "text": "The commits are permanently and irrecoverably deleted the instant a force-push happens, with no possible recovery",
+                  "explanation": "Incorrect. While risky, the commits often still exist as unreferenced objects for a period (locally via reflog, or in old clones/mirrors) and can frequently be recovered if acted on quickly."
                 },
                 {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
+                  "text": "Force-push only affects the local repository, never the remote",
+                  "explanation": "Incorrect. Force-push explicitly overwrites the remote branch reference, which is exactly why it's considered dangerous on shared branches."
                 },
                 {
-                  "text": "Runtime exception",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  static int test() {\n    int x = 1;\n    try {\n      return x;\n    } finally {\n      x = 2;\n    }\n  }\n  public static void main(String[] args) {\n    System.out.println(test());\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "1",
-                  "explanation": "Correct! Value is copied before finally."
-                },
-                {
-                  "text": "2",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "What happens if finally block contains System.exit()?",
-              "options": [
-                {
-                  "text": "Program exits immediately",
-                  "explanation": "Correct! JVM terminates instantly."
-                },
-                {
-                  "text": "finally completes normally",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "catch executes after",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "What is the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      int[] arr = new int[2];\n      System.out.println(arr[3]);\n    } catch (ArrayIndexOutOfBoundsException e) {\n      System.out.print(\"A\");\n    } catch (Exception e) {\n      System.out.print(\"B\");\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Correct! Specific exception caught first."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "AB",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "What happens if you catch Exception before RuntimeException?",
-              "options": [
-                {
-                  "text": "Works fine",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "RuntimeException is unreachable",
-                  "explanation": "Correct! Causes compilation error."
-                },
-                {
-                  "text": "RuntimeException is prioritized",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Throws runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "public class Test {\n  public static void main(String[] args) {\n    try {\n      System.out.print(\"A\");\n      return;\n    } finally {\n      System.out.print(\"B\");\n      return;\n    }\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "A",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "AB",
-                  "explanation": "Correct! finally executes and overrides return."
-                },
-                {
-                  "text": "B",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What is the best practice for exception handling in large systems?",
-              "options": [
-                {
-                  "text": "Catch all exceptions everywhere",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Use centralized/global exception handling",
-                  "explanation": "Correct! Improves maintainability and consistency."
-                },
-                {
-                  "text": "Avoid exceptions completely",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Use only RuntimeExceptions",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What happens in try-with-resources if both try and close() throw exceptions?",
-              "options": [
-                {
-                  "text": "close() exception is ignored",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "try exception is primary, close() is suppressed",
-                  "explanation": "Correct! Suppressed exceptions can be retrieved."
-                },
-                {
-                  "text": "Both are lost",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            }
-          ]
-        },
-        {
-          "slug": "generics",
-          "title": "Generics in Java",
-          "content": [
-            {
-              "type": "paragraph",
-              "text": "Generics allow classes, methods and interfaces to work with any data type while maintaining type safety. Before generics, collections stored Object which caused unsafe casting."
-            },
-            {
-              "type": "paragraph",
-              "text": "There's mainly two types of association: unidirectional and bidirectional. In unidirectional association, one class knows about the other but not vice versa. In bidirectional association, both classes know about each other."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "List list = new ArrayList();\nlist.add(\"Hello\");\n\nString s = (String) list.get(0);\n"
-            },
-            {
-              "type": "paragraph",
-              "text": "Problems with this: unsafe casting, runtime errors, lack of readability."
-            },
-            {
-              "type": "paragraph",
-              "text": "Aggregation is a special form of association. A class can contain another class but the contained object can exist independently. It has a weak \"has-a\" relationship."
-            },
-            {
-              "type": "heading",
-              "text": "Basic Generic Example"
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "List<String> list = new ArrayList<>();\nlist.add(\"Hello\");\n\n// now only String is allowed in this list.\nString s = list.get(0);\n"
-            },
-            {
-              "type": "heading",
-              "text": "Generic Class"
-            },
-            {
-              "type": "paragraph",
-              "text": "A generic class uses type parameters."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "class Box<T> {\n\n    private T value;\n\n    public void set(T value){\n        this.value = value;\n    }\n\n    public T get(){\n        return value;\n    }\n\n}\n\n// Example usage with String\n\nBox<String> box = new Box<>();\nbox.set(\"Hello\");\n\nString value = box.get();\n\n// another example with Integer\n\nBox<Integer> box = new Box<>();\nbox.set(10);\nInteger value = box.get();\n"
-            },
-            {
-              "type": "heading",
-              "text": "Multiple Type Parameters"
-            },
-            {
-              "type": "paragraph",
-              "text": "Generics can have multiple types."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "\nclass Pair<K,V> {\n\n    private K key;\n    private V value;\n\n}\n\n// Example usage with String\n\nPair<String, Integer> pair = new Pair<>();\n\n// another example with Integer\n\nMap<String, Integer>\n"
-            },
-            {
-              "type": "heading",
-              "text": "Generic Methods"
-            },
-            {
-              "type": "paragraph",
-              "text": "Methods can also use generics."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "public <T> void printValue(T value){\n    System.out.println(value);\n}\n\n// Example usage with String\n\nprintValue(\"Hello\");\nprintValue(10);\n"
-            },
-            {
-              "type": "heading",
-              "text": "Bounded Generics"
-            },
-            {
-              "type": "paragraph",
-              "text": "Generics can restrict types."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// only numeric types allowed\nclass Calculator<T extends Number> {\n\n    T number;\n\n}\n\n// only string types allowed\n\nclass Alphabet<T extends String> {\n\n    T number;\n\n}\n"
-            },
-            {
-              "type": "heading",
-              "text": "Wildcards"
-            },
-            {
-              "type": "paragraph",
-              "text": "Wildcards are used with ?. They allow for more flexible code when you don't know the exact type. There is upper bounded and lower bounded wildcard."
-            },
-            {
-              "type": "code",
-              "language": "java",
-              "code": "// upper bounded wildcard\nList<? extends Number> numbers; // only allows Integer, Double, Float\n\n\n// lower bounded wildcard\nList<? super Integer> integers; // allows Integer and its superclasses (Number, Object)\n"
-            },
-            {}
-          ],
-          "quizzes": [
-            {
-              "question": "What is the main purpose of generics in Java?",
-              "options": [
-                {
-                  "text": "Provide type safety at compile time",
-                  "explanation": "Correct! Generics prevent type errors."
-                },
-                {
-                  "text": "Improve runtime performance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Allow inheritance",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Hide implementation details",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "Which syntax declares a generic class?",
-              "options": [
-                {
-                  "text": "class Box()",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "class Box<T>",
-                  "explanation": "Correct!"
-                },
-                {
-                  "text": "class Box<?>",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "class Box extends T",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What does T represent in generics?",
-              "options": [
-                {
-                  "text": "Temporary variable",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Type parameter",
-                  "explanation": "Correct! T represents a type placeholder."
-                },
-                {
-                  "text": "Thread",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Template method",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be the output?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Box<T> {\n  T value;\n\n  void set(T value){\n    this.value = value;\n  }\n\n  T get(){\n    return value;\n  }\n}\n\npublic class Test{\n  public static void main(String[] args){\n    Box<String> box = new Box<>();\n    box.set(\"Hello\");\n    System.out.println(box.get());\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Hello",
-                  "explanation": "Correct! The generic class stores a String."
-                },
-                {
-                  "text": "null",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Box<T extends Number> {\n  T value;\n}\n\npublic class Test{\n  public static void main(String[] args){\n    Box<String> box = new Box<>();\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Program runs successfully",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Correct! String does not extend Number."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Output is null",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "What will be printed?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "class Test {\n\n  public static <T> void print(T value){\n    System.out.println(value);\n  }\n\n  public static void main(String[] args){\n    print(10);\n    print(\"Hello\");\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "10 and Hello",
-                  "explanation": "Correct! Generic methods accept multiple types."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Only Hello",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 0
-            },
-            {
-              "question": "What will happen?",
-              "questionCode": {
-                "type": "code",
-                "language": "java",
-                "code": "import java.util.*;\n\npublic class Test{\n  public static void main(String[] args){\n\n    List<Integer> list = new ArrayList<>();\n    list.add(10);\n\n    List<? extends Number> numbers = list;\n\n    numbers.add(20);\n\n  }\n}"
-              },
-              "options": [
-                {
-                  "text": "Program runs successfully",
-                  "explanation": "Incorrect. You might mistake it since \"number\" variable is being assigned \"list\" but this assignment happens during runtime. Java would throw this error during compile time which is what generics is supposed to be for. You cannot write to \"list\" variable because the program does not know [at compile time] what data type out of integer, float, double, long (Number) it is supposed to be."
-                },
-                {
-                  "text": "Compilation error",
-                  "explanation": "Correct! Cannot add elements to ? extends wildcard. You might mistake it since \"number\" variable is being assigned \"list\" but this assignment happens during runtime. Java would throw this error during compile time which is what generics is supposed to be for. You cannot write to \"list\" variable because the program does not know [at compile time] what data type out of integer, float, double, long (Number) it is supposed to be."
-                },
-                {
-                  "text": "Runtime error",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Output is 20",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "You want a method that works for multiple data types like Integer, String, and Double. What should you use?",
-              "options": [
-                {
-                  "text": "Method overloading",
-                  "explanation": "Incorrect. That creates multiple methods."
-                },
-                {
-                  "text": "Generic method",
-                  "explanation": "Correct! Generic methods work with any type."
-                },
-                {
-                  "text": "Static methods",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Inheritance",
-                  "explanation": "Incorrect."
-                }
-              ],
-              "correctAnswer": 1
-            },
-            {
-              "question": "Which statement about Java generics is TRUE?",
-              "options": [
-                {
-                  "text": "Generics remove the need for casting",
-                  "explanation": "Correct! Generics provide compile-time type safety."
-                },
-                {
-                  "text": "Generics improve runtime speed",
-                  "explanation": "Incorrect."
-                },
-                {
-                  "text": "Generics allow primitive types directly",
-                  "explanation": "Incorrect. Use wrapper classes."
-                },
-                {
-                  "text": "Generics work only with classes",
-                  "explanation": "Incorrect."
+                  "text": "This is expected behavior and no data was actually lost — just re-run `git pull`",
+                  "explanation": "Incorrect. A simple pull won't restore commits that a force-push has removed from the branch's history on the remote."
                 }
               ],
               "correctAnswer": 0
@@ -4102,12 +1146,12 @@
     },
 
     {
-      "slug": "generics",
-      "title": "Generics",
+      "slug": "containers",
+      "title": "Module 1 - Containers Fundamentals",
       "topics": [
         {
-          "slug": "generics-intro",
-          "title": "Introduction to Generics",
+          "slug": "containers-intro",
+          "title": "What Are Containers & Why They Changed Everything",
           "content": [
             {
               "type": "paragraph",

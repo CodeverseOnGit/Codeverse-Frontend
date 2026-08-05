@@ -15,6 +15,8 @@ export default function Topic() {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submitted, setSubmitted] = useState({});
 
+  if (!section) return <h2 style={{ padding: "20px" }}>Section not found</h2>;
+  if (!module) return <h2 style={{ padding: "20px" }}>Module not found</h2>;
   if (!topic) return <h2 style={{ padding: "20px" }}>Topic not found</h2>;
 
   const renderBlock = (block, index) => {
